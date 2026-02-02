@@ -6,7 +6,6 @@ import { HeroSection } from "../components/HeroSection";
 import { ArcButton } from "../components/ui/ArcButton";
 import Section from "../components/Section";
 import SectionTitle from "../components/SectionTitle";
-import { FAQSection } from "../components/sections/FAQSection";
 import { FAQAccordion } from "../components/ui/FAQAccordion";
 import ReactiveByDesignSection from "../components/ReactiveByDesignSection";
 import HowItWorksSection from "../components/HowItWorksSection";
