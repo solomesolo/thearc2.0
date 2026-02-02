@@ -2,8 +2,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import EmailSignupModal from "../components/EmailSignupModal";
-import PartnershipModal from "../components/PartnershipModal";
 import { HeroSection } from "../components/HeroSection";
 import { ArcButton } from "../components/ui/ArcButton";
 import Section from "../components/Section";
@@ -553,8 +551,6 @@ function CapabilityCard({
 }
 
 export default function HomePage() {
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [showPartnershipModal, setShowPartnershipModal] = useState(false);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -564,7 +560,7 @@ export default function HomePage() {
           title="Your health is not fragmented. Your data is."
           subtitle="The Arc is a health intelligence platform that brings your medical history into one system so you can see patterns understand trends and know what to do next."
           supportingLine="Built for individuals longevity programs and clinics."
-          primaryCTA={{ label: "Get Started", onClick: () => setShowEmailModal(true) }}
+          primaryCTA={{ label: "Get Started", href: "/your-arc" }}
           secondaryCTA={{ label: "For Clinics and Doctors", href: "/clinics" }}
           image={{ src: "/header main page.png", alt: "The Arc cinematic hero" }}
         />
@@ -733,7 +729,7 @@ export default function HomePage() {
                       "Early signals before problems escalate",
                     ],
                     cta: "Explore Health Intelligence",
-                    ctaAction: () => setShowEmailModal(true),
+                    ctaAction: () => window.location.href = "/your-arc",
                   },
                   {
                     tierName: "Tier Two",
@@ -745,7 +741,7 @@ export default function HomePage() {
                       "Programs that evolve with your health",
                     ],
                     cta: "Explore Programs",
-                    ctaAction: () => setShowEmailModal(true),
+                    ctaAction: () => window.location.href = "/your-arc",
                   },
                 ].map((tier, index) => (
                   <TierCard
@@ -766,7 +762,7 @@ export default function HomePage() {
       </section>
 
       {/* home.howItWorks */}
-      <HowItWorksSection onCTAClick={() => setShowEmailModal(true)} />
+      <HowItWorksSection onCTAClick={() => window.location.href = "/your-arc"} />
 
       {/* home.marketplace */}
       <section id="home.marketplace">
@@ -899,11 +895,11 @@ export default function HomePage() {
                 Health is not a moment. It is a trajectory.
               </SectionTitle>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <ArcButton onClick={() => setShowEmailModal(true)}>
+                <ArcButton href="/your-arc">
                   Get Started with Health Intelligence
                 </ArcButton>
                 <ArcButton
-                  onClick={() => setShowEmailModal(true)}
+                  href="/clinics"
                   className="border border-white/30 text-[#4DEECD] bg-transparent"
                 >
                   Talk to Us Clinics and Doctors
@@ -917,8 +913,6 @@ export default function HomePage() {
         </Section>
       </section>
 
-      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
-      <PartnershipModal isOpen={showPartnershipModal} onClose={() => setShowPartnershipModal(false)} />
     </div>
   );
 }

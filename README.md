@@ -1,55 +1,34 @@
-# The Arc Website v1.0.0
+# The Arc Website - Minimal Version
 
-## Quick Start
+Clean, minimal version of The Arc website with:
+- Marketing pages (Homepage, Clinics, Your Arc)
+- Doctor Cabinet Priority Queue (`/cabinet/priority-queue`)
 
+## Getting Started
+
+1. Install dependencies:
 ```bash
-# Install dependencies
 npm install
-
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
 ```
 
-## Project Structure
+2. Run development server:
+```bash
+npm run dev
+```
 
-This is a complete Next.js 15.5.10 application with:
+3. Open [http://localhost:3000](http://localhost:3000)
 
-### Marketing Pages
+## Routes
+
 - `/` - Homepage
-- `/clinics` - Clinics marketing page
-- `/your-arc` - B2C marketing page
+- `/clinics` - Clinics page
+- `/your-arc` - Your Arc page
+- `/cabinet/priority-queue` - Doctor Cabinet Priority Queue
 
-### B2C Dashboard
-- `/dashboard/your-arc` - Overview
-- `/dashboard/your-arc/timeline` - Timeline view
-- `/dashboard/your-arc/next-actions` - Next actions
-- Plus 10 additional dashboard pages
+## Tech Stack
 
-### Doctor Cabinet (Clinical Workspace)
-- `/cabinet/priority-queue` - Clinical Priority Queue
-- Additional cabinet routes as per spec
-
-## Technology Stack
-
-- Next.js 15.5.10
-- React 19.1.0
-- TypeScript 5
-- Tailwind CSS 4
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS
 - Framer Motion
-- Lucide React
-
-## Documentation
-
-See `VERSION.md` for complete version documentation and feature list.
-
-## Notes
-
-- All data services are currently mock implementations
-- Some pages are placeholders as noted in VERSION.md
-- Voice dictation features are stubbed
