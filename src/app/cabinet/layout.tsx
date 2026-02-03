@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
+import ClinicalTopBar from "@/components/cabinet/ClinicalTopBar";
 
 export default function DoctorCabinetLayout({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -24,13 +25,19 @@ export default function DoctorCabinetLayout({ children }: { children: ReactNode 
       body {
         background-color: white !important;
         color: #111827 !important;
+        overflow: hidden !important;
       }
       html {
         background-color: white !important;
+        overflow: hidden !important;
       }
       body.bg-black {
         background-color: white !important;
         color: #111827 !important;
+      }
+      body::before,
+      body::after {
+        display: none !important;
       }
     `;
     document.head.appendChild(style);
@@ -48,23 +55,13 @@ export default function DoctorCabinetLayout({ children }: { children: ReactNode 
   }, []);
 
   return (
-    <>
-      <div className="fixed inset-0 flex flex-col bg-white text-gray-900" style={{ zIndex: 1000, backgroundColor: 'white' }}>
-      {/* Fixed Top Bar - 56px height */}
-      <div className="h-14 border-b border-gray-200 bg-white flex items-center justify-between px-6 z-50">
-        <div className="flex items-center gap-4">
-          <h1 className="text-lg font-semibold text-gray-900">TheArc Clinical Workspace</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="text-sm text-gray-600 hover:text-gray-900">New patient</button>
-          <button className="text-sm text-gray-600 hover:text-gray-900">Urgent review</button>
-        </div>
-      </div>
+    <div className="fixed inset-0 flex flex-col bg-white text-gray-900" style={{ zIndex: 1000, backgroundColor: 'white', position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+          <ClinicalTopBar />
 
-      {/* Main Content Area */}
-      <div className="flex flex-1 overflow-hidden">
+      {/* Main Content Area - Fixed height: calc(100vh - 56px) */}
+      <div className="flex flex-1 overflow-hidden" style={{ height: 'calc(100vh - 56px)' }}>
         {/* Collapsible Side Navigation - 64px/240px */}
-        <aside className="w-16 border-r border-gray-200 bg-white flex flex-col items-center py-4">
+        <aside className="w-16 border-r border-gray-200 bg-white flex flex-col items-center py-4 flex-shrink-0">
           <nav className="flex flex-col gap-2 w-full">
             <a href="/cabinet/priority-queue" className="p-2 flex items-center justify-center hover:bg-gray-100 rounded">
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,13 +92,18 @@ export default function DoctorCabinetLayout({ children }: { children: ReactNode 
           </nav>
         </aside>
 
-        {/* Main Content - Scrollable */}
-        <main className="flex-1 overflow-y-auto bg-gray-50">
+        {/* Main Content - Fixed height: calc(100vh - 56px), no scrolling at this level */}
+        <main 
+          className="flex-1 overflow-hidden bg-gray-50 flex flex-col" 
+          style={{ 
+            height: "100%", // Takes 100% of parent (calc(100vh - 56px))
+            minHeight: 0 
+          }}
+        >
           {children}
         </main>
       </div>
     </div>
-    </>
   );
 }
 

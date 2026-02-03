@@ -1,15 +1,24 @@
-export const metadata = {
-  title: "Clinical Priority Queue | TheArc",
-  description: "Clinical priority queue for physicians",
-};
+"use client";
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-};
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import CabinetFooterStatus from "@/components/cabinet/CabinetFooterStatus";
+import PatientWorkbenchDrawer from "@/components/workbench/PatientWorkbenchDrawer";
+import { QueueItem, generateMockQueueItem } from "@/lib/workbenchTypes";
 
-// Mock queue items data - matching the actual dashboard
+// Mock queue items data
 const mockQueueItems = [
+  {
+    id: "demo-sarah-johnson",
+    patient: { id: "demo-patient-sarah", name: "Sarah Johnson", age: 45, sex: "F" },
+    whyHere: "Visit 1 intake in progress — First visit consultation",
+    riskLevel: "medium" as const,
+    category: "visit" as const,
+    urgency: "today" as const,
+    status: "open" as const,
+    suggestedAction: "Resume Visit 1",
+    lastMDContact: "15m ago",
+  },
   {
     id: "1",
     patient: { id: "p1", name: "Michael Rodriguez", age: 60, sex: "M" },
@@ -133,213 +142,348 @@ const mockQueueItems = [
   },
 ];
 
+// Helper functions for styling
+const getRiskColor = (risk: typeof mockQueueItems[0]['riskLevel']) => {
+  switch (risk) {
+    case 'high': return 'bg-red-500';
+    case 'medium': return 'bg-yellow-500';
+    case 'low': return 'bg-green-500';
+    default: return 'bg-gray-500';
+  }
+};
+
+const getUrgencyStyles = (urgency: typeof mockQueueItems[0]['urgency']) => {
+  switch (urgency) {
+    case 'today': return 'bg-red-100 text-red-800';
+    case 'soon': return 'bg-orange-100 text-orange-800';
+    case 'monitor': return 'bg-gray-100 text-gray-800';
+    default: return 'bg-blue-100 text-blue-800';
+  }
+};
+
+const getActionStyles = (urgency: typeof mockQueueItems[0]['urgency']) => {
+  switch (urgency) {
+    case 'today': return 'bg-red-50 text-red-700 hover:bg-red-100';
+    case 'soon': return 'bg-orange-50 text-orange-700 hover:bg-orange-100';
+    case 'monitor': return 'bg-gray-50 text-gray-700 hover:bg-gray-100';
+    default: return 'bg-blue-50 text-blue-700 hover:bg-blue-100';
+  }
+};
+
+const getCategoryIcon = (category: typeof mockQueueItems[0]['category']) => {
+  switch (category) {
+    case 'message':
+      return (
+        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      );
+    case 'results':
+      return (
+        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      );
+    case 'visit':
+      return (
+        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      );
+    case 'symptoms':
+      return (
+        <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      );
+    default: return null;
+  }
+};
+
 export default function PriorityQueuePage() {
+  const router = useRouter();
+  const [selectedQueueItem, setSelectedQueueItem] = useState<QueueItem | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [queueItems, setQueueItems] = useState<QueueItem[]>(() => {
+    // Initialize with mock data
+    return mockQueueItems.map((item) => {
+      // Special handling for demo patient - create custom queue item
+      if (item.id === "demo-sarah-johnson" || item.patient.id === "demo-patient-sarah") {
+        return {
+          id: "demo-sarah-johnson",
+          patient: { id: "demo-patient-sarah", name: "Sarah Johnson", age: 45, sex: "F" },
+          whyHere: "Visit 1 intake in progress — First visit consultation",
+          riskLevel: "medium" as const,
+          category: "follow-up" as const,
+          urgency: "today" as const,
+          status: "open" as const,
+          suggestedAction: "Resume Visit 1",
+          lastMDContact: "15m ago",
+          triggerDetails: {
+            type: "follow-up",
+            visitType: "Visit 1 Intake",
+            dueDate: new Date().toISOString().split("T")[0],
+            daysLate: 0,
+            lastVisitDate: undefined,
+            expectedNext: "Complete first visit intake",
+          },
+          suggestedActions: [
+            {
+              id: "resume-visit1",
+              title: "Resume Visit 1",
+              rationale: "Continue documenting patient intake",
+              impactLevel: "high",
+              effortLevel: "low",
+              actionType: "schedule",
+            },
+          ],
+        };
+      }
+      
+      // Map old category names to new ones
+      let category: "labs" | "message" | "symptoms" | "follow-up" = "message";
+      if (item.category === "results") category = "labs";
+      else if (item.category === "visit") category = "follow-up";
+      else if (item.category === "message") category = "message";
+      else if (item.category === "symptoms") category = "symptoms";
+      return generateMockQueueItem(item.id, category);
+    });
+  });
+
+  // Check if we should use drawer (desktop) or full page (mobile/tablet)
+  const [isDesktop, setIsDesktop] = useState(false);
+  
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
+
+  const handleRowClick = (item: QueueItem) => {
+    // Special handling for demo patient - route to Visit 1 intake
+    if (item.id === "demo-sarah-johnson" || item.patient.id === "demo-patient-sarah") {
+      router.push(`/cabinet/patients/${item.patient.id}/visits/visit-1/intake`);
+      return;
+    }
+    
+    // Special handling for visit/intake categories
+    if (item.category === "follow-up" && item.suggestedAction?.includes("Visit 1")) {
+      router.push(`/cabinet/patients/${item.patient.id}/visits/visit-1/intake`);
+      return;
+    }
+    
+    if (isDesktop) {
+      setSelectedQueueItem(item);
+      setIsDrawerOpen(true);
+    } else {
+      router.push(`/cabinet/workbench/${item.id}`);
+    }
+  };
+
+  const handleResolve = (queueItemId: string) => {
+    setQueueItems((prev) => prev.filter((item) => item.id !== queueItemId));
+    setIsDrawerOpen(false);
+    setSelectedQueueItem(null);
+  };
+
+  const handleSnooze = (queueItemId: string, until: string, reason: string) => {
+    setQueueItems((prev) =>
+      prev.map((item) =>
+        item.id === queueItemId ? { ...item, status: "snoozed" as const } : item
+      )
+    );
+    setIsDrawerOpen(false);
+    setSelectedQueueItem(null);
+  };
+
+  const handleEscalate = (queueItemId: string, reason: string) => {
+    setQueueItems((prev) =>
+      prev.map((item) =>
+        item.id === queueItemId
+          ? { ...item, urgency: "today" as const }
+          : item
+      )
+    );
+    setIsDrawerOpen(false);
+    setSelectedQueueItem(null);
+  };
   return (
-    <div className="h-full flex flex-col bg-white">
-      {/* Top Functionality Panel */}
-      <div className="border-b border-gray-200 bg-white px-6 py-4">
-        <div className="flex items-center justify-between mb-4">
+    <div className="h-full flex flex-col bg-white overflow-hidden" style={{ minHeight: 0 }}>
+      {/* Fixed Filters Bar - 56px height, no scroll */}
+      <div className="flex-shrink-0 border-b border-gray-200 bg-white">
+        {/* Title and Search Row */}
+        <div className="px-6 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-gray-900">Clinical Priority Queue</h1>
-            <p className="text-sm text-gray-600 mt-1">Patients requiring physician attention</p>
+            <h1 className="text-lg font-semibold text-gray-900">Clinical Priority Queue</h1>
+            <p className="text-xs text-gray-600 mt-0.5">Patients requiring physician attention</p>
           </div>
           <div className="flex items-center gap-3">
-            <button className="p-2 hover:bg-gray-100 rounded-lg">
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
-            <button className="p-2 hover:bg-gray-100 rounded-lg">
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </button>
-            <button className="p-2 hover:bg-gray-100 rounded-lg">
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </button>
-            <div className="w-8 h-8 rounded-full bg-gray-300"></div>
-          </div>
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <input
-            type="text"
-            placeholder="Search patient: name, DOB, ID"
-            className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 flex-1 max-w-md"
-          />
-          <div className="flex items-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="text-gray-600">Total items</span>
-              <span className="font-semibold text-gray-900">12</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-500"></span>
-              <span className="text-gray-600">High risk</span>
-              <span className="font-semibold text-gray-900">2</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-600">Overdue</span>
-              <span className="font-semibold text-gray-900">2</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-600">Awaiting labs</span>
-              <span className="font-semibold text-gray-900">4</span>
+            <input
+              type="text"
+              placeholder="Search patient: name, DOB, ID"
+              className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
+            />
+            <div className="flex items-center gap-4 text-xs">
+              <div className="flex items-center gap-1.5">
+                <span className="text-gray-600">Total</span>
+                <span className="font-semibold text-gray-900">12</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                <span className="text-gray-600">High risk</span>
+                <span className="font-semibold text-gray-900">2</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-gray-600">Overdue</span>
+                <span className="font-semibold text-gray-900">2</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-gray-600">Awaiting labs</span>
+                <span className="font-semibold text-gray-900">4</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Priority Filters */}
-      <div className="border-b border-gray-200 bg-white px-6 py-3">
-        <div className="flex items-center gap-2">
-          <button className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white"></span>
+        {/* Filter Chips Row */}
+        <div className="px-6 py-2 border-t border-gray-100 flex items-center gap-2">
+          <button className="px-3 py-1 text-xs font-medium text-white bg-red-600 rounded-md hover:bg-red-700 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
             High risk only
           </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button className="px-3 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Today
           </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button className="px-3 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Results
           </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button className="px-3 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
             Messages
           </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100 flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button className="px-3 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 flex items-center gap-1.5">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             Visits
-            <span className="px-1.5 py-0.5 text-xs bg-gray-200 rounded">17</span>
+            <span className="px-1 py-0.5 text-xs bg-gray-200 rounded">17</span>
           </button>
         </div>
       </div>
 
-      {/* Clinical Priority Table */}
-      <div className="flex-1 overflow-y-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 sticky top-0">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                PATIENT
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                WHY THIS PATIENT IS HERE
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                RISK LEVEL
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                CATEGORY
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                URGENCY
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                SUGGESTED ACTION
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                LAST MD CONTACT
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {mockQueueItems.map((item) => (
-              <tr key={item.id} className="hover:bg-gray-50 cursor-pointer">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">{item.patient.name}</div>
-                  <div className="text-sm text-gray-500">
-                    {item.patient.age} {item.patient.sex}
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900">{item.whyHere}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        item.riskLevel === "high"
-                          ? "bg-red-500"
-                          : item.riskLevel === "medium"
-                          ? "bg-yellow-500"
-                          : "bg-green-500"
-                      }`}
-                    ></span>
-                    <span className="text-sm text-gray-900 capitalize">{item.riskLevel}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center gap-2">
-                    {item.category === "message" && (
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                      </svg>
-                    )}
-                    {item.category === "results" && (
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    )}
-                    {item.category === "visit" && (
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    )}
-                    {item.category === "symptoms" && (
-                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                      </svg>
-                    )}
-                    <span className="text-sm text-gray-700 capitalize">{item.category}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-3 py-1 text-xs font-medium rounded-full ${
-                      item.urgency === "today"
-                        ? "bg-red-100 text-red-800"
-                        : item.urgency === "soon"
-                        ? "bg-orange-100 text-orange-800"
-                        : "bg-gray-100 text-gray-800"
-                    }`}
-                  >
-                    {item.urgency}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <button
-                    className={`px-3 py-1 text-xs font-medium rounded ${
-                      item.urgency === "today"
-                        ? "bg-red-50 text-red-700 hover:bg-red-100"
-                        : item.urgency === "soon"
-                        ? "bg-orange-50 text-orange-700 hover:bg-orange-100"
-                        : "bg-gray-50 text-gray-700 hover:bg-gray-100"
-                    }`}
-                  >
-                    {item.suggestedAction}
-                  </button>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {item.lastMDContact}
-                </td>
+      {/* Table Container - Flex 1, fills remaining space, contains scroll */}
+      <div className="flex-1 overflow-hidden flex flex-col" style={{ minHeight: 0 }}>
+        <div className="flex-1 overflow-y-auto" style={{ minHeight: 0 }}>
+          <table className="w-full">
+            {/* Sticky Table Header */}
+            <thead className="bg-gray-50 sticky top-0 z-10 border-b border-gray-200">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+                  PATIENT
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+                  WHY THIS PATIENT IS HERE
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+                  RISK LEVEL
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+                  CATEGORY
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+                  URGENCY
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+                  SUGGESTED ACTION
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+                  LAST MD CONTACT
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            {/* Scrollable Table Body */}
+            <tbody className="bg-white divide-y divide-gray-200">
+              {queueItems.map((item) => (
+                <tr
+                  key={item.id}
+                  className="hover:bg-gray-50 cursor-pointer"
+                  onClick={() => handleRowClick(item)}
+                >
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">{item.patient.name}</div>
+                    <div className="text-sm text-gray-500">
+                      {item.patient.age} {item.patient.sex}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="text-sm text-gray-900">{item.whyHere}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${getRiskColor(item.riskLevel)}`}></span>
+                      <span className="text-sm text-gray-900 capitalize">{item.riskLevel}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center gap-2">
+                      {getCategoryIcon(item.category)}
+                      <span className="text-sm text-gray-700 capitalize">{item.category}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-3 py-1 text-xs font-medium rounded-full ${getUrgencyStyles(item.urgency)}`}>
+                      {item.urgency}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <button className={`px-3 py-1 text-xs font-medium rounded ${getActionStyles(item.urgency)}`}>
+                      {item.suggestedAction}
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {item.lastMDContact}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+
+      {/* Fixed Footer - 28px height, no scroll */}
+      <CabinetFooterStatus />
+
+      {/* Desktop Drawer */}
+      {isDesktop && (
+        <PatientWorkbenchDrawer
+          isOpen={isDrawerOpen}
+          queueItem={selectedQueueItem}
+          onClose={() => {
+            setIsDrawerOpen(false);
+            setSelectedQueueItem(null);
+          }}
+          onResolve={handleResolve}
+          onSnooze={handleSnooze}
+          onEscalate={handleEscalate}
+        />
+      )}
     </div>
   );
 }
+
+
+
+
+

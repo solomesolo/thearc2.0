@@ -2,16 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./mobile-responsive.css";
-import Footer from "../components/Footer";
-import HeroWithOverlay from "../components/HeroWithOverlay";
-import DNABackground from "../components/DNABackground";
-import MainLayoutClient from "../components/MainLayoutClient";
-import Header from "../components/Header";
 import { Analytics } from "@vercel/analytics/next";
 import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import CookieConsent from "../components/CookieConsent";
 import MixPanelProvider from "../components/MixPanelProvider";
+import MarketingLayoutWrapper from "../components/MarketingLayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,11 +85,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* End Google Tag Manager (noscript) */}
         
         <MixPanelProvider />
-        <Header />
-        <MainLayoutClient>
+        <MarketingLayoutWrapper>
           {children}
-        </MainLayoutClient>
-        <Footer />
+        </MarketingLayoutWrapper>
         <CookieConsent />
         <Analytics />
       </body>

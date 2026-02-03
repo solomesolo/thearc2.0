@@ -3462,3 +3462,15 @@ select:focus option:checked {
   border-color: rgba(77, 228, 193, 0.2);
   box-shadow: 0 0 8px rgba(77, 228, 193, 0.2);
 }
+
+/* Visit 1 Tab Sanity-Check Overlay Animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

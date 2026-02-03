@@ -4,16 +4,11 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { PERSONAS } from "@/lib/persona";
-import EmailSignupModal from "./EmailSignupModal";
 
 export default function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   
   const isActive = (path: string) => {
     if (path === "/") return pathname === "/";
@@ -29,28 +24,8 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
-    };
 
-    if (isDropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isDropdownOpen]);
-
-  // Use persona config to ensure consistency
-  const personaLinks = [
-    { label: PERSONAS.women.name, href: PERSONAS.women.route },
-    { label: PERSONAS.traveler.name, href: PERSONAS.traveler.route },
-    { label: PERSONAS.rebuilder.name, href: PERSONAS.rebuilder.route },
-  ];
+  // Removed persona links for minimal version
 
   return (
     <header className={`premium-nav-header ${isScrolled ? "premium-nav-scrolled" : ""}`}>
@@ -70,55 +45,6 @@ export default function Header() {
             Platform
           </Link>
 
-          {/* Programs Dropdown */}
-          <div className="premium-nav-dropdown-wrapper" ref={dropdownRef}>
-            <button
-              className={`premium-nav-item premium-nav-dropdown-trigger ${isActive("/personas") || personaLinks.some(link => isActive(link.href)) ? "premium-nav-item-active" : ""}`}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              aria-expanded={isDropdownOpen}
-            >
-              Programs
-              <svg
-                className={`premium-nav-chevron ${isDropdownOpen ? "premium-nav-chevron-open" : ""}`}
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3 4.5L6 7.5L9 4.5"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-
-            <AnimatePresence>
-              {isDropdownOpen && (
-                <motion.div
-                  className="premium-nav-dropdown"
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 8 }}
-                  transition={{ duration: 0.18, ease: "easeOut" }}
-                >
-                  {personaLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="premium-nav-dropdown-item"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
 
           {/* Your Arc */}
           <Link 
@@ -153,12 +79,12 @@ export default function Header() {
           >
             For Clinics
           </Link>
-          <button 
-            onClick={() => setShowEmailModal(true)}
+          <Link 
+            href="/your-arc"
             className="premium-nav-cta-primary"
           >
             Get Started
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -193,11 +119,6 @@ export default function Header() {
               >
                 Platform
               </Link>
-              <MobileDropdown
-                title="Programs"
-                items={personaLinks}
-                onClose={() => setIsMobileMenuOpen(false)}
-              />
               <Link
                 href="/your-arc"
                 className="premium-nav-mobile-item"
@@ -229,21 +150,18 @@ export default function Header() {
                 >
                   For Clinics
                 </Link>
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    setShowEmailModal(true);
-                  }}
+                <Link
+                  href="/your-arc"
                   className="premium-nav-mobile-cta-primary"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Get Started
-                </button>
+                </Link>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
     </header>
   );
 }
