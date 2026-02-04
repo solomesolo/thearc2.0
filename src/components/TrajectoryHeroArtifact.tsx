@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
 /**
@@ -37,8 +37,8 @@ export default function TrajectoryHeroArtifact() {
   // Early risk signal - appears before curve changes (between point 2 and 3)
   const signalPoint = { x: 50, y: 45.5 };
 
-  // Generate smooth trajectory curve path
-  const generateCurvePath = () => {
+  // Generate smooth trajectory curve path - memoized to prevent SSR issues
+  const curvePath = useMemo(() => {
     const points = dataPoints;
     let path = `M ${points[0].x} ${points[0].y}`;
     
@@ -53,10 +53,10 @@ export default function TrajectoryHeroArtifact() {
     }
     
     return path;
-  };
+  }, []);
 
-  // Generate confidence band path (range band behind curve)
-  const generateConfidenceBand = () => {
+  // Generate confidence band path (range band behind curve) - memoized to prevent SSR issues
+  const confidenceBandPath = useMemo(() => {
     const points = dataPoints;
     const bandWidth = 3; // Vertical spread of confidence band
     
@@ -73,7 +73,8 @@ export default function TrajectoryHeroArtifact() {
     }
     
     // Lower band (curve - bandWidth) - reverse order
-    let lowerPath = `L ${points[points.length - 1].x} ${points[points.length - 1].y + bandWidth}`;
+    const lastPoint = points[points.length - 1];
+    let lowerPath = `L ${lastPoint.x} ${lastPoint.y + bandWidth}`;
     for (let i = points.length - 2; i >= 0; i--) {
       const prev = points[i + 1];
       const curr = points[i];
@@ -86,7 +87,7 @@ export default function TrajectoryHeroArtifact() {
     lowerPath += ` Z`;
     
     return upperPath + lowerPath;
-  };
+  }, []);
 
   return (
     <div className="relative w-full flex items-center justify-center" style={{ aspectRatio: "1.15", maxHeight: "460px", minHeight: "320px" }}>
@@ -106,7 +107,7 @@ export default function TrajectoryHeroArtifact() {
         >
           {/* Confidence band (range band) - Faint, behind curve */}
           <motion.path
-            d={generateConfidenceBand()}
+            d={confidenceBandPath}
             fill="rgba(255, 255, 255, 0.03)"
             stroke="none"
             initial={{ opacity: 0 }}
@@ -130,7 +131,7 @@ export default function TrajectoryHeroArtifact() {
           {/* Smooth trajectory curve - Thin stroke (1px equivalent) */}
           {/* Premium motion: Line draws in slowly (400-600ms), calm and clinical */}
           <motion.path
-            d={generateCurvePath()}
+            d={curvePath}
             fill="none"
             stroke="rgba(255, 255, 255, 0.25)"
             strokeWidth="0.3"
