@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Section from "./Section";
 import SectionTitle from "./SectionTitle";
+import Disclosure from "./ui/Disclosure";
 import {
   FileText,
   RefreshCw,
@@ -70,22 +71,26 @@ export default function ReactiveByDesignSection() {
   return (
     <section id="home.problem">
       <Section>
-        <div className="max-w-6xl mx-auto">
-          <div className="space-y-12">
+        <div className="space-y-12">
             {/* Eyebrow */}
             <div className="text-center space-y-6">
-              <p className="text-sm uppercase tracking-[0.3em] text-gray-400">
+              <p className="text-sm tracking-[0.02em] text-[var(--text-2)]">
                 Why it feels hard
               </p>
-              <SectionTitle className="text-center text-4xl md:text-5xl font-semibold tracking-tight">
+              <SectionTitle className="text-center">
                 Health today is reactive by design
               </SectionTitle>
-              <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto">
-                Your data is everywhere. Your history is nowhere. Arc turns scattered records into a continuous timeline you can act on.
-              </p>
-              <p className="text-sm text-gray-500">
-                It is not more data. It is continuity.
-              </p>
+              <div className="max-w-3xl mx-auto">
+                <Disclosure
+                  summary="Your data is everywhere. Your history is nowhere. Arc turns scattered records into a continuous timeline you can act on."
+                  details={
+                    <p className="typography-body-secondary">
+                      It is not more data. It is continuity. Arc connects every test, visit, and note into one living timeline that shows you what's changing and what to do next.
+                    </p>
+                  }
+                  label="Learn how"
+                />
+              </div>
             </div>
 
             {/* Bridge Visual - Desktop */}
@@ -181,7 +186,6 @@ export default function ReactiveByDesignSection() {
               </Link>
             </div>
           </div>
-        </div>
       </Section>
     </section>
   );

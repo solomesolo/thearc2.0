@@ -137,6 +137,46 @@ For detailed documentation, see:
 - `VERSION.md` - Version information
 - `ACCEPTANCE_CRITERIA.md` - Acceptance criteria for features
 
+## Quality Checks
+
+### Linting & Formatting
+
+```bash
+# Run ESLint
+npm run lint
+
+# Fix ESLint issues
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+
+# Check formatting
+npm run format:check
+```
+
+### Lighthouse Budget Targets
+
+**Performance:**
+- First Contentful Paint (FCP): < 1.8s
+- Largest Contentful Paint (LCP): < 2.5s
+- Time to Interactive (TTI): < 3.8s
+- Total Blocking Time (TBT): < 200ms
+- Cumulative Layout Shift (CLS): < 0.1
+
+**Accessibility:**
+- Target: ≥ 90 on landing page
+- All images have alt text
+- Proper heading hierarchy
+- Keyboard navigation support
+- ARIA labels where needed
+
+**Best Practices:**
+- No console errors
+- HTTPS enabled
+- No deprecated APIs
+- Valid HTML
+
 ## Browser Support
 
 - Chrome/Edge (latest)

@@ -318,8 +318,8 @@ export default function PriorityQueuePage() {
         {/* Title and Search Row */}
         <div className="px-6 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-semibold text-gray-900">Clinical Priority Queue</h1>
-            <p className="text-xs text-gray-600 mt-0.5">Patients requiring physician attention</p>
+            <h1 className="typography-h1" style={{ color: 'var(--color-text-primary)' }}>Clinical Priority Queue</h1>
+            <p className="typography-caption" style={{ marginTop: 'var(--space-1)' }}>Patients requiring physician attention</p>
           </div>
           <div className="flex items-center gap-3">
             <input

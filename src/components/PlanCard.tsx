@@ -29,7 +29,7 @@ export default function PlanCard({
     <Card
       className={`${
         featured 
-          ? 'border-[#4DE4C1] scale-105 shadow-[0_0_30px_rgba(77,228,193,0.3)]' 
+          ? 'border-[var(--color-accent-primary)] scale-105 shadow-[0_0_30px_var(--color-accent-glow-medium)]' 
           : ''
       } ${waitlist ? 'opacity-75' : ''}`}
     >
@@ -41,7 +41,7 @@ export default function PlanCard({
       <ul className="space-y-3 mb-8">
         {highlights.map((highlight, i) => (
           <li key={i} className="flex items-start">
-            <span className="text-[#4DE4C1] mr-3 text-xl">✓</span>
+            <span className="text-[var(--color-accent-primary)] mr-3 text-xl">✓</span>
             <span className="text-[#E0E0E0] leading-relaxed">{highlight}</span>
           </li>
         ))}

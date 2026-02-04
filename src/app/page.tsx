@@ -2,14 +2,20 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { HeroSection } from "../components/HeroSection";
-import { ArcButton } from "../components/ui/ArcButton";
+import Button from "../components/ui/Button";
 import Section from "../components/Section";
 import SectionTitle from "../components/SectionTitle";
 import { FAQAccordion } from "../components/ui/FAQAccordion";
 import ReactiveByDesignSection from "../components/ReactiveByDesignSection";
+import Disclosure from "../components/ui/Disclosure";
 import HowItWorksSection from "../components/HowItWorksSection";
 import ClinicsSection from "../components/ClinicsSection";
+import TimelineDemoSection from "../components/TimelineDemoSection";
+import ReactiveFeaturePanels from "../components/ReactiveFeaturePanels";
+import DataSourcesPrivacyTrust from "../components/DataSourcesPrivacyTrust";
+import TierDecisionHelper from "../components/TierDecisionHelper";
 import Link from "next/link";
 
 
@@ -155,7 +161,7 @@ function MarketplaceContent() {
     audience: MarketplaceAudience
   ) => (
     <div className="mt-4 rounded-xl bg-[#050607] border border-white/10 p-4 md:p-5 space-y-3">
-      <p className="text-xs font-semibold text-gray-300 uppercase tracking-[0.12em]">
+      <p className="text-xs font-medium text-[var(--text-2)] tracking-[0.02em]">
         How it connects to your timeline
       </p>
       <p className="text-sm text-gray-300">{category.timelineConnection}</p>
@@ -177,11 +183,32 @@ function MarketplaceContent() {
       {/* Right side on mobile: tabs and category list */}
       <div className="space-y-6 order-1 lg:order-2">
         {/* Tabs */}
-        <div className="flex gap-2 border-b border-white/10">
+        <div className="flex gap-2 border-b border-white/10" role="tablist" aria-label="Marketplace audience">
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "individuals"}
+            aria-controls="marketplace-content-individuals"
+            id="marketplace-tab-individuals"
             onClick={() => setActiveTab("individuals")}
-            className={`px-4 py-2 text-sm font-medium transition-all relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] rounded-t-md ${
+            onKeyDown={(e) => {
+              if (e.key === "ArrowRight") {
+                e.preventDefault();
+                setActiveTab("clinics");
+                document.getElementById("marketplace-tab-clinics")?.focus();
+              }
+              if (e.key === "Home") {
+                e.preventDefault();
+                setActiveTab("individuals");
+                document.getElementById("marketplace-tab-individuals")?.focus();
+              }
+              if (e.key === "End") {
+                e.preventDefault();
+                setActiveTab("clinics");
+                document.getElementById("marketplace-tab-clinics")?.focus();
+              }
+            }}
+            className={`px-4 py-2 text-sm font-medium transition-all relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] rounded-t-md ${
               activeTab === "individuals"
                 ? "text-[#4DEECD]"
                 : "text-gray-400 hover:text-gray-200"
@@ -198,8 +225,29 @@ function MarketplaceContent() {
           </button>
           <button
             type="button"
+            role="tab"
+            aria-selected={activeTab === "clinics"}
+            aria-controls="marketplace-content-clinics"
+            id="marketplace-tab-clinics"
             onClick={() => setActiveTab("clinics")}
-            className={`px-4 py-2 text-sm font-medium transition-all relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] rounded-t-md ${
+            onKeyDown={(e) => {
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                setActiveTab("individuals");
+                document.getElementById("marketplace-tab-individuals")?.focus();
+              }
+              if (e.key === "Home") {
+                e.preventDefault();
+                setActiveTab("individuals");
+                document.getElementById("marketplace-tab-individuals")?.focus();
+              }
+              if (e.key === "End") {
+                e.preventDefault();
+                setActiveTab("clinics");
+                document.getElementById("marketplace-tab-clinics")?.focus();
+              }
+            }}
+            className={`px-4 py-2 text-sm font-medium transition-all relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] rounded-t-md ${
               activeTab === "clinics"
                 ? "text-[#4DEECD]"
                 : "text-gray-400 hover:text-gray-200"
@@ -221,6 +269,9 @@ function MarketplaceContent() {
           <AnimatePresence mode="wait">
               <motion.div
               key={activeTab}
+                role="tabpanel"
+                id={`marketplace-content-${activeTab}`}
+                aria-labelledby={`marketplace-tab-${activeTab}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -238,11 +289,19 @@ function MarketplaceContent() {
                     <button
                       type="button"
                       onClick={() => handleCategoryToggle(category.id)}
-                      className={`w-full text-left rounded-[20px] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] ${
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          handleCategoryToggle(category.id);
+                        }
+                      }}
+                      className={`w-full text-left rounded-[20px] border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] ${
                         isActive
                           ? "border-[#4DEECD]/40 bg-gradient-to-b from-[#0b0b0b] to-[#121212] shadow-[0_0_20px_rgba(77,238,205,0.12)]"
                           : "border-white/10 bg-[#050607]"
                       }`}
+                      aria-pressed={isActive}
+                      tabIndex={0}
                     >
                       <div className="flex items-center justify-between gap-3 px-4 py-4 md:px-5 md:py-4">
                         <div className="flex items-start gap-3">
@@ -343,19 +402,27 @@ function MarketplaceContent() {
       {/* Left side: explanation and desktop contextual panel */}
       <div className="space-y-6 order-2 lg:order-1">
         <div className="space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+          <p className="typography-eyebrow">
             Integrated marketplace
           </p>
-          <h3 className="text-2xl md:text-3xl font-semibold text-white">
+          <h3 className="typography-h3">
             Act on your data with the right services
           </h3>
-          <div className="space-y-3 text-gray-300 leading-relaxed max-w-xl">
-            <p>
-              Arc links every test device and service back to your health timeline. You can see what is relevant now what is optional and what unlocks the next step.
-            </p>
-            <p className="text-sm text-gray-400">
-              Everything is contextual. Nothing is generic.
-            </p>
+          <div className="space-y-3 max-w-xl">
+            <Disclosure
+              summary="Arc links every test device and service back to your health timeline so you can see what's relevant now, what's optional, and what unlocks the next step."
+              details={
+                <div className="space-y-2">
+                  <p className="typography-body-secondary">
+                    Everything is contextual. Nothing is generic. Marketplace options appear when your data and goals reach a point where a diagnostic device or service can move you forward.
+                  </p>
+                  <p className="text-sm text-gray-400 italic">
+                    Example: A change in a marker can prompt a new diagnostic and the result adjusts your plan automatically.
+                  </p>
+                </div>
+              }
+              label="See example"
+            />
           </div>
         </div>
 
@@ -365,7 +432,7 @@ function MarketplaceContent() {
             renderDetailsCard(activeCategory, activeTab)
           ) : (
             <div className="mt-4 rounded-xl bg-[#050607] border border-white/10 p-5 space-y-3">
-              <p className="text-xs font-semibold text-gray-300 uppercase tracking-[0.12em]">
+              <p className="text-xs font-medium text-[var(--text-2)] tracking-[0.02em]">
                 How it connects to your timeline
               </p>
               <p className="text-sm text-gray-300">
@@ -379,9 +446,9 @@ function MarketplaceContent() {
         </div>
 
         <div className="pt-2 space-y-2">
-          <ArcButton href="/catalog">
+          <Button variant="primary" href="/catalog">
             Explore Marketplace
-          </ArcButton>
+          </Button>
           <div>
             <Link
               href="/method"
@@ -419,9 +486,7 @@ function TierCard({
 
   return (
     <motion.div
-      className={`p-6 rounded-lg bg-white/5 border transition-all relative flex flex-col h-full ${
-        isHovered ? "border-[#4DEECD]/50 bg-white/8" : "border-white/10"
-      }`}
+      className="card-premium flex flex-col h-full"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
@@ -430,10 +495,10 @@ function TierCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Tier Name */}
-      <p className="text-xs uppercase tracking-[0.3em] text-gray-400 mb-2">{tierName}</p>
+      <p className="typography-eyebrow mb-2">{tierName}</p>
 
       {/* Title */}
-      <h3 className="text-xl font-semibold text-white mb-4">{title}</h3>
+      <h3 className="card-title">{title}</h3>
 
       {/* Best For */}
       <div className="mb-6">
@@ -486,10 +551,11 @@ function TierCard({
   );
 }
 
-// Capability Card Component
+// Capability Card Component with Progressive Disclosure
 function CapabilityCard({
   icon,
   title,
+  summary,
   explanation,
   youGet,
   example,
@@ -497,54 +563,78 @@ function CapabilityCard({
 }: {
   icon: React.ReactNode;
   title: string;
-  explanation: string[];
-  youGet: string;
-  example: string;
+  summary: string; // 1-sentence summary
+  explanation?: string[]; // Expandable details
+  youGet?: string;
+  example?: string;
   index: number;
 }) {
-  const [isHovered, setIsHovered] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <motion.div
-      className="p-6 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition-all relative overflow-hidden group"
+      className="card-premium relative overflow-hidden group"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Icon */}
-      <div className="text-[#4DEECD] mb-4">
+      <div className="card-icon text-accent mb-4">
         {icon}
       </div>
 
       {/* Title */}
-      <h3 className="text-lg font-semibold text-white mb-3">{title}</h3>
+      <h3 className="card-title">{title}</h3>
 
-      {/* Explanation (two lines) */}
-      <div className="space-y-2 mb-4">
-        <p className="text-gray-300 text-sm leading-relaxed">{explanation[0]}</p>
-        <p className="text-gray-300 text-sm leading-relaxed">{explanation[1]}</p>
-      </div>
+      {/* 1-sentence summary - always visible */}
+      <p className="typography-body mb-4">{summary}</p>
 
-      {/* You Get line */}
-      <p className="text-[#4DEECD] text-sm font-medium mb-0">{youGet}</p>
+      {/* Expandable details */}
+      {explanation && explanation.length > 0 && (
+        <div className="mt-2">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="group flex items-center gap-2 text-sm font-medium text-accent hover:text-[var(--color-accent-primary-hover)] transition-colors"
+            aria-expanded={isOpen}
+            aria-label={isOpen ? "Hide details" : "Learn how"}
+          >
+            <span>{isOpen ? "Hide" : "Learn how"}</span>
+            <motion.div
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              <ChevronDown className="w-4 h-4" strokeWidth={2} />
+            </motion.div>
+          </button>
 
-      {/* Example line (reveals on hover) */}
-      <motion.div
-        className="overflow-hidden"
-        initial={{ opacity: 0, height: 0 }}
-        animate={{
-          opacity: isHovered ? 1 : 0,
-          height: isHovered ? "auto" : 0,
-        }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-      >
-        <div className="mt-3 pt-3 border-t border-white/10">
-          <p className="text-gray-400 text-xs italic">{example}</p>
+          <AnimatePresence initial={false}>
+            {isOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ 
+                  duration: 0.3, 
+                  ease: [0.16, 1, 0.3, 1]
+                }}
+                className="overflow-hidden"
+              >
+                <div className="pt-4 mt-2 border-t border-[var(--color-border-base)] space-y-2">
+                  {explanation.map((line, idx) => (
+                    <p key={idx} className="typography-body-secondary">{line}</p>
+                  ))}
+                  {youGet && (
+                    <p className="text-accent text-sm font-medium mt-3">{youGet}</p>
+                  )}
+                  {example && (
+                    <p className="text-tier-muted text-xs italic mt-2">{example}</p>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </motion.div>
+      )}
     </motion.div>
   );
 }
@@ -552,16 +642,13 @@ function CapabilityCard({
 export default function HomePage() {
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-layer-page text-tier-primary" style={{ backgroundColor: 'var(--color-bg-page)' }}>
       {/* home.hero */}
       <section id="home.hero">
         <HeroSection
-          title="Your health is not fragmented. Your data is."
-          subtitle="The Arc is a health intelligence platform that brings your medical history into one system so you can see patterns understand trends and know what to do next."
-          supportingLine="Built for individuals longevity programs and clinics."
+          headline="Your health is not fragmented. Your data is."
+          subheadline="The Arc turns years of scattered medical data into a single health trajectory—so you can see risk earlier and act with confidence."
           primaryCTA={{ label: "Get Started", href: "/your-arc" }}
-          secondaryCTA={{ label: "For Clinics and Doctors", href: "/clinics" }}
-          image={{ src: "/header main page.png", alt: "The Arc cinematic hero" }}
         />
       </section>
 
@@ -571,224 +658,73 @@ export default function HomePage() {
       {/* home.capabilities */}
       <section id="home.capabilities">
         <Section>
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              className="space-y-12"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.9, ease: "easeOut" }}
-            >
-              <div className="text-center space-y-6">
-                <SectionTitle className="text-center text-4xl md:text-5xl font-semibold tracking-tight">
-                  What you can do in The Arc
-                </SectionTitle>
-              </div>
+          <motion.div
+            className="space-y-12"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+          >
+            <div className="text-center space-y-6 mb-12">
+              <SectionTitle className="text-center">
+                What you can do in The Arc
+              </SectionTitle>
+            </div>
 
-              {/* Capability Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  {
-                    icon: (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                        <polyline points="14 2 14 8 20 8" />
-                        <line x1="16" y1="13" x2="8" y2="13" />
-                        <line x1="16" y1="17" x2="8" y2="17" />
-                        <polyline points="10 9 9 9 8 9" />
-                      </svg>
-                    ),
-                    title: "Centralize medical documents",
-                    explanation: [
-                      "Upload lab results, doctor notes, and test reports.",
-                      "Everything lives in one secure place."
-                    ],
-                    youGet: "You get: One source of truth for all your health data.",
-                    example: "Example: Lab results from 3 different clinics in one timeline."
-                  },
-                  {
-                    icon: (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                      </svg>
-                    ),
-                    title: "Build a health timeline",
-                    explanation: [
-                      "See your health history in chronological order.",
-                      "Understand how your health has changed over time."
-                    ],
-                    youGet: "You get: A clear view of your health journey.",
-                    example: "Example: Blood pressure readings from 2020 to 2024."
-                  },
-                  {
-                    icon: (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 6 12 12 16 14" />
-                      </svg>
-                    ),
-                    title: "Detect patterns across time",
-                    explanation: [
-                      "Spot trends that single appointments miss.",
-                      "See connections between different health markers."
-                    ],
-                    youGet: "You get: Early warning signs before problems escalate.",
-                    example: "Example: Rising LDL over 18 months."
-                  },
-                  {
-                    icon: (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-                      </svg>
-                    ),
-                    title: "Track health trends",
-                    explanation: [
-                      "Monitor improvements or declines in key metrics.",
-                      "Know what's getting better and what needs attention."
-                    ],
-                    youGet: "You get: Clear visibility into what's changing.",
-                    example: "Example: Vitamin D levels improving after supplementation."
-                  },
-                  {
-                    icon: (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 20V10" />
-                        <path d="M12 20V4" />
-                        <path d="M6 20v-6" />
-                      </svg>
-                    ),
-                    title: "Get intervention updates",
-                    explanation: [
-                      "Receive alerts when action is recommended.",
-                      "Know exactly what to test or change next."
-                    ],
-                    youGet: "You get: Proactive guidance, not reactive care.",
-                    example: "Example: Alert when cholesterol pattern suggests retest."
-                  },
-                  {
-                    icon: (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="17 8 12 3 7 8" />
-                        <line x1="12" y1="3" x2="12" y2="15" />
-                      </svg>
-                    ),
-                    title: "Share a clean export with doctors",
-                    explanation: [
-                      "Generate a summary of your health timeline.",
-                      "Give doctors context they need in one document."
-                    ],
-                    youGet: "You get: Better care coordination with your providers.",
-                    example: "Example: PDF export with last 2 years of key metrics."
-                  },
-                ].map((capability, index) => (
-                  <CapabilityCard
-                    key={index}
-                    icon={capability.icon}
-                    title={capability.title}
-                    explanation={capability.explanation}
-                    youGet={capability.youGet}
-                    example={capability.example}
-                    index={index}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </div>
+            {/* Reactive Feature Panels */}
+            <ReactiveFeaturePanels />
+          </motion.div>
         </Section>
       </section>
 
       {/* home.tiers */}
       <section id="home.tiers">
         <Section>
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              className="space-y-12"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.9, ease: "easeOut" }}
-            >
-              <div className="text-center space-y-6">
-                <SectionTitle className="text-center text-4xl md:text-5xl font-semibold tracking-tight">
-                  Choose Your Tier
-                </SectionTitle>
-              </div>
-
-              {/* Two Tier Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
-                {[
-                  {
-                    tierName: "Tier One",
-                    title: "Health Intelligence",
-                    bestFor: "Individuals who want to understand their health data",
-                    coreFeatures: [
-                      "A unified medical record",
-                      "Interpreted health trends across history",
-                      "Early signals before problems escalate",
-                    ],
-                    cta: "Explore Health Intelligence",
-                    ctaAction: () => window.location.href = "/your-arc",
-                  },
-                  {
-                    tierName: "Tier Two",
-                    title: "Longevity Programs",
-                    bestFor: "Those who want personalized guidance and programs",
-                    coreFeatures: [
-                      "Personalized programs based on your health data",
-                      "Modular blueprints focused on specific health goals",
-                      "Programs that evolve with your health",
-                    ],
-                    cta: "Explore Programs",
-                    ctaAction: () => window.location.href = "/your-arc",
-                  },
-                ].map((tier, index) => (
-                  <TierCard
-                    key={index}
-                    tierName={tier.tierName}
-                    title={tier.title}
-                    bestFor={tier.bestFor}
-                    coreFeatures={tier.coreFeatures}
-                    cta={tier.cta}
-                    ctaAction={tier.ctaAction}
-                    index={index}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </div>
+          <motion.div
+            className="space-y-12"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1, margin: "100px" }}
+            transition={{ duration: 0.38, ease: [0.25, 0.8, 0.5, 1] }}
+          >
+            <TierDecisionHelper />
+          </motion.div>
         </Section>
       </section>
 
       {/* home.howItWorks */}
       <HowItWorksSection onCTAClick={() => window.location.href = "/your-arc"} />
 
+      {/* home.timelineDemo */}
+      <TimelineDemoSection />
+
       {/* home.marketplace */}
       <section id="home.marketplace">
         <Section>
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              className="space-y-8"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.9, ease: "easeOut" }}
-            >
-              <div className="text-center space-y-6 mb-12">
-                <SectionTitle className="text-center text-4xl md:text-5xl font-semibold tracking-tight">
-                  From insight to intervention
-                </SectionTitle>
-              </div>
+          <motion.div
+            className="space-y-8"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+          >
+            <div className="text-center space-y-6 mb-12">
+              <SectionTitle className="text-center">
+                From insight to intervention
+              </SectionTitle>
+            </div>
 
-              {/* Two Column Layout */}
-              <MarketplaceContent />
-            </motion.div>
-          </div>
+            {/* Two Column Layout */}
+            <MarketplaceContent />
+          </motion.div>
         </Section>
       </section>
 
       {/* home.clinics */}
       <ClinicsSection />
+
+      {/* home.trust */}
+      <DataSourcesPrivacyTrust />
 
       {/* home.trustFaq */}
       <section id="home.trustFaq">
@@ -819,7 +755,7 @@ export default function HomePage() {
             {/* Short FAQ */}
             <div className="space-y-6">
               <div className="text-center">
-                <SectionTitle className="text-3xl md:text-4xl font-semibold tracking-tight">
+                <SectionTitle className="text-center">
                   Frequently asked questions
                 </SectionTitle>
               </div>
@@ -890,19 +826,16 @@ export default function HomePage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.9, ease: "easeOut" }}
             >
-              <SectionTitle className="text-center text-4xl md:text-5xl font-semibold tracking-tight">
+              <SectionTitle className="text-center">
                 Health is not a moment. It is a trajectory.
               </SectionTitle>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <ArcButton href="/your-arc">
+                <Button variant="primary" href="/your-arc">
                   Get Started with Health Intelligence
-                </ArcButton>
-                <ArcButton
-                  href="/clinics"
-                  className="border border-white/30 text-[#4DEECD] bg-transparent"
-                >
+                </Button>
+                <Button variant="secondary" href="/clinics">
                   Talk to Us Clinics and Doctors
-                </ArcButton>
+                </Button>
               </div>
               <p className="text-sm text-gray-400 mt-4">
                 Set up takes minutes. You can start with uploads.

@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import Button from "./ui/Button";
 
 export default function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+
   const isActive = (path: string) => {
     if (path === "/") return pathname === "/";
     return pathname?.startsWith(path);
@@ -20,214 +22,243 @@ export default function Header() {
       setIsScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
-  // Removed persona links for minimal version
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
+  const navLinks = [
+    { label: "Platform", href: "/" },
+    { label: "Your Arc", href: "/your-arc" },
+    { label: "Marketplace", href: "/catalog/countries" },
+  ];
 
   return (
-    <header className={`premium-nav-header ${isScrolled ? "premium-nav-scrolled" : ""}`}>
-      <div className="premium-nav-container">
-        {/* Logo */}
-        <Link href="/" className="premium-nav-logo">
-          <span>TheArc</span>
-        </Link>
+    <>
+      <header
+        className="sticky top-0 z-50 w-full transition-all bg-[var(--color-bg-page)]/80 backdrop-blur-md"
+        style={{ height: "76px" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="flex items-center justify-between h-full gap-4">
+            {/* Left: Logo */}
+            <Link
+              href="/"
+              className="flex-shrink-0 flex items-center h-full"
+              aria-label="TheArc Home"
+            >
+              <span className="text-xl font-bold text-white whitespace-nowrap tracking-tight">
+                TheArc
+              </span>
+            </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="premium-nav-desktop">
-          {/* Platform */}
-          <Link 
-            href="/" 
-            className={`premium-nav-item ${isActive("/") && pathname === "/" ? "premium-nav-item-active" : ""}`}
-          >
-            Platform
-          </Link>
+            {/* Center: Desktop Navigation - Minimal, airy, luxury styling */}
+            <nav className="hidden lg:flex items-center gap-8 flex-1 justify-center">
+              {navLinks.map((link) => {
+                const active = isActive(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`relative font-normal whitespace-nowrap transition-all duration-[var(--duration-fast)] ease-[var(--ease-ui)] group nav-link ${
+                      active
+                        ? "text-[var(--text-1)]"
+                        : "text-[var(--text-1)] hover:text-[var(--text-0)]"
+                    } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] rounded-sm px-1 -mx-1`}
+                  >
+                    <span className="relative z-10">{link.label}</span>
+                    
+                    {/* Active state indicator - very subtle dot */}
+                    {active && (
+                      <span
+                        className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0.5 h-0.5 rounded-full bg-[var(--color-accent-primary)]/40"
+                        aria-hidden="true"
+                      />
+                    )}
+                    
+                    {/* Hover underline - extremely subtle */}
+                    {!active && (
+                      <span
+                        className="absolute bottom-0 left-0 right-0 h-px bg-[var(--color-accent-primary)] opacity-0 group-hover:opacity-5 transition-opacity duration-[var(--duration-fast)] ease-[var(--ease-ui)]"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
 
-
-          {/* Your Arc */}
-          <Link 
-            href="/your-arc" 
-            className={`premium-nav-item ${isActive("/your-arc") ? "premium-nav-item-active" : ""}`}
-          >
-            Your Arc
-          </Link>
-
-          {/* Marketplace */}
-          <Link 
-            href="/catalog/countries" 
-            className={`premium-nav-item ${isActive("/marketplace") || isActive("/catalog") ? "premium-nav-item-active" : ""}`}
-          >
-            Marketplace
-          </Link>
-
-          {/* Clinics */}
-          <Link 
-            href="/clinics" 
-            className={`premium-nav-item ${isActive("/clinics") ? "premium-nav-item-active" : ""}`}
-          >
-            Clinics
-          </Link>
-        </nav>
-
-        {/* Primary CTAs: Get Started (Individuals) + For Clinics and Doctors */}
-        <div className="premium-nav-ctas">
-          <Link 
-            href="/clinics"
-            className="premium-nav-cta-secondary"
-          >
-            For Clinics
-          </Link>
-          <Link 
-            href="/your-arc"
-            className="premium-nav-cta-primary"
-          >
-            Get Started
-          </Link>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <button
-          className="premium-nav-mobile-toggle"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span className={`premium-nav-hamburger ${isMobileMenuOpen ? "premium-nav-hamburger-open" : ""}`}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            className="premium-nav-mobile"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div className="premium-nav-mobile-content">
-              <Link
-                href="/"
-                className="premium-nav-mobile-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Platform
-              </Link>
-              <Link
-                href="/your-arc"
-                className="premium-nav-mobile-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Your Arc
-              </Link>
-              <Link
-                href="/catalog/countries"
-                className="premium-nav-mobile-item"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Marketplace
-              </Link>
+            {/* Right: CTAs */}
+            <div className="hidden lg:flex items-center gap-6 flex-shrink-0">
               <Link
                 href="/clinics"
-                className="premium-nav-mobile-item"
-                onClick={() => setIsMobileMenuOpen(false)}
+                className={`relative nav-link whitespace-nowrap transition-all duration-[var(--duration-fast)] ease-[var(--ease-ui)] group ${
+                  isActive("/clinics")
+                    ? "text-[var(--text-1)]"
+                    : "text-[var(--text-1)] hover:text-[var(--text-0)]"
+                } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] rounded-sm px-1 -mx-1`}
               >
-                Clinics
+                <span className="relative z-10">Clinics</span>
+                
+                {/* Active state indicator - very subtle dot */}
+                {isActive("/clinics") && (
+                  <span
+                    className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0.5 h-0.5 rounded-full bg-[var(--color-accent-primary)]/40"
+                    aria-hidden="true"
+                  />
+                )}
+                
+                {/* Hover underline - extremely subtle */}
+                {!isActive("/clinics") && (
+                  <span
+                    className="absolute bottom-0 left-0 right-0 h-px bg-[var(--color-accent-primary)] opacity-0 group-hover:opacity-5 transition-opacity duration-[var(--duration-fast)] ease-[var(--ease-ui)]"
+                    aria-hidden="true"
+                  />
+                )}
               </Link>
-              
-              {/* Mobile CTAs */}
-              <div className="premium-nav-mobile-ctas">
-                <Link
-                  href="/clinics"
-                  className="premium-nav-mobile-cta-secondary"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  For Clinics
-                </Link>
-                <Link
-                  href="/your-arc"
-                  className="premium-nav-mobile-cta-primary"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Get Started
-                </Link>
-              </div>
+              <Button variant="primary" size="sm" href="/your-arc">
+                Get Started
+              </Button>
             </div>
-          </motion.div>
+
+            {/* Mobile: Hamburger Menu Button */}
+            <button
+              className="lg:hidden flex-shrink-0 w-10 h-10 flex items-center justify-center text-[var(--color-text-primary)] hover:text-[var(--color-accent-primary)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] rounded-md"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" strokeWidth={2} />
+              ) : (
+                <Menu className="w-6 h-6" strokeWidth={2} />
+              )}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Drawer */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+
+            {/* Drawer */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.24, ease: [0.25, 0.8, 0.5, 1] }}
+              className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-[var(--color-bg-card-elevated)] shadow-2xl z-50 lg:hidden overflow-y-auto"
+            >
+              <div className="flex flex-col h-full">
+                {/* Drawer Header */}
+                <div className="flex items-center justify-between px-6 py-6">
+                  <span className="nav-link font-semibold text-white">Navigation</span>
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-9 h-9 flex items-center justify-center text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-white/5 transition-all duration-[var(--duration-fast)] ease-[var(--ease-ui)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card-elevated)] rounded-lg"
+                    aria-label="Close menu"
+                  >
+                    <X className="w-5 h-5" strokeWidth={2} />
+                  </button>
+                </div>
+
+                {/* Main Navigation Links */}
+                <nav className="flex-1 px-6 py-6">
+                  <div className="space-y-1">
+                    {navLinks.map((link) => {
+                      const active = isActive(link.href);
+                      return (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`relative flex items-center px-4 py-3.5 rounded-lg text-[15px] font-medium transition-all duration-[var(--duration-fast)] ease-[var(--ease-ui)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card-elevated)] ${
+                            active
+                              ? "bg-[var(--color-accent-bg-subtle)] text-[var(--color-accent-primary)]"
+                              : "text-[var(--color-text-secondary)] hover:bg-white/5 hover:text-[var(--color-text-primary)]"
+                          }`}
+                        >
+                          {active && (
+                            <span
+                              className="absolute left-3 w-1 h-1 rounded-full bg-[var(--color-accent-primary)]"
+                              aria-hidden="true"
+                            />
+                          )}
+                          <span className={active ? "ml-5" : ""}>{link.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </nav>
+
+                {/* For Clinics Section */}
+                <div className="px-6 py-6">
+                  <p className="text-xs font-semibold text-[var(--color-text-muted)] tracking-[0.02em] mb-3 px-1">
+                    For clinics
+                  </p>
+                  <Link
+                    href="/clinics"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={`relative flex items-center px-4 py-3.5 rounded-lg text-[15px] font-medium transition-all duration-[var(--duration-fast)] ease-[var(--ease-ui)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card-elevated)] ${
+                      isActive("/clinics")
+                        ? "bg-[var(--color-accent-bg-subtle)] text-[var(--color-accent-primary)]"
+                        : "text-[var(--color-text-secondary)] hover:bg-white/5 hover:text-[var(--color-text-primary)]"
+                    }`}
+                  >
+                    {isActive("/clinics") && (
+                      <span
+                        className="absolute left-3 w-1 h-1 rounded-full bg-[var(--color-accent-primary)]"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span className={isActive("/clinics") ? "ml-5" : ""}>Clinics</span>
+                  </Link>
+                </div>
+
+                {/* Drawer Footer with CTA */}
+                <div className="px-6 py-6">
+                  <Button
+                    variant="primary"
+                    size="md"
+                    href="/your-arc"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-full"
+                  >
+                    Get Started
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-    </header>
-  );
-}
-
-// Mobile Dropdown Component
-function MobileDropdown({
-  title,
-  items,
-  onClose,
-}: {
-  title: string;
-  items: Array<{ label: string; href: string; external?: boolean }>;
-  onClose: () => void;
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="premium-nav-mobile-dropdown">
-      <button
-        className="premium-nav-mobile-dropdown-trigger"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {title}
-        <svg
-          className={`premium-nav-mobile-chevron ${isOpen ? "premium-nav-mobile-chevron-open" : ""}`}
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-        >
-          <path
-            d="M3 4.5L6 7.5L9 4.5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
-      {isOpen && (
-        <div className="premium-nav-mobile-dropdown-content">
-          {items.map((item) => (
-            item.external ? (
-              <a
-                key={item.href}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="premium-nav-mobile-dropdown-item"
-                onClick={onClose}
-              >
-                {item.label}
-              </a>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="premium-nav-mobile-dropdown-item"
-                onClick={onClose}
-              >
-                {item.label}
-              </Link>
-            )
-          ))}
-        </div>
-      )}
-    </div>
+    </>
   );
 }

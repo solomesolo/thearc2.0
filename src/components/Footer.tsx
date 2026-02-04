@@ -7,7 +7,7 @@ interface FooterProps {
   accentColor?: string;
 }
 
-export default function Footer({ accentColor = '#4DE4C1' }: FooterProps) {
+export default function Footer({ accentColor = '#5AD0B8' }: FooterProps) {
   const pathname = usePathname();
   const isOverlay = ["/contact", "/privacy-policy", "/terms"].includes(pathname);
 

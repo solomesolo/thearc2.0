@@ -5,35 +5,45 @@ import React from "react";
 interface ContainerProps {
   children: React.ReactNode;
   className?: string;
-  maxWidth?: "default" | "wide" | "narrow";
+  maxWidth?: "default" | "wide" | "narrow" | "editorial";
+  applySectionSpacing?: boolean;
 }
 
 export default function Container({ 
   children, 
   className = "",
-  maxWidth = "default"
+  maxWidth = "default",
+  applySectionSpacing = false
 }: ContainerProps) {
-  // Global horizontal padding system:
-  // Mobile (<768px): 24px
-  // Tablet (>=768px, <1024px): 32px
-  // Desktop (>=1024px, <1440px): 48px
-  // XL Desktop (>=1440px): 0px (centered with max-width)
+  // Container max-width system:
+  // default: 1200px (site-wide standard)
+  // wide: 1440px (for hero or wide content)
+  // narrow: 1024px (for focused content)
   
   const maxWidthClass = {
-    default: "max-w-[1280px]",
+    default: "max-w-[1200px]",
     wide: "max-w-[1440px]",
-    narrow: "max-w-[1024px]"
+    narrow: "max-w-[1024px]",
+    editorial: "max-w-[1120px]" // Tighter, more editorial width (1120px max)
   }[maxWidth];
   
-  // Padding system:
-  // Mobile (<768px): 20px (px-5)
-  // Tablet (>=768px, <1024px): 28px (px-7)
-  // Desktop (>=1024px, <1440px): 40px (px-10)
-  // Wide (>=1440px): 48px (px-12)
-  // Note: For hero sections, we may use custom padding
+  // Horizontal padding system - Strict baseline grid:
+  // Mobile (<768px): 16px (px-4) - space-3
+  // Desktop (>=768px): 32px (px-8) - space-5
+  
+  // Section spacing (vertical padding) - Strict baseline grid:
+  // Applied when applySectionSpacing={true}
+  // Mobile: 64px top/bottom - space-7
+  // Desktop: 96px top/bottom - space-7 * 1.5
+  
+  const sectionSpacingClass = applySectionSpacing
+    ? "py-16 md:py-24"
+    : "";
   
   return (
-    <div className={`w-full mx-auto ${maxWidthClass} px-5 md:px-7 lg:px-10 xl:px-12 ${className}`}>
+    <div 
+      className={`w-full mx-auto ${maxWidthClass} px-4 md:px-8 ${sectionSpacingClass} ${className}`}
+    >
       {children}
     </div>
   );

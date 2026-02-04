@@ -1,0 +1,677 @@
+/* Design Tokens - Premium UI System */
+
+:root {
+  /* ============================================
+     COLOR SYSTEM - Background Layers (Calm Charcoal + Mist)
+     ============================================ */
+  
+  /* Page Base - Near-black charcoal (not pure black) */
+  --bg-0: #070A0B;
+  --color-bg-page: var(--bg-0);
+  --color-bg-page-alt: var(--bg-0);
+  
+  /* Section Wash - Slightly lighter charcoal */
+  --bg-1: #0A0F10;
+  --color-bg-section: var(--bg-1);
+  --color-bg-section-elevated: rgba(10, 15, 16, 0.8);
+  
+  /* Floating Artifact - Subtle white overlay */
+  --surface-0: rgba(255, 255, 255, 0.04);
+  
+  /* Inner Surface - Slightly more visible */
+  --surface-1: rgba(255, 255, 255, 0.06);
+  --color-bg-card: var(--surface-1);
+  --color-bg-card-hover: rgba(255, 255, 255, 0.08);
+  --color-bg-card-elevated: rgba(255, 255, 255, 0.10);
+  
+  /* Border Colors - Hairlines (not outlines) */
+  --stroke-0: rgba(255, 255, 255, 0.08);
+  --color-border-base: var(--stroke-0);
+  --color-border-elevated: rgba(255, 255, 255, 0.10);
+  --color-border-accent: rgba(90, 208, 184, 0.25);
+  --color-border-accent-hover: rgba(90, 208, 184, 0.35);
+  
+  /* ============================================
+     COLOR SYSTEM - Text Tiers
+     ============================================ */
+  
+  /* Text Hierarchy - Calm mist layers */
+  --text-0: rgba(255, 255, 255, 0.92);
+  --color-text-primary: var(--text-0);
+  
+  --text-1: rgba(255, 255, 255, 0.72);
+  --color-text-secondary: var(--text-1);
+  
+  --text-2: rgba(255, 255, 255, 0.52);
+  --color-text-tertiary: var(--text-2);
+  --color-text-muted: var(--text-2);
+  --color-text-disabled: rgba(255, 255, 255, 0.35);
+  
+  /* ============================================
+     COLOR SYSTEM - Accent Colors
+     ============================================ */
+  
+  /* Primary Accent - Desaturated Mint (15-25% less saturated) */
+  /* Original: #4DE4C1 (RGB: 77, 228, 193) */
+  /* Desaturated ~20%: #5AD0B8 (RGB: 90, 208, 184) */
+  --color-accent-primary: #5AD0B8;
+  --color-accent-primary-hover: #6BE0C8;
+  --color-accent-primary-active: #4BC0A8;
+  
+  /* Accent Glows - Updated with desaturated accent */
+  --color-accent-glow-soft: rgba(90, 208, 184, 0.15);
+  --color-accent-glow-medium: rgba(90, 208, 184, 0.25);
+  --color-accent-glow-strong: rgba(90, 208, 184, 0.4);
+  
+  /* Accent Backgrounds - Updated with desaturated accent */
+  --color-accent-bg-subtle: rgba(90, 208, 184, 0.08);
+  --color-accent-bg-soft: rgba(90, 208, 184, 0.12);
+  --color-accent-bg-medium: rgba(90, 208, 184, 0.2);
+  
+  /* ============================================
+     SPACING SCALE (Strict 8pt baseline grid)
+     ============================================ */
+  
+  --space-0: 0;
+  --space-1: 8px;    /* 0.5rem - Baseline unit */
+  --space-2: 12px;   /* 0.75rem */
+  --space-3: 16px;   /* 1rem */
+  --space-4: 24px;   /* 1.5rem */
+  --space-5: 32px;   /* 2rem */
+  --space-6: 48px;   /* 3rem */
+  --space-7: 64px;   /* 4rem */
+  
+  /* Legacy aliases for compatibility */
+  --space-8: var(--space-5);   /* 32px */
+  --space-10: var(--space-5);  /* 32px (use space-5) */
+  --space-12: var(--space-6);  /* 48px */
+  --space-16: var(--space-7);  /* 64px */
+  --space-20: var(--space-7);  /* 64px (use space-7) */
+  --space-24: var(--space-7);  /* 64px (use space-7) */
+  --space-32: calc(var(--space-7) * 2); /* 128px */
+  --space-40: calc(var(--space-7) * 2.5); /* 160px */
+  
+  /* ============================================
+     SECTION SPACING SYSTEM
+     ============================================ */
+  
+  /* Section vertical padding (top/bottom) - Strict baseline grid */
+  --section-padding-y-mobile: var(--space-7);   /* 64px - Mobile */
+  --section-padding-y-desktop: calc(var(--space-7) * 1.5);  /* 96px - Desktop */
+  
+  /* ============================================
+     HERO SPACING RHYTHM (Baseline)
+     ============================================ */
+  
+  /* Hero top padding - Breathes, not crowded */
+  --hero-pad-top-mobile: 72px;
+  --hero-pad-top-desktop: 96px;
+  
+  /* Hero gap between blocks (H1, subhead, CTA, trust line) */
+  --hero-gap: 32px;  /* Between 28-36px, using 32px (middle value) */
+  
+  /* CTA row spacing above trust line */
+  --hero-cta-trust-gap: 19px;  /* Between 18-20px, using 19px (middle value) */
+  
+  /* Hero Editorial Grid - 12 columns, 1 column gap */
+  /* Container: 1120px max-width */
+  /* Gap calculation: In a 12-col grid, 1 column gap ≈ container width / 12 ≈ 93px */
+  /* Using a more practical gap: ~32px (space-5) feels proportional */
+  --hero-grid-gap: 32px;  /* 1 column gap (proportional to 12-col grid) */
+  
+  /* Container max width */
+  --container-max-width: 1200px;      /* 75rem */
+  
+  /* Container horizontal padding - Strict baseline grid */
+  --container-padding-x-mobile: var(--space-3);  /* 16px - Mobile */
+  --container-padding-x-desktop: var(--space-5); /* 32px - Desktop */
+  
+  /* ============================================
+     RADIUS SCALE
+     ============================================ */
+  
+  --radius-none: 0;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-3xl: 32px;
+  --radius-full: 9999px;
+  
+  /* Component-specific radius */
+  --radius-button: var(--radius-full);
+  --radius-card: var(--radius-xl);
+  --radius-input: var(--radius-md);
+  --radius-modal: var(--radius-2xl);
+  
+  /* ============================================
+     SHADOW / ELEVATION TOKENS - Clinical Elevation
+     ============================================ */
+  
+  /* Clinical Elevation - Soft, no heavy shadows */
+  --shadow-1: 0 10px 40px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 24px 70px rgba(0, 0, 0, 0.45);
+  
+  /* Inner Highlight - "Lit" feeling instead of outlines */
+  --inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  
+  /* Legacy Base Shadows (kept for compatibility, but prefer clinical elevation) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.7);
+  --shadow-2xl: 0 20px 40px rgba(0, 0, 0, 0.8);
+  
+  /* Accent Glow Shadows - Subtle */
+  --shadow-accent-sm: 0 0 12px var(--color-accent-glow-soft);
+  --shadow-accent-md: 0 0 20px var(--color-accent-glow-medium);
+  --shadow-accent-lg: 0 0 32px var(--color-accent-glow-strong);
+  
+  /* Combined Shadows - Using clinical elevation */
+  --shadow-card: var(--shadow-1), var(--inner-highlight);
+  --shadow-card-hover: var(--shadow-2), var(--inner-highlight);
+  --shadow-button: var(--shadow-xs), var(--inner-highlight);
+  --shadow-button-hover: var(--shadow-sm), var(--inner-highlight);
+  
+  /* Elevation Layers - Using clinical elevation */
+  --elevation-0: none;
+  --elevation-1: var(--shadow-1), var(--inner-highlight);
+  --elevation-2: var(--shadow-2), var(--inner-highlight);
+  --elevation-3: var(--shadow-1), var(--inner-highlight);
+  --elevation-4: var(--shadow-2), var(--inner-highlight);
+  --elevation-5: var(--shadow-2), var(--inner-highlight);
+  --elevation-6: var(--shadow-2), var(--inner-highlight);
+  
+  /* ============================================
+     CARD SYSTEM - Premium Elevation
+     ============================================ */
+  
+  /* Card Padding - Standardized - Strict baseline grid */
+  --card-padding: var(--space-5);        /* 32px - consistent across all cards */
+  --card-padding-compact: var(--space-4); /* 24px - for smaller cards */
+  --card-padding-large: var(--space-6);  /* 48px - for featured cards */
+  
+  /* Card Inner Stroke (replaces border) - Reduced to minimal */
+  --card-stroke-color: rgba(255, 255, 255, 0.02);
+  --card-stroke-width: 0px;
+  --card-stroke-inset: 0px;              /* Inner stroke using box-shadow inset */
+  
+  /* Card Shadows - Clinical elevation with inner highlight */
+  --card-shadow-base: var(--shadow-1), var(--inner-highlight);
+  --card-shadow-hover: var(--shadow-2), var(--inner-highlight);
+  --card-shadow-elevated: var(--shadow-2), var(--inner-highlight);
+  
+  /* Card Hover Transform - Calm lift */
+  --card-hover-translate: -2px;          /* Small upward movement */
+  
+  /* Card Icon Size - Standardized */
+  --card-icon-size: 24px;                /* Standard icon size */
+  --card-icon-size-large: 32px;          /* For featured cards */
+  --card-icon-size-small: 20px;          /* For compact cards */
+  
+  /* Card Title Style - Standardized */
+  --card-title-size: var(--font-h3-size);
+  --card-title-weight: var(--font-h3-weight);
+  --card-title-line-height: var(--font-h3-line-height);
+  --card-title-color: var(--color-text-primary);
+  --card-title-margin-bottom: var(--space-3);
+  
+  /* ============================================
+     MOTION TOKENS - Premium Calm System
+     ============================================ */
+  
+  /* Duration Scale - Consistent timing (no springy/elastic movement) */
+  --duration-fast: 140ms;      /* 120-160ms range: Quick interactions (hover, focus) */
+  --duration-normal: 240ms;    /* 200-260ms range: Standard transitions (panels, accordions) */
+  --duration-slow: 380ms;      /* 320-420ms range: Deliberate movements (modals, large panels) */
+  
+  /* Single Easing Curve - Consistent across all UI */
+  /* Smooth ease-out for natural, calm deceleration (no bounce/spring) */
+  --ease-ui: cubic-bezier(0.25, 0.8, 0.5, 1);
+  
+  /* Component Transitions - Using consistent tokens */
+  --transition-fast: var(--duration-fast) var(--ease-ui);
+  --transition-normal: var(--duration-normal) var(--ease-ui);
+  --transition-slow: var(--duration-slow) var(--ease-ui);
+  
+  /* Component-Specific Transitions */
+  --transition-button: var(--transition-fast);      /* Hover states */
+  --transition-card: var(--transition-normal);     /* Card hover */
+  --transition-accordion: var(--transition-normal); /* Accordion/disclosure */
+  --transition-panel: var(--transition-normal);     /* Panel swaps */
+  --transition-input: var(--transition-fast);      /* Input focus */
+  --transition-modal: var(--transition-slow);      /* Modal/drawer */
+  
+  /* Legacy tokens (kept for backward compatibility, but deprecated) */
+  --duration-base: var(--duration-normal);
+  --ease-out: var(--ease-ui);
+  --ease-smooth: var(--ease-ui);
+  
+  /* ============================================
+     GRADIENT NOISE / TEXTURE
+     ============================================ */
+  
+  /* Subtle gradient overlay for depth */
+  --gradient-noise: 
+    radial-gradient(circle at 20% 20%, rgba(90, 208, 184, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(90, 208, 184, 0.02) 0%, transparent 50%);
+  
+  /* Grain texture (SVG data URI) */
+  --grain-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  
+  /* ============================================
+     Z-INDEX SCALE
+     ============================================ */
+  
+  --z-base: 0;
+  --z-elevated: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 1000;
+  --z-modal: 2000;
+  --z-toast: 3000;
+  --z-tooltip: 4000;
+  
+  /* ============================================
+     TYPOGRAPHY SYSTEM - Premium Clinical Luxury Pairing
+     ============================================ */
+  
+  /* Font Families - Clinical Luxury */
+  /* Headline: Newsreader serif (display font) */
+  /* Note: --font-display is set by Next.js font loader in layout.tsx */
+  --font-family-headline: var(--font-display), Georgia, serif;
+  /* Body/UI: Inter sans */
+  /* Note: --font-sans is set by Next.js font loader in layout.tsx */
+  --font-family-body: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  /* H1 - Hero-specific type scale (expensive, not oversized marketing) */
+  --font-h1-hero-size-desktop: clamp(44px, 4vw, 64px);
+  --font-h1-hero-size-mobile: clamp(34px, 7vw, 44px);
+  --font-h1-hero-line-height: 1.08; /* Between 1.05-1.1 */
+  --font-h1-hero-letter-spacing: -0.02em; /* Only for H1 hero */
+  --font-h1-hero-weight: 600;
+  --font-h1-hero-font-family: var(--font-family-headline);
+  
+  /* H1 - Standard (non-hero) - Refined sans headline (consistent across site) */
+  --font-h1-size: 44px;           /* Editorial presence */
+  --font-h1-size-mobile: 36px;    /* Mobile */
+  --font-h1-weight: 600;          /* Semibold only (400/500/600) */
+  --font-h1-line-height: 1.15;    /* Tighter for impact */
+  --font-h1-letter-spacing: -0.02em; /* Tighter tracking for modern feel */
+  --font-h1-margin-bottom: var(--space-6);
+  --font-h1-font-family: var(--font-family-headline);
+  
+  /* Hero Subhead - Calm and clinical */
+  --font-hero-subhead-size-desktop: 18px;
+  --font-hero-subhead-size-mobile: 16px;
+  --font-hero-subhead-line-height: 1.625; /* Between 1.55-1.7 */
+  --font-hero-subhead-max-width: 46ch;
+  --font-hero-subhead-weight: 400;
+  --font-hero-subhead-font-family: var(--font-family-body);
+  
+  /* Nav Typography - Minimal, airy */
+  --font-nav-size: 13px;          /* 13-14px range */
+  --font-nav-size-desktop: 14px;
+  --font-nav-letter-spacing: 0.02em;
+  --font-nav-weight: 400;
+  --font-nav-font-family: var(--font-family-body);
+  
+  /* Trust Line Typography - Muted, quiet */
+  --font-trust-line-size: 12px;   /* 12-13px range */
+  --font-trust-line-size-desktop: 13px;
+  --font-trust-line-letter-spacing: 0.01em;
+  --font-trust-line-weight: 400;
+  --font-trust-line-font-family: var(--font-family-body);
+  
+  /* H2 - Section headings */
+  --font-h2-size: 32px;           /* Hierarchy */
+  --font-h2-size-mobile: 28px;    /* Mobile */
+  --font-h2-weight: 600;          /* Semibold only (400/500/600) */
+  --font-h2-line-height: 1.25;    /* Tighter for headings */
+  --font-h2-letter-spacing: -0.01em;
+  --font-h2-margin-bottom: var(--space-5);
+  --font-h2-font-family: var(--font-family-headline);
+  
+  /* H3 - Subsection headings */
+  --font-h3-size: 22px;           /* Slightly increased */
+  --font-h3-size-mobile: 20px;
+  --font-h3-weight: 600;          /* Semibold only (400/500/600) */
+  --font-h3-line-height: 1.35;
+  --font-h3-letter-spacing: -0.005em;
+  --font-h3-margin-bottom: var(--space-4);
+  --font-h3-font-family: var(--font-family-headline);
+  
+  /* Body - Primary (main content) - Increased size and line-height */
+  --font-body-size: 18px;         /* Increased from 17px for better readability */
+  --font-body-size-mobile: 17px;  /* Increased from 16px */
+  --font-body-weight: 400;        /* Regular only */
+  --font-body-line-height: 1.8;   /* Increased from 1.75 for editorial feel */
+  --font-body-letter-spacing: -0.01em; /* Slightly tighter for modern feel */
+  --font-body-margin-bottom: var(--space-6);
+  --font-body-color: var(--color-text-secondary);
+  --font-body-font-family: var(--font-family-body);
+  
+  /* Body - Secondary (supporting text) */
+  --font-body-secondary-size: 17px; /* Increased from 16px */
+  --font-body-secondary-size-mobile: 16px; /* Increased from 15px */
+  --font-body-secondary-weight: 400; /* Regular only */
+  --font-body-secondary-line-height: 1.75; /* Increased from 1.7 */
+  --font-body-secondary-letter-spacing: 0;
+  --font-body-secondary-margin-bottom: var(--space-5);
+  --font-body-secondary-color: var(--color-text-tertiary);
+  --font-body-secondary-font-family: var(--font-family-body);
+  
+  /* Label (form labels, metadata) - Quiet, calm */
+  --font-label-size: 14px;
+  --font-label-weight: 500;       /* Medium only (400/500/600) */
+  --font-label-line-height: 1.5;
+  --font-label-letter-spacing: 0.02em; /* Letter-spacing for nav/labels only */
+  --font-label-color: var(--text-2); /* Quieter: using text-2 instead of secondary */
+  --font-label-text-transform: none; /* Normal case, not uppercase */
+  --font-label-font-family: var(--font-family-body);
+  
+  /* Caption (small text, disclaimers) */
+  --font-caption-size: 13px;
+  --font-caption-weight: 400;     /* Regular only (400/500/600) */
+  --font-caption-line-height: 1.6;
+  --font-caption-letter-spacing: 0; /* No letter-spacing for captions */
+  --font-caption-color: var(--color-text-muted);
+  --font-caption-font-family: var(--font-family-body);
+  
+  /* Eyebrow (section labels) - Quiet, calm, no uppercase */
+  --font-eyebrow-size: 12px;
+  --font-eyebrow-weight: 500;     /* Medium only (400/500/600) */
+  --font-eyebrow-line-height: 1.4;
+  --font-eyebrow-letter-spacing: 0.02em; /* Letter-spacing for nav/labels only */
+  --font-eyebrow-text-transform: none; /* Normal case, never uppercase */
+  --font-eyebrow-color: var(--text-2); /* Quieter: using text-2 */
+  --font-eyebrow-font-family: var(--font-family-body);
+  
+  /* Nav link letter-spacing */
+  --font-nav-letter-spacing: 0.02em; /* Letter-spacing for nav/labels only */
+  
+  /* Paragraph spacing for readability */
+  --paragraph-spacing: var(--space-6); /* 24px between paragraphs */
+  --paragraph-max-width: 70ch;        /* Slightly wider for editorial feel */
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Background Layers */
+.bg-layer-page {
+  background-color: var(--color-bg-page);
+}
+
+.bg-layer-section {
+  background-color: var(--color-bg-section);
+}
+
+.bg-layer-card {
+  background-color: var(--color-bg-card);
+}
+
+.bg-layer-card-elevated {
+  background-color: var(--color-bg-card-elevated);
+}
+
+/* Text Colors */
+.text-tier-primary {
+  color: var(--color-text-primary);
+}
+
+.text-tier-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-tier-tertiary {
+  color: var(--color-text-tertiary);
+}
+
+.text-tier-muted {
+  color: var(--color-text-muted);
+}
+
+/* Accent Colors */
+.text-accent {
+  color: var(--color-accent-primary);
+}
+
+.bg-accent-subtle {
+  background-color: var(--color-accent-bg-subtle);
+}
+
+.border-accent {
+  border-color: var(--color-border-accent);
+}
+
+/* Shadows */
+.shadow-elevation-1 {
+  box-shadow: var(--elevation-1);
+}
+
+.shadow-elevation-2 {
+  box-shadow: var(--elevation-2);
+}
+
+.shadow-elevation-3 {
+  box-shadow: var(--elevation-3);
+}
+
+.shadow-elevation-4 {
+  box-shadow: var(--elevation-4);
+}
+
+.shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+.shadow-card-hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Transitions */
+.transition-base {
+  transition: all var(--transition-base);
+}
+
+.transition-slow {
+  transition: all var(--transition-slow);
+}
+
+.transition-smooth {
+  transition: all var(--transition-smooth);
+}
+
+/* ============================================
+   TYPOGRAPHY UTILITY CLASSES
+   ============================================ */
+
+/* H1 - Single consistent style */
+.typography-h1 {
+  font-size: var(--font-h1-size-mobile);
+  font-weight: var(--font-h1-weight);
+  line-height: var(--font-h1-line-height);
+  letter-spacing: var(--font-h1-letter-spacing);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--font-h1-margin-bottom) 0;
+}
+
+@media (min-width: 768px) {
+  .typography-h1 {
+    font-size: var(--font-h1-size);
+  }
+}
+
+/* H2 */
+.typography-h2 {
+  font-size: var(--font-h2-size-mobile);
+  font-weight: var(--font-h2-weight);
+  line-height: var(--font-h2-line-height);
+  letter-spacing: var(--font-h2-letter-spacing);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--font-h2-margin-bottom) 0;
+}
+
+@media (min-width: 768px) {
+  .typography-h2 {
+    font-size: var(--font-h2-size);
+  }
+}
+
+/* H3 */
+.typography-h3 {
+  font-size: var(--font-h3-size-mobile);
+  font-weight: var(--font-h3-weight);
+  line-height: var(--font-h3-line-height);
+  letter-spacing: var(--font-h3-letter-spacing);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--font-h3-margin-bottom) 0;
+}
+
+@media (min-width: 768px) {
+  .typography-h3 {
+    font-size: var(--font-h3-size);
+  }
+}
+
+/* Body - Primary */
+.typography-body {
+  font-size: var(--font-body-size-mobile);
+  font-weight: var(--font-body-weight);
+  line-height: var(--font-body-line-height);
+  letter-spacing: var(--font-body-letter-spacing);
+  color: var(--font-body-color);
+  margin: 0 0 var(--font-body-margin-bottom) 0;
+  max-width: var(--paragraph-max-width);
+}
+
+@media (min-width: 768px) {
+  .typography-body {
+    font-size: var(--font-body-size);
+  }
+}
+
+/* Body - Secondary */
+.typography-body-secondary {
+  font-size: var(--font-body-secondary-size-mobile);
+  font-weight: var(--font-body-secondary-weight);
+  line-height: var(--font-body-secondary-line-height);
+  letter-spacing: var(--font-body-secondary-letter-spacing);
+  color: var(--font-body-secondary-color);
+  margin: 0 0 var(--font-body-secondary-margin-bottom) 0;
+  max-width: var(--paragraph-max-width);
+}
+
+@media (min-width: 768px) {
+  .typography-body-secondary {
+    font-size: var(--font-body-secondary-size);
+  }
+}
+
+/* Label */
+.typography-label {
+  font-size: var(--font-label-size);
+  font-weight: var(--font-label-weight);
+  line-height: var(--font-label-line-height);
+  letter-spacing: var(--font-label-letter-spacing);
+  color: var(--font-label-color);
+  text-transform: var(--font-label-text-transform);
+}
+
+/* Caption */
+.typography-caption {
+  font-size: var(--font-caption-size);
+  font-weight: var(--font-caption-weight);
+  line-height: var(--font-caption-line-height);
+  letter-spacing: var(--font-caption-letter-spacing);
+  color: var(--font-caption-color);
+}
+
+/* Eyebrow */
+.typography-eyebrow {
+  font-size: var(--font-eyebrow-size);
+  font-weight: var(--font-eyebrow-weight);
+  line-height: var(--font-eyebrow-line-height);
+  letter-spacing: var(--font-eyebrow-letter-spacing);
+  text-transform: var(--font-eyebrow-text-transform);
+  color: var(--font-eyebrow-color);
+}
+
+/* ============================================
+   CARD SYSTEM UTILITY CLASSES
+   ============================================ */
+
+/* Base Card Style - Premium Elevation */
+.card-premium {
+  position: relative;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-card);
+  padding: var(--card-padding);
+  /* Inner stroke using inset box-shadow instead of border */
+  box-shadow: var(--card-shadow-base),
+              inset 0 0 0 var(--card-stroke-width) var(--card-stroke-color);
+  transition: transform var(--transition-card),
+              box-shadow var(--transition-card);
+  border: none;
+}
+
+/* Hover State - Calm Lift */
+.card-premium:hover:not(.no-hover) {
+  transform: translateY(var(--card-hover-translate));
+  box-shadow: var(--card-shadow-hover),
+              inset 0 0 0 var(--card-stroke-width) rgba(255, 255, 255, 0.08);
+}
+
+/* Card Variants */
+.card-compact {
+  padding: var(--card-padding-compact);
+}
+
+.card-large {
+  padding: var(--card-padding-large);
+}
+
+.card-elevated {
+  box-shadow: var(--card-shadow-elevated),
+              inset 0 0 0 var(--card-stroke-width) rgba(255, 255, 255, 0.08);
+}
+
+.card-elevated:hover:not(.no-hover) {
+  box-shadow: var(--card-shadow-elevated),
+              inset 0 0 0 var(--card-stroke-width) rgba(255, 255, 255, 0.1);
+  transform: translateY(calc(var(--card-hover-translate) * 1.5));
+}
+
+/* Card Icon Sizes */
+.card-icon {
+  width: var(--card-icon-size);
+  height: var(--card-icon-size);
+  flex-shrink: 0;
+}
+
+.card-icon-large {
+  width: var(--card-icon-size-large);
+  height: var(--card-icon-size-large);
+  flex-shrink: 0;
+}
+
+.card-icon-small {
+  width: var(--card-icon-size-small);
+  height: var(--card-icon-size-small);
+  flex-shrink: 0;
+}
+
+/* Card Title Style */
+.card-title {
+  font-size: var(--card-title-size);
+  font-weight: var(--card-title-weight);
+  line-height: var(--card-title-line-height);
+  color: var(--card-title-color);
+  margin: 0 0 var(--card-title-margin-bottom) 0;
+}
+
