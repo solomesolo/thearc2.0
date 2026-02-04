@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Section from "./Section";
 import SectionTitle from "./SectionTitle";
-import { ArcButton } from "./ui/ArcButton";
+import Button from "./ui/Button";
 import Link from "next/link";
 
 type ClinicFeatureId =
@@ -294,9 +294,9 @@ export default function ClinicsSection() {
 
               {/* CTA */}
               <div className="pt-2 space-y-2">
-                <ArcButton href="/clinics">
+                <Button href="/clinics">
                   Explore Clinics
-                </ArcButton>
+                </Button>
                 <div>
                   <Link
                     href="/contact"
