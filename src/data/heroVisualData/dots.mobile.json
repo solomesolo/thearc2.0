@@ -1,0 +1,89 @@
+{
+  "viewBox": [0, 0, 1000, 700],
+  "dots": [
+    {
+      "id": "d001",
+      "tier": "far",
+      "stateMode": "aligned",
+      "scatter": { "x": 160, "y": 180 },
+      "aligned": { "x": 230, "y": 448 }
+    },
+    {
+      "id": "d002",
+      "tier": "far",
+      "stateMode": "scatter",
+      "scatter": { "x": 280, "y": 150 },
+      "aligned": { "x": 250, "y": 445 }
+    },
+    {
+      "id": "d003",
+      "tier": "far",
+      "stateMode": "aligned",
+      "scatter": { "x": 450, "y": 200 },
+      "aligned": { "x": 420, "y": 410 }
+    },
+    {
+      "id": "d004",
+      "tier": "far",
+      "stateMode": "scatter",
+      "scatter": { "x": 620, "y": 170 },
+      "aligned": { "x": 550, "y": 385 }
+    },
+    {
+      "id": "d005",
+      "tier": "far",
+      "stateMode": "aligned",
+      "scatter": { "x": 780, "y": 190 },
+      "aligned": { "x": 700, "y": 355 }
+    },
+    {
+      "id": "d006",
+      "tier": "far",
+      "stateMode": "scatter",
+      "scatter": { "x": 920, "y": 160 },
+      "aligned": { "x": 850, "y": 335 }
+    },
+    {
+      "id": "n001",
+      "tier": "near",
+      "stateMode": "scatter",
+      "scatter": { "x": 150, "y": 350 },
+      "aligned": { "x": 180, "y": 450 }
+    },
+    {
+      "id": "n002",
+      "tier": "near",
+      "stateMode": "aligned",
+      "scatter": { "x": 320, "y": 320 },
+      "aligned": { "x": 300, "y": 440 }
+    },
+    {
+      "id": "n003",
+      "tier": "near",
+      "stateMode": "scatter",
+      "scatter": { "x": 480, "y": 340 },
+      "aligned": { "x": 450, "y": 400 }
+    },
+    {
+      "id": "n004",
+      "tier": "near",
+      "stateMode": "aligned",
+      "scatter": { "x": 640, "y": 330 },
+      "aligned": { "x": 600, "y": 375 }
+    },
+    {
+      "id": "n005",
+      "tier": "near",
+      "stateMode": "scatter",
+      "scatter": { "x": 800, "y": 360 },
+      "aligned": { "x": 750, "y": 345 }
+    },
+    {
+      "id": "n006",
+      "tier": "near",
+      "stateMode": "aligned",
+      "scatter": { "x": 950, "y": 350 },
+      "aligned": { "x": 900, "y": 340 }
+    }
+  ]
+}

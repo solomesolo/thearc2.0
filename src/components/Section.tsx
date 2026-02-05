@@ -7,25 +7,14 @@ interface SectionProps {
   id?: string;
   children: React.ReactNode;
   className?: string;
-  background?: "black" | "dark" | "section";
+  background?: "black" | "dark";
 }
 
-export default function Section({ id, children, className = "", background = "section" }: SectionProps) {
-  const bgClass = background === "section" 
-    ? "bg-layer-section" 
-    : background === "dark" 
-    ? "bg-layer-page" 
-    : "bg-layer-page";
-  
+export default function Section({ id, children, className = "", background = "black" }: SectionProps) {
   return (
     <section 
       id={id} 
-      className={`w-full ${bgClass} ${className}`}
-      style={{
-        backgroundColor: background === "section" 
-          ? 'var(--color-bg-section)' 
-          : 'var(--color-bg-page)'
-      }}
+      className={`w-full bg-black ${className}`}
     >
       <Container applySectionSpacing={true}>
         {children}

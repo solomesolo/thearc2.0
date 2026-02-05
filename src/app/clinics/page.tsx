@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Section from "../../components/Section";
 import SectionTitle from "../../components/SectionTitle";
 import Container from "../../components/Container";
-import Button from "../../components/ui/Button";
+import { ArcButton } from "../../components/ui/ArcButton";
 import { FAQAccordion } from "../../components/ui/FAQAccordion";
 import Link from "next/link";
 
@@ -250,17 +250,17 @@ export default function ClinicsPage() {
                 transition={{ duration: 0.6 }}
                 className="space-y-6"
               >
-                <p className="typography-eyebrow">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
                   For clinics
                 </p>
-                <h1 className="typography-h1">
+                <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
                   A clinical operating system for preventive care
                 </h1>
-                <p className="typography-body">
+                <p className="text-lg text-gray-300 leading-relaxed">
                   Arc gives clinics a unified patient timeline, risk triage, and intervention workflows designed for longitudinal medicine.
                 </p>
                 <div className="space-y-3">
-                  <Button variant="primary" href="/contact">Request a demo</Button>
+                  <ArcButton href="/contact">Request a demo</ArcButton>
                   <div>
                     <Link
                       href="#workflows"
@@ -998,7 +998,7 @@ export default function ClinicsPage() {
                 See how this looks inside the clinical dashboard
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Button href="/contact">Request a demo</Button>
+                <ArcButton href="/contact">Request a demo</ArcButton>
                 <Link
                   href="/clinics#workflows"
                   className="text-sm text-[#4DEECD] hover:text-[#4DEECD]/80 transition-colors inline-flex items-center gap-2"
@@ -1415,7 +1415,7 @@ export default function ClinicsPage() {
 
           <div className="text-center space-y-6">
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="/contact">Request a demo</Button>
+              <ArcButton href="/contact">Request a demo</ArcButton>
               <Link
                 href="/contact"
                 className="px-6 py-3 rounded-full border border-white/20 text-white text-sm font-medium hover:border-white/40 transition-colors inline-flex items-center justify-center"

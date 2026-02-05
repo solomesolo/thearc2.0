@@ -2,20 +2,16 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import EmailSignupModal from "../components/EmailSignupModal";
+import PartnershipModal from "../components/PartnershipModal";
 import { HeroSection } from "../components/HeroSection";
-import Button from "../components/ui/Button";
+import { ArcButton } from "../components/ui/ArcButton";
 import Section from "../components/Section";
 import SectionTitle from "../components/SectionTitle";
 import { FAQAccordion } from "../components/ui/FAQAccordion";
 import ReactiveByDesignSection from "../components/ReactiveByDesignSection";
-import Disclosure from "../components/ui/Disclosure";
 import HowItWorksSection from "../components/HowItWorksSection";
 import ClinicsSection from "../components/ClinicsSection";
-import TimelineDemoSection from "../components/TimelineDemoSection";
-import ReactiveFeaturePanels from "../components/ReactiveFeaturePanels";
-import DataSourcesPrivacyTrust from "../components/DataSourcesPrivacyTrust";
-import TierDecisionHelper from "../components/TierDecisionHelper";
 import Link from "next/link";
 
 
@@ -161,7 +157,7 @@ function MarketplaceContent() {
     audience: MarketplaceAudience
   ) => (
     <div className="mt-4 rounded-xl bg-[#050607] border border-white/10 p-4 md:p-5 space-y-3">
-      <p className="text-xs font-medium text-[var(--text-2)] tracking-[0.02em]">
+      <p className="text-xs font-semibold text-gray-300 uppercase tracking-[0.12em]">
         How it connects to your timeline
       </p>
       <p className="text-sm text-gray-300">{category.timelineConnection}</p>
@@ -179,45 +175,21 @@ function MarketplaceContent() {
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+    <div className="arc-marketplace-grid">
       {/* Right side on mobile: tabs and category list */}
-      <div className="space-y-6 order-1 lg:order-2">
-        {/* Tabs */}
-        <div className="flex gap-2 border-b border-white/10" role="tablist" aria-label="Marketplace audience">
+      <div className="arc-marketplace-right order-1 lg:order-2">
+        {/* Tabs - Editorial Toggle Style */}
+        <div className="arc-marketplace-tabs">
+          <div className="arc-marketplace-tabs-baseline" />
           <button
             type="button"
-            role="tab"
-            aria-selected={activeTab === "individuals"}
-            aria-controls="marketplace-content-individuals"
-            id="marketplace-tab-individuals"
             onClick={() => setActiveTab("individuals")}
-            onKeyDown={(e) => {
-              if (e.key === "ArrowRight") {
-                e.preventDefault();
-                setActiveTab("clinics");
-                document.getElementById("marketplace-tab-clinics")?.focus();
-              }
-              if (e.key === "Home") {
-                e.preventDefault();
-                setActiveTab("individuals");
-                document.getElementById("marketplace-tab-individuals")?.focus();
-              }
-              if (e.key === "End") {
-                e.preventDefault();
-                setActiveTab("clinics");
-                document.getElementById("marketplace-tab-clinics")?.focus();
-              }
-            }}
-            className={`px-4 py-2 text-sm font-medium transition-all relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] rounded-t-md ${
-              activeTab === "individuals"
-                ? "text-[#4DEECD]"
-                : "text-gray-400 hover:text-gray-200"
-            }`}
+            className={`arc-marketplace-tab ${activeTab === "individuals" ? 'arc-marketplace-tab-active' : 'arc-marketplace-tab-inactive'}`}
           >
             For individuals
             {activeTab === "individuals" && (
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#4DEECD]"
+                className="arc-marketplace-tab-indicator"
                 layoutId="marketplaceTab"
                 transition={{ duration: 0.18 }}
               />
@@ -225,38 +197,13 @@ function MarketplaceContent() {
           </button>
           <button
             type="button"
-            role="tab"
-            aria-selected={activeTab === "clinics"}
-            aria-controls="marketplace-content-clinics"
-            id="marketplace-tab-clinics"
             onClick={() => setActiveTab("clinics")}
-            onKeyDown={(e) => {
-              if (e.key === "ArrowLeft") {
-                e.preventDefault();
-                setActiveTab("individuals");
-                document.getElementById("marketplace-tab-individuals")?.focus();
-              }
-              if (e.key === "Home") {
-                e.preventDefault();
-                setActiveTab("individuals");
-                document.getElementById("marketplace-tab-individuals")?.focus();
-              }
-              if (e.key === "End") {
-                e.preventDefault();
-                setActiveTab("clinics");
-                document.getElementById("marketplace-tab-clinics")?.focus();
-              }
-            }}
-            className={`px-4 py-2 text-sm font-medium transition-all relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] rounded-t-md ${
-              activeTab === "clinics"
-                ? "text-[#4DEECD]"
-                : "text-gray-400 hover:text-gray-200"
-            }`}
+            className={`arc-marketplace-tab ${activeTab === "clinics" ? 'arc-marketplace-tab-active' : 'arc-marketplace-tab-inactive'}`}
           >
             For clinics
             {activeTab === "clinics" && (
               <motion.div
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#4DEECD]"
+                className="arc-marketplace-tab-indicator"
                 layoutId="marketplaceTab"
                 transition={{ duration: 0.18 }}
               />
@@ -265,18 +212,15 @@ function MarketplaceContent() {
         </div>
 
         {/* Category list */}
-        <div className="relative">
+        <div className="arc-marketplace-categories">
           <AnimatePresence mode="wait">
               <motion.div
               key={activeTab}
-                role="tabpanel"
-                id={`marketplace-content-${activeTab}`}
-                aria-labelledby={`marketplace-tab-${activeTab}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               transition={{ duration: 0.18 }}
-                className="space-y-3"
+                className="arc-marketplace-categories-list"
               >
               {marketplaceCategories.map((category) => {
                 const isActive = category.id === activeCategoryId;
@@ -289,34 +233,22 @@ function MarketplaceContent() {
                     <button
                       type="button"
                       onClick={() => handleCategoryToggle(category.id)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          handleCategoryToggle(category.id);
-                        }
-                      }}
-                      className={`w-full text-left rounded-[20px] border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] ${
-                        isActive
-                          ? "border-[#4DEECD]/40 bg-gradient-to-b from-[#0b0b0b] to-[#121212] shadow-[0_0_20px_rgba(77,238,205,0.12)]"
-                          : "border-white/10 bg-[#050607]"
-                      }`}
-                      aria-pressed={isActive}
-                      tabIndex={0}
+                      className={`arc-marketplace-category ${isActive ? 'arc-marketplace-category-active' : 'arc-marketplace-category-inactive'}`}
                     >
-                      <div className="flex items-center justify-between gap-3 px-4 py-4 md:px-5 md:py-4">
-                        <div className="flex items-start gap-3">
-                          <div className="mt-1 w-2.5 h-2.5 rounded-full bg-[#4DEECD] shadow-[0_0_10px_rgba(77,238,205,0.8)]" />
-                          <div>
-                            <p className="text-sm font-semibold text-white">
-                              {category.name}
-                            </p>
-                            <p className="text-xs text-gray-300 mt-1">
-                              {description}
-                            </p>
-                          </div>
+                      {/* Left indicator strip (active only) */}
+                      {isActive && <div className="arc-marketplace-category-indicator" />}
+                      
+                      <div className="arc-marketplace-category-content">
+                        <div className="arc-marketplace-category-text">
+                          <p className={`arc-marketplace-category-title ${isActive ? 'arc-marketplace-category-title-active' : 'arc-marketplace-category-title-inactive'}`}>
+                            {category.name}
+                          </p>
+                          <p className="arc-marketplace-category-description">
+                            {description}
+                          </p>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <span className="text-xs text-gray-400">
+                        <div className="arc-marketplace-category-meta">
+                          <span className="arc-marketplace-category-examples">
                             Examples: {category.exampleCount} options
                           </span>
                           <motion.span
@@ -324,7 +256,7 @@ function MarketplaceContent() {
                             initial={false}
                             animate={{ rotate: isActive ? 90 : 0 }}
                             transition={{ duration: 0.18 }}
-                            className="text-gray-400"
+                            className="arc-marketplace-category-chevron"
                           >
                             <svg
                               width="16"
@@ -356,27 +288,27 @@ function MarketplaceContent() {
                           transition={{ duration: 0.22, ease: "easeInOut" }}
                           className="overflow-hidden"
                         >
-                          <div className="px-5 pt-3 pb-4 md:pb-5 space-y-3">
-                            <div className="space-y-1">
-                              <p className="text-xs font-semibold text-gray-400">
+                          <div className="arc-marketplace-category-expanded">
+                            <div className="arc-marketplace-category-examples-block">
+                              <p className="arc-marketplace-category-examples-label">
                                 Example options
                               </p>
-                              <ul className="space-y-1">
+                              <ul className="arc-marketplace-category-examples-list">
                                 {examples.map((item) => (
                                   <li
                                     key={item}
-                                    className="text-sm text-gray-200 flex items-center gap-2"
+                                    className="arc-marketplace-category-examples-item"
                                   >
-                                    <span className="w-1.5 h-1.5 rounded-full bg-[#4DEECD]" />
+                                    <span className="arc-marketplace-category-examples-dot" />
                                     <span>{item}</span>
                                   </li>
                                 ))}
                               </ul>
                             </div>
-                            <div className="pt-1">
+                            <div className="arc-marketplace-category-view-link">
                               <Link
                                 href={category.href}
-                                className="text-xs text-[#4DEECD] hover:text-[#4DEECD]/80 font-medium inline-flex items-center gap-1"
+                                className="arc-marketplace-category-view-link-text"
                               >
                                 View options
                                 <span aria-hidden="true">→</span>
@@ -400,29 +332,21 @@ function MarketplaceContent() {
       </div>
 
       {/* Left side: explanation and desktop contextual panel */}
-      <div className="space-y-6 order-2 lg:order-1">
-        <div className="space-y-3">
-          <p className="typography-eyebrow">
-            Integrated marketplace
+      <div className="arc-marketplace-left order-2 lg:order-1">
+        <div className="arc-marketplace-left-content">
+          <p className="arc-marketplace-eyebrow">
+            INTEGRATED MARKETPLACE
           </p>
-          <h3 className="typography-h3">
+          <h3 className="arc-marketplace-subheadline">
             Act on your data with the right services
           </h3>
-          <div className="space-y-3 max-w-xl">
-            <Disclosure
-              summary="Arc links every test device and service back to your health timeline so you can see what's relevant now, what's optional, and what unlocks the next step."
-              details={
-                <div className="space-y-2">
-                  <p className="typography-body-secondary">
-                    Everything is contextual. Nothing is generic. Marketplace options appear when your data and goals reach a point where a diagnostic device or service can move you forward.
-                  </p>
-                  <p className="text-sm text-gray-400 italic">
-                    Example: A change in a marker can prompt a new diagnostic and the result adjusts your plan automatically.
-                  </p>
-                </div>
-              }
-              label="See example"
-            />
+          <div className="arc-marketplace-body">
+            <p>
+              Arc links every test device and service back to your health timeline. You can see what is relevant now what is optional and what unlocks the next step.
+            </p>
+            <p className="arc-marketplace-principle">
+              Everything is contextual. Nothing is generic.
+            </p>
           </div>
         </div>
 
@@ -432,7 +356,7 @@ function MarketplaceContent() {
             renderDetailsCard(activeCategory, activeTab)
           ) : (
             <div className="mt-4 rounded-xl bg-[#050607] border border-white/10 p-5 space-y-3">
-              <p className="text-xs font-medium text-[var(--text-2)] tracking-[0.02em]">
+              <p className="text-xs font-semibold text-gray-300 uppercase tracking-[0.12em]">
                 How it connects to your timeline
               </p>
               <p className="text-sm text-gray-300">
@@ -445,14 +369,17 @@ function MarketplaceContent() {
           )}
         </div>
 
-        <div className="pt-2 space-y-2">
-          <Button variant="primary" href="/catalog">
+        <div className="arc-marketplace-cta">
+          <button
+            onClick={() => window.location.href = '/catalog'}
+            className="arc-marketplace-cta-button"
+          >
             Explore Marketplace
-          </Button>
+          </button>
           <div>
             <Link
               href="/method"
-              className="mt-2 inline-flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors"
+              className="arc-marketplace-secondary-link"
             >
               <span>See how recommendations are generated</span>
             </Link>
@@ -483,10 +410,11 @@ function TierCard({
   index: number;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const isTierTwo = index === 1;
 
   return (
     <motion.div
-      className="card-premium flex flex-col h-full"
+      className={`arc-tier-card ${isTierTwo ? 'arc-tier-card-tier-two' : ''}`}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
@@ -494,68 +422,66 @@ function TierCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Tier Name */}
-      <p className="typography-eyebrow mb-2">{tierName}</p>
+      {/* Tier Name (Eyebrow) */}
+      <p className="arc-tier-eyebrow">{tierName}</p>
 
       {/* Title */}
-      <h3 className="card-title">{title}</h3>
+      <h3 className="arc-tier-title">{title}</h3>
 
       {/* Best For */}
-      <div className="mb-6">
-        <p className="text-sm text-gray-400 mb-2">Best for:</p>
-        <p className="text-sm text-gray-300 leading-relaxed">{bestFor}</p>
+      <div className="arc-tier-best-for">
+        <span className="arc-tier-best-for-label">Best for:</span>
+        <span className="arc-tier-best-for-text">{bestFor}</span>
       </div>
 
       {/* Core Features */}
-      <div className="flex-1 mb-6">
-        <p className="text-sm text-gray-400 mb-3">Core features:</p>
-        <ul className="space-y-2">
+      <div className="arc-tier-features">
+        <p className="arc-tier-features-label">Core features:</p>
+        <ul className="arc-tier-features-list">
           {coreFeatures.map((feature, idx) => (
-            <li key={idx} className="flex items-start gap-2">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 20 20"
-                fill="none"
-                className="text-[#4DEECD] flex-shrink-0 mt-0.5"
-              >
-                <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="2" />
-                <path
-                  d="M6 10L9 13L14 7"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span className="text-sm text-gray-300 leading-relaxed">{feature}</span>
+            <li key={idx} className="arc-tier-feature-item">
+              <div className="arc-tier-feature-icon">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1" />
+                  <path
+                    d="M6 10L9 13L14 7"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              <span className="arc-tier-feature-text">{feature}</span>
             </li>
           ))}
         </ul>
       </div>
 
       {/* Primary CTA */}
-      <button
-        onClick={ctaAction}
-                className={`w-full py-3 px-4 rounded-lg font-medium text-sm transition-all ${
-                  isHovered
-                    ? "bg-[#4DEECD] text-black"
-                    : "bg-white/10 text-[#4DEECD] border border-[#4DEECD]/30 hover:bg-white/15"
-                } focus:outline-none focus:ring-2 focus:ring-[#4DEECD] focus:ring-offset-2 focus:ring-offset-black`}
-        onFocus={() => setIsHovered(true)}
-        onBlur={() => setIsHovered(false)}
-      >
-        {cta}
-      </button>
+      <div className="arc-tier-cta-wrapper">
+        <button
+          onClick={ctaAction}
+          className="arc-tier-cta-button"
+          onFocus={() => setIsHovered(true)}
+          onBlur={() => setIsHovered(false)}
+        >
+          {cta}
+        </button>
+      </div>
     </motion.div>
   );
 }
 
-// Capability Card Component with Progressive Disclosure
+// Capability Card Component
 function CapabilityCard({
   icon,
   title,
-  summary,
   explanation,
   youGet,
   example,
@@ -563,92 +489,84 @@ function CapabilityCard({
 }: {
   icon: React.ReactNode;
   title: string;
-  summary: string; // 1-sentence summary
-  explanation?: string[]; // Expandable details
-  youGet?: string;
-  example?: string;
+  explanation: string[];
+  youGet: string;
+  example: string;
   index: number;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.div
-      className="card-premium relative overflow-hidden group"
+      className="arc-capability-card"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Icon */}
-      <div className="card-icon text-accent mb-4">
+      <div className="arc-capability-icon">
         {icon}
       </div>
 
       {/* Title */}
-      <h3 className="card-title">{title}</h3>
+      <h3 className="arc-capability-title">{title}</h3>
 
-      {/* 1-sentence summary - always visible */}
-      <p className="typography-body mb-4">{summary}</p>
+      {/* Explanation (two lines) */}
+      <div className="arc-capability-explanation">
+        <p>{explanation[0]}</p>
+        <p>{explanation[1]}</p>
+      </div>
 
-      {/* Expandable details */}
-      {explanation && explanation.length > 0 && (
-        <div className="mt-2">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="group flex items-center gap-2 text-sm font-medium text-accent hover:text-[var(--color-accent-primary-hover)] transition-colors"
-            aria-expanded={isOpen}
-            aria-label={isOpen ? "Hide details" : "Learn how"}
-          >
-            <span>{isOpen ? "Hide" : "Learn how"}</span>
-            <motion.div
-              animate={{ rotate: isOpen ? 180 : 0 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-            >
-              <ChevronDown className="w-4 h-4" strokeWidth={2} />
-            </motion.div>
-          </button>
+      {/* You Get line with divider */}
+      <div className="arc-capability-you-get-wrapper">
+        <p className="arc-capability-you-get">
+          {youGet.startsWith('You get:') ? (
+            <>
+              <span className="arc-capability-you-get-label">You get:</span>
+              <span className="arc-capability-you-get-text">{youGet.slice(9).trim()}</span>
+            </>
+          ) : (
+            youGet
+          )}
+        </p>
+      </div>
 
-          <AnimatePresence initial={false}>
-            {isOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ 
-                  duration: 0.3, 
-                  ease: [0.16, 1, 0.3, 1]
-                }}
-                className="overflow-hidden"
-              >
-                <div className="pt-4 mt-2 border-t border-[var(--color-border-base)] space-y-2">
-                  {explanation.map((line, idx) => (
-                    <p key={idx} className="typography-body-secondary">{line}</p>
-                  ))}
-                  {youGet && (
-                    <p className="text-accent text-sm font-medium mt-3">{youGet}</p>
-                  )}
-                  {example && (
-                    <p className="text-tier-muted text-xs italic mt-2">{example}</p>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+      {/* Example line (reveals on hover) */}
+      <motion.div
+        className="overflow-hidden"
+        initial={{ opacity: 0, height: 0 }}
+        animate={{
+          opacity: isHovered ? 1 : 0,
+          height: isHovered ? "auto" : 0,
+        }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+      >
+        <div className="mt-3 pt-3 border-t border-white/10">
+          <p className="text-gray-400 text-xs italic">{example}</p>
         </div>
-      )}
+      </motion.div>
     </motion.div>
   );
 }
 
 export default function HomePage() {
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showPartnershipModal, setShowPartnershipModal] = useState(false);
 
   return (
-    <div className="min-h-screen bg-layer-page text-tier-primary" style={{ backgroundColor: 'var(--color-bg-page)' }}>
+    <div className="min-h-screen bg-black text-white">
       {/* home.hero */}
       <section id="home.hero">
         <HeroSection
-          headline="Your health is not fragmented. Your data is."
-          subheadline="The Arc turns years of scattered medical data into a single health trajectory—so you can see risk earlier and act with confidence."
-          primaryCTA={{ label: "Get Started", href: "/your-arc" }}
+          title="The End of Fragmented Health."
+          subtitle="Your data, your concierge, and your longevity strategy in a single, unified system. We alert you when to act and provide your doctor with the intelligence to help you live longer."
+          supportingLine="Built for individuals longevity programs and clinics."
+          primaryCTA={{ label: "Get Started", onClick: () => setShowEmailModal(true) }}
+          secondaryCTA={{ label: "For Clinics and Doctors", href: "/clinics" }}
+          image={{ src: "/header main page.png", alt: "The Arc cinematic hero" }}
         />
       </section>
 
@@ -656,110 +574,242 @@ export default function HomePage() {
       <ReactiveByDesignSection />
 
       {/* home.capabilities */}
-      <section id="home.capabilities">
+      <section id="home.capabilities" className="arc-capabilities-section">
         <Section>
-          <motion.div
-            className="space-y-12"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-          >
-            <div className="text-center space-y-6 mb-12">
-              <SectionTitle className="text-center">
-                What you can do in The Arc
-              </SectionTitle>
-            </div>
+          <div className="arc-capabilities-wrapper">
+            <motion.div
+              className="arc-capabilities-content"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.9, ease: "easeOut" }}
+            >
+              <div className="arc-capabilities-heading-block">
+                <h2 className="arc-capabilities-heading">
+                  What you can do in The Arc
+                </h2>
+                <div className="arc-capabilities-heading-divider" />
+              </div>
 
-            {/* Reactive Feature Panels */}
-            <ReactiveFeaturePanels />
-          </motion.div>
+              {/* Capability Cards Grid */}
+              <div className="arc-capabilities-card-grid">
+                {[
+                  {
+                    icon: (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                      </svg>
+                    ),
+                    title: "Centralize medical documents",
+                    explanation: [
+                      "Upload lab results, doctor notes, and test reports.",
+                      "Everything lives in one secure place."
+                    ],
+                    youGet: "You get: One source of truth for all your health data.",
+                    example: "Example: Lab results from 3 different clinics in one timeline."
+                  },
+                  {
+                    icon: (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                      </svg>
+                    ),
+                    title: "Build a health timeline",
+                    explanation: [
+                      "See your health history in chronological order.",
+                      "Understand how your health has changed over time."
+                    ],
+                    youGet: "You get: A clear view of your health journey.",
+                    example: "Example: Blood pressure readings from 2020 to 2024."
+                  },
+                  {
+                    icon: (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                    ),
+                    title: "Detect patterns across time",
+                    explanation: [
+                      "Spot trends that single appointments miss.",
+                      "See connections between different health markers."
+                    ],
+                    youGet: "You get: Early warning signs before problems escalate.",
+                    example: "Example: Rising LDL over 18 months."
+                  },
+                  {
+                    icon: (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                      </svg>
+                    ),
+                    title: "Track health trends",
+                    explanation: [
+                      "Monitor improvements or declines in key metrics.",
+                      "Know what's getting better and what needs attention."
+                    ],
+                    youGet: "You get: Clear visibility into what's changing.",
+                    example: "Example: Vitamin D levels improving after supplementation."
+                  },
+                  {
+                    icon: (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 20V10" />
+                        <path d="M12 20V4" />
+                        <path d="M6 20v-6" />
+                      </svg>
+                    ),
+                    title: "Get intervention updates",
+                    explanation: [
+                      "Receive alerts when action is recommended.",
+                      "Know exactly what to test or change next."
+                    ],
+                    youGet: "You get: Proactive guidance, not reactive care.",
+                    example: "Example: Alert when cholesterol pattern suggests retest."
+                  },
+                  {
+                    icon: (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                      </svg>
+                    ),
+                    title: "Share a clean export with doctors",
+                    explanation: [
+                      "Generate a summary of your health timeline.",
+                      "Give doctors context they need in one document."
+                    ],
+                    youGet: "You get: Better care coordination with your providers.",
+                    example: "Example: PDF export with last 2 years of key metrics."
+                  },
+                ].map((capability, index) => (
+                  <CapabilityCard
+                    key={index}
+                    icon={capability.icon}
+                    title={capability.title}
+                    explanation={capability.explanation}
+                    youGet={capability.youGet}
+                    example={capability.example}
+                    index={index}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </Section>
       </section>
 
       {/* home.tiers */}
-      <section id="home.tiers">
+      <section id="home.tiers" className="arc-tiers-section">
         <Section>
-          <motion.div
-            className="space-y-12"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1, margin: "100px" }}
-            transition={{ duration: 0.38, ease: [0.25, 0.8, 0.5, 1] }}
-          >
-            <TierDecisionHelper />
-          </motion.div>
+          <div className="arc-tiers-wrapper">
+            <motion.div
+              className="arc-tiers-content"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.9, ease: "easeOut" }}
+            >
+              <div className="arc-tiers-heading-block">
+                <h2 className="arc-tiers-heading">
+                  Choose Your Tier
+                </h2>
+                <div className="arc-tiers-heading-divider" />
+              </div>
+
+              {/* Two Tier Cards */}
+              <div className="arc-tiers-card-grid">
+                {[
+                  {
+                    tierName: "Tier One",
+                    title: "Health Intelligence",
+                    bestFor: "Individuals who want to understand their health data",
+                    coreFeatures: [
+                      "A unified medical record",
+                      "Interpreted health trends across history",
+                      "Early signals before problems escalate",
+                    ],
+                    cta: "Explore Health Intelligence",
+                    ctaAction: () => setShowEmailModal(true),
+                  },
+                  {
+                    tierName: "Tier Two",
+                    title: "Longevity Programs",
+                    bestFor: "Those who want personalized guidance and programs",
+                    coreFeatures: [
+                      "Personalized programs based on your health data",
+                      "Modular blueprints focused on specific health goals",
+                      "Programs that evolve with your health",
+                    ],
+                    cta: "Explore Programs",
+                    ctaAction: () => setShowEmailModal(true),
+                  },
+                ].map((tier, index) => (
+                  <TierCard
+                    key={index}
+                    tierName={tier.tierName}
+                    title={tier.title}
+                    bestFor={tier.bestFor}
+                    coreFeatures={tier.coreFeatures}
+                    cta={tier.cta}
+                    ctaAction={tier.ctaAction}
+                    index={index}
+                  />
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </Section>
       </section>
 
       {/* home.howItWorks */}
-      <HowItWorksSection onCTAClick={() => window.location.href = "/your-arc"} />
-
-      {/* home.timelineDemo */}
-      <TimelineDemoSection />
+      <HowItWorksSection onCTAClick={() => setShowEmailModal(true)} />
 
       {/* home.marketplace */}
-      <section id="home.marketplace">
+      <section id="home.marketplace" className="arc-marketplace-section">
         <Section>
-          <motion.div
-            className="space-y-8"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
-          >
-            <div className="text-center space-y-6 mb-12">
-              <SectionTitle className="text-center">
-                From insight to intervention
-              </SectionTitle>
-            </div>
+          <div className="arc-marketplace-wrapper">
+            <motion.div
+              className="arc-marketplace-content"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.9, ease: "easeOut" }}
+            >
+              <div className="arc-marketplace-heading-block">
+                <h2 className="arc-marketplace-heading">
+                  Trusted services, matched to your timeline
+                </h2>
+              </div>
 
-            {/* Two Column Layout */}
-            <MarketplaceContent />
-          </motion.div>
+              {/* Two Column Layout */}
+              <MarketplaceContent />
+            </motion.div>
+          </div>
         </Section>
       </section>
 
       {/* home.clinics */}
       <ClinicsSection />
 
-      {/* home.trust */}
-      <DataSourcesPrivacyTrust />
-
       {/* home.trustFaq */}
-      <section id="home.trustFaq">
+      <section id="home.trustFaq" className="arc-faq-section">
         <Section>
-          <div className="max-w-5xl mx-auto space-y-12">
-            {/* Trust Bar */}
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              {[
-                "Privacy and security",
-                "Medical clarity not medical replacement",
-                "Data export and portability",
-              ].map((point, index) => (
-                <div
-                  key={index}
-                  className="text-center p-4 rounded-lg bg-white/5 border border-white/10"
-                >
-                  <p className="text-sm text-gray-300">{point}</p>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* Short FAQ */}
-            <div className="space-y-6">
-              <div className="text-center">
-                <SectionTitle className="text-center">
+          <div className="arc-faq-wrapper">
+            {/* FAQ */}
+            <div className="arc-faq-content">
+              <div className="arc-faq-heading-block">
+                <h2 className="arc-faq-heading">
                   Frequently asked questions
-                </SectionTitle>
+                </h2>
+                <div className="arc-faq-heading-divider" />
               </div>
-              <div className="space-y-4">
+              <div className="arc-faq-accordion-list">
                 {[
                   {
                     q: "What makes The Arc different from regular health apps?",
@@ -790,10 +840,10 @@ export default function HomePage() {
                   />
                 ))}
               </div>
-              <div className="text-center pt-4">
+              <div className="arc-faq-view-all">
                 <Link
                   href="/faq"
-                  className="text-[#4DEECD] hover:text-[#4DEECD]/80 text-sm font-medium transition-colors inline-flex items-center gap-2"
+                  className="arc-faq-view-all-link"
                 >
                   View all FAQs
                   <svg
@@ -816,28 +866,36 @@ export default function HomePage() {
       </section>
 
       {/* home.finalCta */}
-      <section id="home.finalCta">
+      <section id="home.finalCta" className="arc-final-cta-section">
         <Section>
-          <div className="max-w-4xl mx-auto">
+          <div className="arc-final-cta-wrapper">
+            {/* Top Divider Separating FAQ from CTA */}
+            <div className="arc-final-cta-divider" />
             <motion.div
-              className="text-center space-y-8"
+              className="arc-final-cta-content"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.9, ease: "easeOut" }}
             >
-              <SectionTitle className="text-center">
+              <h2 className="arc-final-cta-statement">
                 Health is not a moment. It is a trajectory.
-              </SectionTitle>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="primary" href="/your-arc">
+              </h2>
+              <div className="arc-final-cta-buttons">
+                <button
+                  onClick={() => setShowEmailModal(true)}
+                  className="arc-final-cta-button-primary"
+                >
                   Get Started with Health Intelligence
-                </Button>
-                <Button variant="secondary" href="/clinics">
+                </button>
+                <button
+                  onClick={() => setShowEmailModal(true)}
+                  className="arc-final-cta-button-secondary"
+                >
                   Talk to Us Clinics and Doctors
-                </Button>
+                </button>
               </div>
-              <p className="text-sm text-gray-400 mt-4">
+              <p className="arc-final-cta-setup">
                 Set up takes minutes. You can start with uploads.
               </p>
             </motion.div>
@@ -845,6 +903,8 @@ export default function HomePage() {
         </Section>
       </section>
 
+      <EmailSignupModal isOpen={showEmailModal} onClose={() => setShowEmailModal(false)} />
+      <PartnershipModal isOpen={showPartnershipModal} onClose={() => setShowPartnershipModal(false)} />
     </div>
   );
 }

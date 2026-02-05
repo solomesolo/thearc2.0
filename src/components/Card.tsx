@@ -6,30 +6,18 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   hover?: boolean;
-  variant?: "default" | "compact" | "large" | "elevated";
 }
 
-export default function Card({ 
-  children, 
-  className = "", 
-  hover = true,
-  variant = "default"
-}: CardProps) {
-  const variantClass = variant === "compact" 
-    ? "card-compact" 
-    : variant === "large" 
-    ? "card-large" 
-    : variant === "elevated"
-    ? "card-elevated"
+export default function Card({ children, className = "", hover = true }: CardProps) {
+  const hoverClass = hover 
+    ? "hover:border-[#4DE4C1] hover:shadow-[0_0_20px_rgba(77,228,193,0.2)]" 
     : "";
-  
-  const hoverClass = hover ? "" : "no-hover";
   
   return (
     <div
-      className={`card-premium ${variantClass} ${hoverClass} ${className}`}
+      className={`bg-[#111111] border border-[#222222] rounded-[14px] p-8 transition-all ${hoverClass} ${className}`}
       style={{
-        transform: hover ? undefined : "none",
+        padding: '32px'
       }}
     >
       {children}

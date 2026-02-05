@@ -142,3 +142,4 @@
 
 The right column implementation meets all acceptance criteria and prevents all failure conditions.
 
+

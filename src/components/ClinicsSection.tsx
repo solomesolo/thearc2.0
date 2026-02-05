@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Section from "./Section";
 import SectionTitle from "./SectionTitle";
-import Button from "./ui/Button";
+import { ArcButton } from "./ui/ArcButton";
 import Link from "next/link";
 
 type ClinicFeatureId =
@@ -123,28 +123,34 @@ const clinicFeatures: ClinicFeature[] = [
     id: "protocols",
     label: "Protocol prescribing and tracking",
     preview: (
-      <div className="space-y-3">
-        <div className="pb-2 border-b border-white/5">
-          <h4 className="text-sm font-semibold text-white mb-1">Cardiometabolic optimization</h4>
-          <p className="text-xs text-gray-400">Active protocol</p>
+      <div className="arc-clinics-preview-content">
+        <div className="arc-clinics-preview-header">
+          <h4 className="arc-clinics-preview-header-title">Cardiometabolic optimization</h4>
+          <p className="arc-clinics-preview-header-subhead">Active protocol</p>
         </div>
-        <div className="space-y-3">
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-gray-400">Adherence</span>
-              <span className="text-xs text-white font-medium">87%</span>
+        <div className="arc-clinics-preview-sections">
+          <div className="arc-clinics-preview-section">
+            <div className="arc-clinics-preview-section-header">
+              <span className="arc-clinics-preview-section-label">Adherence</span>
+              <span className="arc-clinics-preview-section-value">87%</span>
             </div>
-            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-              <div className="h-full bg-[#4DEECD] rounded-full" style={{ width: "87%" }}></div>
+            <div className="arc-clinics-preview-progress">
+              <div className="arc-clinics-preview-progress-track">
+                <div className="arc-clinics-preview-progress-fill" style={{ width: "87%" }}></div>
+              </div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-400">Next review</span>
-            <span className="text-white font-medium">14 days</span>
+          <div className="arc-clinics-preview-section">
+            <div className="arc-clinics-preview-section-header">
+              <span className="arc-clinics-preview-section-label">Next review</span>
+              <span className="arc-clinics-preview-section-value">14 days</span>
+            </div>
           </div>
-          <div className="pt-2 border-t border-white/5">
-            <p className="text-xs text-gray-400 mb-2">Adjustments</p>
-            <p className="text-xs text-gray-300">Reduced intervention frequency based on improved markers</p>
+          <div className="arc-clinics-preview-section arc-clinics-preview-section-divider">
+            <div className="arc-clinics-preview-section-header">
+              <span className="arc-clinics-preview-section-label">Adjustments</span>
+            </div>
+            <p className="arc-clinics-preview-section-body">Reduced intervention frequency based on improved markers</p>
           </div>
         </div>
       </div>
@@ -255,66 +261,69 @@ export default function ClinicsSection() {
   };
 
   return (
-    <section id="home.clinics">
+    <section id="home.clinics" className="arc-clinics-section">
       <Section>
-        <div className="max-w-6xl mx-auto">
+        <div className="arc-clinics-wrapper">
           {/* Section Header - Visible on all screen sizes */}
-          <div className="mb-8 md:mb-12">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 mb-3">
-              For clinics
+          <div className="arc-clinics-heading-block">
+            <p className="arc-clinics-eyebrow">
+              FOR CLINICS
             </p>
-            <SectionTitle className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+            <h2 className="arc-clinics-headline">
               Clinical operating system for preventive care
-            </SectionTitle>
-            <p className="text-gray-300 leading-relaxed max-w-3xl">
+            </h2>
+            <p className="arc-clinics-subhead">
               A unified patient timeline, actionable risk signals, and intervention workflows designed for longitudinal medicine.
             </p>
           </div>
 
           {/* Desktop: Two column layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          <div className="arc-clinics-grid">
             {/* Left Column */}
-            <div className="space-y-6 order-2 lg:order-1">
+            <div className="arc-clinics-left order-2 lg:order-1">
 
-              {/* Proof Points */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-3">
-                <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-                  <h4 className="text-sm font-semibold text-white mb-1">One patient view</h4>
-                  <p className="text-xs text-gray-300">See every test note protocol and intervention in one place.</p>
+              {/* Proof Points - Clinical Capability Slabs */}
+              <div className="arc-clinics-benefits">
+                <div className="arc-clinics-benefit-card">
+                  <h4 className="arc-clinics-benefit-title">One patient view</h4>
+                  <p className="arc-clinics-benefit-body">See every test note protocol and intervention in one place.</p>
                 </div>
-                <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-                  <h4 className="text-sm font-semibold text-white mb-1">Faster prioritization</h4>
-                  <p className="text-xs text-gray-300">Detect risk shifts early and route cases to the right workflow.</p>
+                <div className="arc-clinics-benefit-card">
+                  <h4 className="arc-clinics-benefit-title">Faster prioritization</h4>
+                  <p className="arc-clinics-benefit-body">Detect risk shifts early and route cases to the right workflow.</p>
                 </div>
-                <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-                  <h4 className="text-sm font-semibold text-white mb-1">Documented outcomes</h4>
-                  <p className="text-xs text-gray-300">Track plans over time, measure results, and document changes.</p>
+                <div className="arc-clinics-benefit-card">
+                  <h4 className="arc-clinics-benefit-title">Documented outcomes</h4>
+                  <p className="arc-clinics-benefit-body">Track plans over time, measure results, and document changes.</p>
                 </div>
               </div>
 
               {/* CTA */}
-              <div className="pt-2 space-y-2">
-                <Button href="/clinics">
+              <div className="arc-clinics-cta">
+                <button
+                  onClick={() => window.location.href = '/clinics'}
+                  className="arc-clinics-cta-button"
+                >
                   Explore Clinics
-                </Button>
+                </button>
                 <div>
                   <Link
                     href="/contact"
-                    className="text-sm text-gray-300 hover:text-white transition-colors inline-flex items-center gap-2"
+                    className="arc-clinics-secondary-link"
                   >
                     Request a demo
                   </Link>
                 </div>
-                <p className="text-xs text-gray-400 pt-2">
+                <p className="arc-clinics-disclaimer">
                   Not a replacement for clinical judgment. Built to support longitudinal care workflows.
                 </p>
               </div>
             </div>
 
-            {/* Right Column: Feature list and preview */}
-            <div className="space-y-4 order-1 lg:order-2">
-              {/* Feature List */}
-              <div className="space-y-1.5">
+            {/* Right Column: Protocol Index + Preview */}
+            <div className="arc-clinics-right order-1 lg:order-2">
+              {/* Protocol Index List */}
+              <div className="arc-clinics-protocol-list">
                 {clinicFeatures.map((feature) => {
                   const isActive = feature.id === activeFeature;
                   return (
@@ -328,31 +337,30 @@ export default function ClinicsSection() {
                           handleFeatureClick(feature.id);
                         }
                       }}
-                      className={`w-full text-left p-3 rounded-[20px] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
-                        isActive
-                          ? "border-[#4DEECD]/40 bg-gradient-to-b from-[#0b0b0b] to-[#121212] shadow-[0_0_20px_rgba(77,238,205,0.12)]"
-                          : "border-white/10 bg-[#050607] hover:border-white/25"
-                      }`}
+                      className={`arc-clinics-protocol-row ${isActive ? 'arc-clinics-protocol-row-active' : 'arc-clinics-protocol-row-inactive'}`}
                       aria-label={`View ${feature.label} preview`}
                       aria-pressed={isActive}
                       role="button"
                       tabIndex={0}
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-[#4DEECD] flex-shrink-0"></div>
-                        <span className="text-sm font-medium text-white">{feature.label}</span>
+                      {/* Left indicator strip (active only) */}
+                      {isActive && <div className="arc-clinics-protocol-row-indicator" />}
+                      
+                      <div className="arc-clinics-protocol-row-content">
+                        <div className={`arc-clinics-protocol-row-dot ${isActive ? 'arc-clinics-protocol-row-dot-active' : 'arc-clinics-protocol-row-dot-inactive'}`} />
+                        <span className="arc-clinics-protocol-row-title">{feature.label}</span>
                       </div>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Preview Panel */}
-              <div ref={previewRef} className="mt-4">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-[0.1em] mb-3">
-                  Preview
+              {/* Preview Panel - Clinical Protocol Sheet */}
+              <div ref={previewRef} className="arc-clinics-preview">
+                <p className="arc-clinics-preview-label">
+                  PREVIEW
                 </p>
-                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-5 shadow-[0_0_15px_rgba(77,238,205,0.05)] min-h-[280px]">
+                <div className="arc-clinics-preview-container">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeFeature}

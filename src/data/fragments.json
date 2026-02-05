@@ -1,0 +1,59 @@
+{
+  "fragments": [
+    {
+      "id": "fragment-01",
+      "src": "fragment-01.avif",
+      "placement": {
+        "anchor": "left",
+        "x": 0.05,
+        "y": 0.14,
+        "w": 0.20,
+        "h": 0.17,
+        "rotationDeg": 0
+      },
+      "opacity": 0.10,
+      "mask": {
+        "type": "radial",
+        "feather": 0.35
+      },
+      "priority": true
+    },
+    {
+      "id": "fragment-02",
+      "src": "fragment-02.avif",
+      "placement": {
+        "anchor": "right",
+        "x": 0.75,
+        "y": 0.17,
+        "w": 0.18,
+        "h": 0.14,
+        "rotationDeg": -6
+      },
+      "opacity": 0.08,
+      "mask": {
+        "type": "radial",
+        "feather": 0.40
+      },
+      "priority": false
+    },
+    {
+      "id": "fragment-03",
+      "src": "fragment-03.avif",
+      "placement": {
+        "anchor": "center",
+        "x": 0.30,
+        "y": 0.64,
+        "w": 0.15,
+        "h": 0.13,
+        "rotationDeg": 3
+      },
+      "opacity": 0.09,
+      "mask": {
+        "type": "radial",
+        "feather": 0.38
+      },
+      "priority": false
+    }
+  ]
+}
+

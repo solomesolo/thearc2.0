@@ -1,0 +1,90 @@
+{
+  "viewBox": [0, 0, 1000, 700],
+  "dots": [
+    {
+      "id": "d001",
+      "tier": "far",
+      "scatter": {"x": 120, "y": 180},
+      "aligned": {"x": 210, "y": 410},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "d002",
+      "tier": "far",
+      "scatter": {"x": 280, "y": 150},
+      "aligned": {"x": 250, "y": 405},
+      "stateMode": "scatter"
+    },
+    {
+      "id": "d003",
+      "tier": "far",
+      "scatter": {"x": 450, "y": 200},
+      "aligned": {"x": 400, "y": 380},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "d004",
+      "tier": "far",
+      "scatter": {"x": 620, "y": 170},
+      "aligned": {"x": 550, "y": 360},
+      "stateMode": "scatter"
+    },
+    {
+      "id": "d005",
+      "tier": "far",
+      "scatter": {"x": 780, "y": 190},
+      "aligned": {"x": 700, "y": 340},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "d006",
+      "tier": "far",
+      "scatter": {"x": 920, "y": 160},
+      "aligned": {"x": 850, "y": 320},
+      "stateMode": "scatter"
+    },
+    {
+      "id": "n001",
+      "tier": "near",
+      "scatter": {"x": 150, "y": 350},
+      "aligned": {"x": 180, "y": 400},
+      "stateMode": "scatter"
+    },
+    {
+      "id": "n002",
+      "tier": "near",
+      "scatter": {"x": 320, "y": 320},
+      "aligned": {"x": 300, "y": 390},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "n003",
+      "tier": "near",
+      "scatter": {"x": 480, "y": 340},
+      "aligned": {"x": 450, "y": 370},
+      "stateMode": "scatter"
+    },
+    {
+      "id": "n004",
+      "tier": "near",
+      "scatter": {"x": 640, "y": 330},
+      "aligned": {"x": 600, "y": 360},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "n005",
+      "tier": "near",
+      "scatter": {"x": 800, "y": 360},
+      "aligned": {"x": 750, "y": 350},
+      "stateMode": "scatter"
+    },
+    {
+      "id": "n006",
+      "tier": "near",
+      "scatter": {"x": 950, "y": 350},
+      "aligned": {"x": 900, "y": 340},
+      "stateMode": "aligned"
+    }
+  ]
+}
+

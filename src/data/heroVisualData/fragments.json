@@ -1,0 +1,10 @@
+[
+  {
+    "id": "fragment-01",
+    "src": "/hero/fragment-01.avif",
+    "placement": { "x": 0.62, "y": 0.12, "w": 0.42, "h": 0.52, "rot": -6 },
+    "opacity": 0.10,
+    "mask": { "type": "radial", "feather": 0.35 }
+  }
+]
+

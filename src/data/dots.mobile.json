@@ -1,0 +1,48 @@
+{
+  "viewBox": [0, 0, 1000, 700],
+  "dots": [
+    {
+      "id": "d001",
+      "tier": "far",
+      "scatter": {"x": 120, "y": 180},
+      "aligned": {"x": 210, "y": 410},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "d003",
+      "tier": "far",
+      "scatter": {"x": 450, "y": 200},
+      "aligned": {"x": 400, "y": 380},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "d005",
+      "tier": "far",
+      "scatter": {"x": 780, "y": 190},
+      "aligned": {"x": 700, "y": 340},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "n002",
+      "tier": "near",
+      "scatter": {"x": 320, "y": 320},
+      "aligned": {"x": 300, "y": 390},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "n004",
+      "tier": "near",
+      "scatter": {"x": 640, "y": 330},
+      "aligned": {"x": 600, "y": 360},
+      "stateMode": "aligned"
+    },
+    {
+      "id": "n006",
+      "tier": "near",
+      "scatter": {"x": 950, "y": 350},
+      "aligned": {"x": 900, "y": 340},
+      "stateMode": "aligned"
+    }
+  ]
+}
+

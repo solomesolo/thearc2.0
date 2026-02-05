@@ -1,0 +1,14 @@
+{
+  "viewBox": [0, 0, 1000, 700],
+  "signal": {
+    "t": 0.72,
+    "x": 735,
+    "y": 312,
+    "tooltipOffset": {"dx": 14, "dy": -18},
+    "emphasisZone": {
+      "tStart": 0.65,
+      "tEnd": 0.80
+    }
+  }
+}
+

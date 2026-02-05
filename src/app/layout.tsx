@@ -1,30 +1,32 @@
 import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./mobile-responsive.css";
+import Footer from "../components/Footer";
+import HeroWithOverlay from "../components/HeroWithOverlay";
+import DNABackground from "../components/DNABackground";
+import MainLayoutClient from "../components/MainLayoutClient";
+import Header from "../components/Header";
 import { Analytics } from "@vercel/analytics/next";
-import { Newsreader, Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import CookieConsent from "../components/CookieConsent";
 import MixPanelProvider from "../components/MixPanelProvider";
-import MarketingLayoutWrapper from "../components/MarketingLayoutWrapper";
 
-// Premium type pairing: Clinical luxury
-// Headline serif: Newsreader (clinical luxury)
-const newsreader = Newsreader({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-display",
-  display: "swap",
-  preload: true,
 });
 
-// UI/body sans: Inter
-const inter = Inter({
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-sans",
-  display: "swap",
-  preload: true,
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-montserrat",
 });
 
 export const metadata: Metadata = {
@@ -47,28 +49,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-      </head>
-      <body className={`${newsreader.variable} ${inter.variable} font-sans antialiased bg-black text-white min-h-screen flex flex-col`}>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe 
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MJ4KKD9N"
-            height="0" 
-            width="0" 
-            style={{display: 'none', visibility: 'hidden'}}
-          />
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
-        
-        {/* Deferred analytics scripts */}
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
+        {/* Google Tag Manager */}
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -80,13 +62,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
         
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17631760134"
-          strategy="afterInteractive"
-        />
-        <Script
-          id="gtag-config"
-          strategy="afterInteractive"
+        {/* Google Ads Conversion Tracking (gtag.js) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17631760134"></script>
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -96,11 +74,26 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             `,
           }}
         />
-
+        
+      </head>
+      <body className={`${montserrat.variable} font-montserrat antialiased bg-black text-white min-h-screen flex flex-col`}>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe 
+            src="https://www.googletagmanager.com/ns.html?id=GTM-MJ4KKD9N"
+            height="0" 
+            width="0" 
+            style={{display: 'none', visibility: 'hidden'}}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
+        
         <MixPanelProvider />
-        <MarketingLayoutWrapper>
+        <Header />
+        <MainLayoutClient>
           {children}
-        </MarketingLayoutWrapper>
+        </MainLayoutClient>
+        <Footer />
         <CookieConsent />
         <Analytics />
       </body>

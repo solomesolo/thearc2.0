@@ -4,7 +4,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import Section from "./Section";
 import SectionTitle from "./SectionTitle";
-import Disclosure from "./ui/Disclosure";
 import {
   FileText,
   RefreshCw,
@@ -26,11 +25,11 @@ const cardData: CardData[] = [
     bullets: [
       {
         text: "Medical history is scattered across reports portals and inboxes",
-        icon: <FileText className="w-4 h-4" />,
+        icon: <FileText className="w-[18px] h-[18px]" />,
       },
       {
         text: "Each appointment starts without context",
-        icon: <RefreshCw className="w-4 h-4" />,
+        icon: <RefreshCw className="w-[18px] h-[18px]" />,
       },
     ],
     microLine: "Result: you only react after symptoms or surprises",
@@ -40,11 +39,11 @@ const cardData: CardData[] = [
     bullets: [
       {
         text: "A single timeline that connects every test visit and note",
-        icon: <Activity className="w-4 h-4" />,
+        icon: <Activity className="w-[18px] h-[18px]" />,
       },
       {
         text: "Clear signals when something changes over time",
-        icon: <TrendingUp className="w-4 h-4" />,
+        icon: <TrendingUp className="w-[18px] h-[18px]" />,
       },
     ],
     microLine: "Missing link: continuity",
@@ -54,11 +53,11 @@ const cardData: CardData[] = [
     bullets: [
       {
         text: "One place for all records with a living health timeline",
-        icon: <Activity className="w-4 h-4" />,
+        icon: <Activity className="w-[18px] h-[18px]" />,
       },
       {
         text: "Updates that tell you what to do next",
-        icon: <Bell className="w-4 h-4" />,
+        icon: <Bell className="w-[18px] h-[18px]" />,
       },
     ],
     microLine: "Outcome: earlier clarity and better decisions",
@@ -69,29 +68,34 @@ const bridgeLabels = ["Scattered", "No continuity", "Continuous timeline"];
 
 export default function ReactiveByDesignSection() {
   return (
-    <section id="home.problem">
+    <section id="home.problem" className="reactive-by-design-section">
       <Section>
-        <div className="space-y-12">
+        <div className="reactive-by-design-wrapper">
+          {/* Text Block - max width 920px */}
+          <div className="reactive-by-design-text-block">
+            {/* Editorial Spotlight - radial gradient behind heading */}
+            <div className="reactive-by-design-spotlight" />
+            
             {/* Eyebrow */}
-            <div className="text-center space-y-6">
-              <p className="text-sm tracking-[0.02em] text-[var(--text-2)]">
-                Why it feels hard
-              </p>
-              <SectionTitle className="text-center">
-                Health today is reactive by design
-              </SectionTitle>
-              <div className="max-w-3xl mx-auto">
-                <Disclosure
-                  summary="Your data is everywhere. Your history is nowhere. Arc turns scattered records into a continuous timeline you can act on."
-                  details={
-                    <p className="typography-body-secondary">
-                      It is not more data. It is continuity. Arc connects every test, visit, and note into one living timeline that shows you what's changing and what to do next.
-                    </p>
-                  }
-                  label="Learn how"
-                />
-              </div>
-            </div>
+            <p className="reactive-by-design-eyebrow">
+              WHY IT FEELS HARD
+            </p>
+            
+            {/* H2 */}
+            <h2 className="reactive-by-design-heading">
+              Health today is reactive by design
+            </h2>
+            
+            {/* Subhead */}
+            <p className="reactive-by-design-subhead">
+              Your data is everywhere. Your history is nowhere. Arc turns scattered records into a continuous timeline you can act on.
+            </p>
+            
+            {/* Kicker */}
+            <p className="reactive-by-design-kicker">
+              It is not more data. It is continuity.
+            </p>
+          </div>
 
             {/* Bridge Visual - Desktop */}
             <motion.div
@@ -131,61 +135,59 @@ export default function ReactiveByDesignSection() {
               </div>
             </motion.div>
 
-            {/* Three Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {cardData.map((card, index) => (
-                <motion.div
-                  key={index}
-                  className={`p-6 rounded-lg border transition-all relative overflow-hidden group ${
-                    index === 1
-                      ? "bg-white/6 border-white/20"
-                      : "bg-white/5 border-white/10 hover:border-white/20"
-                  }`}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
-                >
-                  {/* Title */}
-                  <h3 className="text-lg font-semibold text-white mb-3">
-                    {card.title}
-                  </h3>
+          {/* Card Grid - max width 1120px */}
+          <div className="reactive-by-design-card-grid">
+            {cardData.map((card, index) => (
+              <motion.div
+                key={index}
+                className="reactive-by-design-card"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
+              >
+                {/* Card Title */}
+                <h3 className="reactive-by-design-card-title">
+                  {card.title}
+                </h3>
 
-                  {/* Bullets */}
-                  <div className="space-y-2 mb-4">
-                    {card.bullets.map((bullet, bulletIndex) => (
-                      <div
-                        key={bulletIndex}
-                        className="flex flex-col md:flex-row md:items-start gap-2 md:gap-3"
-                      >
-                        <div className="text-[#4DEECD] flex-shrink-0">
-                          {bullet.icon}
-                        </div>
-                        <p className="text-gray-300 text-sm leading-relaxed">
-                          {bullet.text}
-                        </p>
+                {/* Bullets */}
+                <div className="reactive-by-design-bullets">
+                  {card.bullets.map((bullet, bulletIndex) => (
+                    <div
+                      key={bulletIndex}
+                      className="reactive-by-design-bullet-row"
+                    >
+                      <div className="reactive-by-design-bullet-icon">
+                        {bullet.icon}
                       </div>
-                    ))}
-                  </div>
+                      <p className="reactive-by-design-bullet-text">
+                        {bullet.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
-                  {/* Micro line */}
-                  <p className="text-xs mb-0" style={{ color: "rgba(156, 163, 175, 0.6)" }}>
+                {/* Micro line with divider */}
+                <div className="reactive-by-design-micro-line-wrapper">
+                  <p className="reactive-by-design-micro-line">
                     {card.microLine}
                   </p>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Optional button */}
-            <div className="text-center">
-              <Link
-                href="#home.capabilities"
-                className="text-sm text-[#4DEECD] hover:text-[#4DEECD]/80 transition-colors inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#4DEECD] focus:ring-offset-2 focus:ring-offset-black rounded px-2 py-1"
-              >
-                See how the timeline works
-              </Link>
-            </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
+
+          {/* Optional button */}
+          <div className="text-center">
+            <Link
+              href="#home.capabilities"
+              className="text-sm text-[#4DEECD] hover:text-[#4DEECD]/80 transition-colors inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#4DEECD] focus:ring-offset-2 focus:ring-offset-black rounded px-2 py-1"
+            >
+              See how the timeline works
+            </Link>
+          </div>
+        </div>
       </Section>
     </section>
   );

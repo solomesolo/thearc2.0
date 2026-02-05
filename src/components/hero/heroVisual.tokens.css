@@ -1,0 +1,73 @@
+/**
+ * Hero Visual Tokens
+ * 
+ * CSS variables are defined in .hero-section-wrapper in globals.css.
+ * This file provides CSS classes that use those variables.
+ * 
+ * Variables defined in hero wrapper:
+ * --hero-bg: #0B0E10
+ * --dot-far: rgba(236,218,200,.14)
+ * --dot-near: rgba(236,218,200,.26)
+ * --curve: rgba(214,140,86,.62)
+ * --curve-soft: rgba(214,140,86,.20)
+ * --band: rgba(236,218,200,.05)
+ * --signal: #9FD8C6
+ * --signal-halo: rgba(159,216,198,.18)
+ */
+
+/* Hero Visual SVG Elements - Using hero-local CSS variables */
+/* These variables are hardcoded in .hero-section-wrapper and do not reference global theme */
+
+/* Background fill */
+.hero-section-wrapper .hero-bg-fill {
+  fill: var(--hero-bg);
+}
+
+/* Dots */
+.hero-section-wrapper .hero-dot-far {
+  fill: var(--dot-far);
+}
+
+.hero-section-wrapper .hero-dot-near {
+  fill: var(--dot-near);
+}
+
+/* Reference band - clinical "range slab" */
+.hero-section-wrapper .hero-band {
+  fill: var(--band);
+}
+
+/* Faint stroke highlight for band (1px, low opacity) */
+.hero-section-wrapper .hero-band-highlight {
+  stroke: rgba(255, 255, 255, 0.06);
+  opacity: 0.35;
+}
+
+/* Curve */
+.hero-section-wrapper .hero-curve-understroke {
+  stroke: var(--curve-soft);
+  /* --curve-soft: rgba(214,140,86,.20) - opacity already included in color value */
+}
+
+.hero-section-wrapper .hero-curve-stroke {
+  stroke: var(--curve);
+}
+
+.hero-section-wrapper .hero-curve-lift {
+  stroke: var(--curve-soft);
+}
+
+/* Signal */
+.hero-section-wrapper .hero-signal-dot {
+  fill: var(--signal);
+}
+
+.hero-section-wrapper .hero-signal-halo-circle {
+  fill: var(--signal-halo);
+}
+
+.hero-section-wrapper .hero-signal-halo-ring {
+  stroke: rgba(159, 216, 198, 0.22);
+  /* Exact specification: r=14, stroke rgba(159,216,198,.22), strokeWidth 2 */
+}
+

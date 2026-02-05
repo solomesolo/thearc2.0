@@ -144,3 +144,4 @@ The `min-height: 0` property is essential because:
 - `src/app/cabinet/priority-queue/page.tsx` - Priority queue page
 - `src/components/cabinet/CabinetFooterStatus.tsx` - Footer component
 
+

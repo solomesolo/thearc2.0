@@ -116,3 +116,4 @@ To implement the alternative layout:
 3. Update responsive breakpoints if needed:
    - At narrower widths, may need to stack or hide sub-rail
 
+

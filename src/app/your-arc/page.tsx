@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "../../components/Container";
-import Button from "../../components/ui/Button";
+import { ArcButton } from "../../components/ui/ArcButton";
 import Link from "next/link";
 
 type OutcomeId = "inflammation" | "blood-timing" | "sleep-pattern";
@@ -213,7 +213,7 @@ export default function YourArcPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.7, delay: 0.1 }}
-              className="typography-h1"
+              className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-tight"
             >
               Your medical data is already shaping your future health.
               <br />
@@ -225,7 +225,7 @@ export default function YourArcPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.7, delay: 0.2 }}
-              className="typography-body max-w-2xl mx-auto"
+              className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto"
             >
               Arc brings your medical records into one living timeline so you can spot meaningful change early and decide what to do next.
             </motion.p>
@@ -710,7 +710,7 @@ export default function YourArcPage() {
 
           {/* CTA */}
           <div className="text-center space-y-4">
-            <Button variant="primary" href="/contact">Request early access</Button>
+            <ArcButton href="/contact">Request early access</ArcButton>
             <p className="text-xs text-gray-400 leading-relaxed">
               Arc connects you to care. It never pushes decisions.
             </p>
@@ -897,7 +897,7 @@ export default function YourArcPage() {
               Early access gives you a head start on visibility, coordination, and action.
             </p>
             <div className="pt-4">
-              <Button variant="primary" href="/contact">Request early access</Button>
+              <ArcButton href="/contact">Request early access</ArcButton>
             </div>
             <p className="text-xs text-gray-400 pt-4">
               You own your data. Always.

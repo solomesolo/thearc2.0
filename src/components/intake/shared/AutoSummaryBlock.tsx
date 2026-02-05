@@ -27,3 +27,4 @@ export default function AutoSummaryBlock({ summary, hint }: AutoSummaryBlockProp
   );
 }
 
+

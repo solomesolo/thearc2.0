@@ -7,59 +7,59 @@ interface FooterProps {
   accentColor?: string;
 }
 
-export default function Footer({ accentColor = '#5AD0B8' }: FooterProps) {
+export default function Footer({ accentColor = '#4DE4C1' }: FooterProps) {
   const pathname = usePathname();
   const isOverlay = ["/contact", "/privacy-policy", "/terms"].includes(pathname);
 
   return (
     <footer 
-      className={`w-full px-6 md:px-10 py-12 md:py-16 ${isOverlay ? 'hidden md:block' : 'block'} mt-auto flex-shrink-0`}
+      className={`arc-footer ${isOverlay ? 'hidden md:block' : 'block'} mt-auto flex-shrink-0`}
       style={{ backgroundColor: 'var(--page-bg)' }}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="arc-footer-container">
         {/* Footer Links */}
-        <div className="flex flex-wrap justify-center gap-6 md:gap-8 mb-6">
+        <div className="arc-footer-nav">
           <Link 
             href="/" 
-            className="text-sm text-gray-400 hover:text-gray-300 transition-colors"
+            className="arc-footer-nav-link"
           >
             Platform
           </Link>
           <Link 
             href="/personas" 
-            className="text-sm text-gray-400 hover:text-gray-300 transition-colors"
+            className="arc-footer-nav-link"
           >
             Programs
           </Link>
           <Link 
             href="/catalog/countries" 
-            className="text-sm text-gray-400 hover:text-gray-300 transition-colors"
+            className="arc-footer-nav-link"
           >
             Marketplace
           </Link>
           <Link 
             href="/clinics" 
-            className="text-sm text-gray-400 hover:text-gray-300 transition-colors"
+            className="arc-footer-nav-link"
           >
             Clinics
           </Link>
           <Link 
             href="/privacy-policy" 
-            className="text-sm text-gray-400 hover:text-gray-300 transition-colors"
+            className="arc-footer-nav-link"
           >
             Privacy Policy
           </Link>
           <Link 
             href="/terms" 
-            className="text-sm text-gray-400 hover:text-gray-300 transition-colors"
+            className="arc-footer-nav-link"
           >
             Terms and Conditions
           </Link>
         </div>
 
         {/* Positioning Sentence */}
-        <div className="text-center">
-          <p className="text-sm text-gray-400">
+        <div className="arc-footer-tagline">
+          <p className="arc-footer-tagline-text">
             The Arc. Health intelligence for long term care.
           </p>
         </div>

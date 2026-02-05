@@ -23,16 +23,22 @@ export default function SectionTitle({ children, subtitle, className = "" }: Sec
   return (
     <div className={className} style={containerStyle}>
       <h2 
-        className="typography-h2"
-        style={textStyle}
+        className="font-bold text-white mb-0"
+        style={{
+          fontSize: 'clamp(32px, 4vw, 42px)',
+          lineHeight: '1.2',
+          ...textStyle
+        }}
       >
         {children}
       </h2>
       {subtitle && (
         <p 
-          className="typography-body-secondary"
+          className="text-[#CCCCCC]"
           style={{
-            marginTop: 'var(--space-4)',
+            fontSize: '18px',
+            lineHeight: '1.6',
+            marginTop: '12px',
             ...textStyle
           }}
         >
