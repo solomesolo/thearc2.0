@@ -12,6 +12,7 @@ import { Montserrat } from "next/font/google";
 import Script from "next/script";
 import CookieConsent from "../components/CookieConsent";
 import MixPanelProvider from "../components/MixPanelProvider";
+import ConditionalHeaderFooter from "../components/ConditionalHeaderFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,11 +90,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* End Google Tag Manager (noscript) */}
         
         <MixPanelProvider />
-        <Header />
+        <ConditionalHeaderFooter>
+          <Header />
+          <Footer />
+        </ConditionalHeaderFooter>
         <MainLayoutClient>
           {children}
         </MainLayoutClient>
-        <Footer />
         <CookieConsent />
         <Analytics />
       </body>

@@ -1,0 +1,23 @@
+/* Section highlight animation */
+.section-highlight {
+  animation: highlightPulse 1.5s ease-out;
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+@keyframes highlightPulse {
+  0% {
+    outline-color: var(--primary);
+    outline-width: 2px;
+  }
+  50% {
+    outline-color: var(--focus);
+    outline-width: 4px;
+  }
+  100% {
+    outline-color: transparent;
+    outline-width: 0px;
+  }
+}
+

@@ -1,0 +1,44 @@
+/**
+ * Theme CSS Variables for B2C Dashboard
+ * 
+ * Light mode is default. Dark mode variables are applied via [data-theme="dark"]
+ */
+
+:root {
+  /* Light mode (default) */
+  --bg: #F7F9FC;
+  --surface: #FFFFFF;
+  --surface-alt: #F1F5F9;
+  --border: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-tertiary: #64748B;
+  --primary: #2563EB;
+  --primary-hover: #1D4ED8;
+  --focus: #93C5FD;
+  --success: #16A34A;
+  --warning: #F59E0B;
+  --danger: #DC2626;
+  --info: #0EA5E9;
+  --neutral-badge: #CBD5E1;
+}
+
+[data-theme="dark"] {
+  /* Dark mode */
+  --bg: #0B1220;
+  --surface: #0F172A;
+  --surface-alt: #111C33;
+  --border: #1F2A44;
+  --text-primary: #E2E8F0;
+  --text-secondary: #94A3B8;
+  --text-tertiary: #64748B;
+  --primary: #60A5FA;
+  --primary-hover: #3B82F6;
+  --focus: #93C5FD;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #0EA5E9;
+  --neutral-badge: #475569;
+}
+

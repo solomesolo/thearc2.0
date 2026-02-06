@@ -1,0 +1,227 @@
+{
+  "last_updated_iso": "2025-01-29T14:30:00Z",
+  "notifications_count": 3,
+  "coverage_percent": 70,
+  "today": {
+    "status": "Improving",
+    "watch_areas": ["Cardiometabolic risk", "Blood pressure"],
+    "data_confidence": 70,
+    "next_action_id": "action_1"
+  },
+  "signals": [
+    {
+      "id": "signal_1",
+      "name": "Blood pressure",
+      "latest": "128/82",
+      "unit": "mmHg",
+      "baseline": "135/88",
+      "direction": "Improving",
+      "source": "Lab",
+      "domain": "cardiovascular",
+      "impact": "High",
+      "data_points": 5,
+      "trend_data": [
+        { "date": "2024-10-15", "value": 135 },
+        { "date": "2024-11-15", "value": 132 },
+        { "date": "2024-12-15", "value": 130 },
+        { "date": "2025-01-15", "value": 128 }
+      ]
+    },
+    {
+      "id": "signal_2",
+      "name": "LDL cholesterol",
+      "latest": 118,
+      "unit": "mg/dL",
+      "baseline": 132,
+      "direction": "Improving",
+      "source": "Lab",
+      "domain": "cardiovascular",
+      "impact": "High",
+      "data_points": 3,
+      "trend_data": [
+        { "date": "2024-10-15", "value": 132 },
+        { "date": "2024-11-15", "value": 125 },
+        { "date": "2024-12-15", "value": 118 }
+      ]
+    },
+    {
+      "id": "signal_3",
+      "name": "HbA1c",
+      "latest": 5.4,
+      "unit": "%",
+      "baseline": 5.6,
+      "direction": "Improving",
+      "source": "Lab",
+      "domain": "metabolic",
+      "impact": "High",
+      "data_points": 4,
+      "trend_data": [
+        { "date": "2024-08-15", "value": 5.6 },
+        { "date": "2024-10-15", "value": 5.5 },
+        { "date": "2024-12-15", "value": 5.4 }
+      ]
+    },
+    {
+      "id": "signal_4",
+      "name": "Resting heart rate",
+      "latest": 58,
+      "unit": "bpm",
+      "baseline": 62,
+      "direction": "Improving",
+      "source": "Wearable",
+      "domain": "cardiovascular",
+      "impact": "Medium",
+      "data_points": 45,
+      "trend_data": [
+        { "date": "2024-11-01", "value": 62 },
+        { "date": "2024-12-01", "value": 60 },
+        { "date": "2025-01-01", "value": 58 }
+      ]
+    }
+  ],
+  "watchlist": [
+    {
+      "id": "watch_1",
+      "name": "Cardiovascular risk",
+      "why": "Family history + LDL trend",
+      "cadence": "Every 6 months"
+    },
+    {
+      "id": "watch_2",
+      "name": "Blood pressure monitoring",
+      "why": "Recent readings above optimal range",
+      "cadence": "Every 3 months"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "gap_1",
+      "title": "Lipid panel",
+      "last_on_file": "2024-10-15",
+      "priority": "High",
+      "urgency": "High",
+      "domain": "cardiovascular",
+      "evidence_level": "High"
+    },
+    {
+      "id": "gap_2",
+      "title": "Complete blood count",
+      "last_on_file": "2024-11-20",
+      "priority": "Medium",
+      "urgency": "Medium",
+      "domain": "overview",
+      "evidence_level": "Moderate"
+    },
+    {
+      "id": "gap_3",
+      "title": "Thyroid panel",
+      "last_on_file": null,
+      "priority": "Low",
+      "evidence_level": "Emerging"
+    }
+  ],
+  "actions": [
+    {
+      "id": "action_1",
+      "title": "Repeat lipid panel",
+      "reason": "Last test was 3 months ago. Regular monitoring helps track improvements.",
+      "urgency": "High",
+      "frequency": "Every 3 months",
+      "has_services": true
+    },
+    {
+      "id": "action_2",
+      "title": "Schedule annual physical",
+      "reason": "Your annual checkup is due in the next 30 days.",
+      "urgency": "Medium",
+      "frequency": "Yearly",
+      "has_services": false
+    },
+    {
+      "id": "action_3",
+      "title": "Update medication list",
+      "reason": "Some medications may have changed since last update.",
+      "urgency": "Low",
+      "frequency": "As needed",
+      "has_services": false
+    }
+  ],
+  "reminders": {
+    "active": [
+      {
+        "id": "reminder_1",
+        "name": "Lipid panel reminder",
+        "next": "2025-02-15",
+        "enabled": true
+      },
+      {
+        "id": "reminder_2",
+        "name": "Blood pressure check",
+        "next": "2025-02-01",
+        "enabled": true
+      }
+    ],
+    "suggested": [
+      {
+        "id": "reminder_3",
+        "name": "Annual physical",
+        "reason": "Recommended based on your data gaps."
+      }
+    ]
+  },
+  "services": [
+    {
+      "id": "service_1",
+      "name": "At-home lipid test",
+      "why_now": "Your last lipid panel was 3 months ago. Regular monitoring is recommended.",
+      "selected": false,
+      "linked_to": "action_1"
+    },
+    {
+      "id": "service_2",
+      "name": "Comprehensive metabolic panel",
+      "why_now": "Complete your health picture with a full metabolic assessment.",
+      "selected": false
+    },
+    {
+      "id": "service_3",
+      "name": "Blood pressure monitor",
+      "why_now": "Track your improving blood pressure trends at home.",
+      "selected": false,
+      "linked_to": "signal_1"
+    }
+  ],
+  "screenings": [
+    {
+      "id": "screening_1",
+      "name": "CRC screening",
+      "domain": "cancer_screening",
+      "dueDate": "2024-12-01",
+      "overdue": true
+    },
+    {
+      "id": "screening_2",
+      "name": "Mammography",
+      "domain": "cancer_screening",
+      "dueDate": "2025-06-01",
+      "overdue": false
+    }
+  ],
+  "predispositions": [
+    {
+      "domain": "cardiovascular",
+      "type": "Family history: MI",
+      "details": "Father had MI at age 55",
+      "monitoringCadenceSet": false
+    }
+  ],
+  "domainDataConfidence": {
+    "overview": "Fair",
+    "cardiovascular": "High",
+    "metabolic": "High",
+    "cancer_screening": "Low",
+    "neuro": "Low",
+    "sleep": "Fair",
+    "fitness": "High"
+  }
+}

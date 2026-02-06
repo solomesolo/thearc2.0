@@ -1,0 +1,81 @@
+{
+  "active": [
+    {
+      "id": "rem_1",
+      "name": "Lipid panel reminder",
+      "domainId": "cardiovascular",
+      "type": "gap_reminder",
+      "frequency": "Every 6 months",
+      "nextRunDate": "2026-02-15",
+      "channels": { "inApp": true, "email": false },
+      "isEnabled": true
+    },
+    {
+      "id": "rem_2",
+      "name": "Blood pressure check",
+      "domainId": "cardiovascular",
+      "type": "signal_checkin",
+      "frequency": "Every 3 months",
+      "nextRunDate": "2026-02-01",
+      "channels": { "inApp": true, "email": true },
+      "isEnabled": true
+    },
+    {
+      "id": "rem_3",
+      "name": "Annual physical",
+      "domainId": "overview",
+      "type": "screening_due",
+      "frequency": "Yearly",
+      "nextRunDate": "2026-03-01",
+      "channels": { "inApp": true, "email": true },
+      "isEnabled": true
+    },
+    {
+      "id": "rem_4",
+      "name": "HbA1c check",
+      "domainId": "metabolic",
+      "type": "signal_checkin",
+      "frequency": "Every 6 months",
+      "nextRunDate": "2026-02-20",
+      "channels": { "inApp": true, "email": false },
+      "isEnabled": false
+    },
+    {
+      "id": "rem_5",
+      "name": "Colonoscopy screening",
+      "domainId": "cancer_screening",
+      "type": "screening_due",
+      "frequency": "Every 10 years",
+      "nextRunDate": "2026-04-01",
+      "channels": { "inApp": true, "email": true },
+      "isEnabled": true
+    }
+  ],
+  "suggested": [
+    {
+      "id": "sug_1",
+      "name": "Cardiovascular monitoring plan",
+      "domainId": "cardiovascular",
+      "type": "watchlist_plan",
+      "recommendedReason": "Recommended based on your gaps and watchlist.",
+      "recommendedFrequency": "Every 6 months"
+    },
+    {
+      "id": "sug_2",
+      "name": "Sleep quality check-in",
+      "domainId": "sleep",
+      "type": "signal_checkin",
+      "recommendedReason": "Recommended based on your gaps and watchlist.",
+      "recommendedFrequency": "Monthly"
+    },
+    {
+      "id": "sug_3",
+      "name": "Mammography screening",
+      "domainId": "cancer_screening",
+      "type": "screening_due",
+      "recommendedReason": "Recommended based on your gaps and watchlist.",
+      "recommendedFrequency": "Yearly"
+    }
+  ]
+}
+

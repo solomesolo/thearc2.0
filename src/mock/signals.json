@@ -1,0 +1,184 @@
+{
+  "signals": [
+    {
+      "id": "ldl",
+      "name": "LDL",
+      "domain": "heart",
+      "source": "Lab",
+      "unit": "mg/dL",
+      "series": [
+        { "date": "2023-07-15", "value": 120 },
+        { "date": "2023-10-15", "value": 115 },
+        { "date": "2024-01-15", "value": 110 }
+      ],
+      "latest": 110,
+      "baseline": 120,
+      "direction": "Improving",
+      "confidenceLevel": "High",
+      "dataPointCount": 3,
+      "insightText": "Your LDL has improved by 10 mg/dL over the past 6 months. This is a positive trend for heart health.",
+      "relatedActionIds": ["action1"],
+      "relatedServiceIds": []
+    },
+    {
+      "id": "blood-pressure",
+      "name": "Blood pressure",
+      "domain": "heart",
+      "source": "Wearable",
+      "unit": "mmHg",
+      "series": [
+        { "date": "2023-12-01", "value": 125 },
+        { "date": "2023-12-15", "value": 124 },
+        { "date": "2024-01-01", "value": 123 },
+        { "date": "2024-01-15", "value": 123 }
+      ],
+      "latest": "123/78",
+      "baseline": "125/80",
+      "direction": "Stable",
+      "confidenceLevel": "High",
+      "dataPointCount": 4,
+      "insightText": "Your blood pressure has remained stable, which is good for cardiovascular health.",
+      "relatedActionIds": [],
+      "relatedServiceIds": []
+    },
+    {
+      "id": "hba1c",
+      "name": "HbA1c",
+      "domain": "metabolic",
+      "source": "Lab",
+      "unit": "%",
+      "series": [
+        { "date": "2023-07-15", "value": 5.8 },
+        { "date": "2024-01-15", "value": 6.0 }
+      ],
+      "latest": 6.0,
+      "baseline": 5.8,
+      "direction": "Worsening",
+      "confidenceLevel": "Moderate",
+      "dataPointCount": 2,
+      "insightText": "Your HbA1c has increased slightly. Consider monitoring more frequently and reviewing dietary patterns.",
+      "relatedActionIds": ["action2"],
+      "relatedServiceIds": ["service1"]
+    },
+    {
+      "id": "resting-heart-rate",
+      "name": "Resting heart rate",
+      "domain": "heart",
+      "source": "Wearable",
+      "unit": "bpm",
+      "series": [
+        { "date": "2023-12-01", "value": 68 },
+        { "date": "2023-12-15", "value": 67 },
+        { "date": "2024-01-01", "value": 66 },
+        { "date": "2024-01-15", "value": 65 }
+      ],
+      "latest": 65,
+      "baseline": 68,
+      "direction": "Improving",
+      "confidenceLevel": "High",
+      "dataPointCount": 4,
+      "insightText": "Your resting heart rate has decreased, indicating improved cardiovascular fitness.",
+      "relatedActionIds": [],
+      "relatedServiceIds": []
+    },
+    {
+      "id": "hrv",
+      "name": "HRV",
+      "domain": "sleep",
+      "source": "Wearable",
+      "unit": "ms",
+      "series": [
+        { "date": "2023-12-01", "value": 45 },
+        { "date": "2023-12-15", "value": 47 },
+        { "date": "2024-01-01", "value": 48 },
+        { "date": "2024-01-15", "value": 50 }
+      ],
+      "latest": 50,
+      "baseline": 45,
+      "direction": "Improving",
+      "confidenceLevel": "High",
+      "dataPointCount": 4,
+      "insightText": "Your heart rate variability is improving, suggesting better recovery and stress management.",
+      "relatedActionIds": [],
+      "relatedServiceIds": []
+    },
+    {
+      "id": "sleep-consistency",
+      "name": "Sleep consistency",
+      "domain": "sleep",
+      "source": "Wearable",
+      "unit": "%",
+      "series": [
+        { "date": "2023-12-01", "value": 75 },
+        { "date": "2023-12-15", "value": 78 },
+        { "date": "2024-01-01", "value": 80 },
+        { "date": "2024-01-15", "value": 82 }
+      ],
+      "latest": 82,
+      "baseline": 75,
+      "direction": "Improving",
+      "confidenceLevel": "High",
+      "dataPointCount": 4,
+      "insightText": "Your sleep consistency has improved, which supports better recovery and overall health.",
+      "relatedActionIds": [],
+      "relatedServiceIds": []
+    },
+    {
+      "id": "vo2-max",
+      "name": "VO₂ max",
+      "domain": "fitness",
+      "source": "Wearable",
+      "unit": "ml/kg/min",
+      "series": [
+        { "date": "2023-12-01", "value": 42 },
+        { "date": "2023-12-15", "value": 43 },
+        { "date": "2024-01-01", "value": 44 },
+        { "date": "2024-01-15", "value": 45 }
+      ],
+      "latest": 45,
+      "baseline": 42,
+      "direction": "Improving",
+      "confidenceLevel": "High",
+      "dataPointCount": 4,
+      "insightText": "Your VO₂ max is improving, indicating enhanced cardiovascular fitness and endurance capacity.",
+      "relatedActionIds": [],
+      "relatedServiceIds": []
+    },
+    {
+      "id": "fasting-glucose",
+      "name": "Fasting glucose",
+      "domain": "metabolic",
+      "source": "Lab",
+      "unit": "mg/dL",
+      "series": [
+        { "date": "2023-07-15", "value": 95 },
+        { "date": "2024-01-15", "value": 98 }
+      ],
+      "latest": 98,
+      "baseline": 95,
+      "direction": "Worsening",
+      "confidenceLevel": "Moderate",
+      "dataPointCount": 2,
+      "insightText": "Your fasting glucose has increased slightly. Consider monitoring more frequently.",
+      "relatedActionIds": ["action2"],
+      "relatedServiceIds": []
+    }
+  ],
+  "events": [
+    {
+      "id": "event1",
+      "date": "2023-07-15",
+      "type": "Lab",
+      "title": "Lipid panel",
+      "relatedSignalIds": ["ldl"]
+    },
+    {
+      "id": "event2",
+      "date": "2024-01-15",
+      "type": "Lab",
+      "title": "Comprehensive metabolic panel",
+      "relatedSignalIds": ["hba1c", "fasting-glucose"]
+    }
+  ]
+}
+

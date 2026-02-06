@@ -1,0 +1,15 @@
+/* Force white background for all demo routes - highest priority */
+body.bg-black {
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+html {
+  background-color: #ffffff !important;
+}
+
+body {
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
