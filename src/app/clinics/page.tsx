@@ -283,7 +283,7 @@ export default function ClinicsPage() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="order-first lg:order-last"
               >
-                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-5 shadow-[0_0_20px_rgba(77,238,205,0.1)]">
+                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-5 shadow-[0_0_20px_var(--accent-alpha-20),0.1)]">
                   {/* Three Column Horizontal Layout */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Column 1: Patient and Signal Overview */}
@@ -331,7 +331,7 @@ export default function ClinicsPage() {
                                 height="12"
                                 viewBox="0 0 12 12"
                                 fill="none"
-                                className="text-[#4DEECD] flex-shrink-0 mt-0.5"
+                                className="text-[var(--accent)] flex-shrink-0 mt-0.5"
                               >
                                 <path
                                   d="M4 9l4-4-4-4"
@@ -343,7 +343,7 @@ export default function ClinicsPage() {
                               </svg>
                               <div className="flex-1 min-w-0">
                                 <p className="text-xs text-gray-300 mb-0.5">{item.signal}</p>
-                                <p className="text-xs text-[#4DEECD] font-medium">{item.action}</p>
+                                <p className="text-xs text-[var(--accent)] font-medium">{item.action}</p>
                               </div>
                             </div>
                           </div>
@@ -388,7 +388,7 @@ export default function ClinicsPage() {
             <p className="text-lg text-gray-300 leading-relaxed mb-6 text-center">
               Arc is not an AI driven diagnostic engine and it does not attempt to replace clinical reasoning. Arc is built on a medical knowledge base and an evidence based methodology that helps clinicians see longitudinal patterns, prioritize interventions, and document decisions with clarity.
             </p>
-            <p className="text-base text-[#4DEECD] font-medium text-center">
+            <p className="text-base text-[var(--accent)] font-medium text-center">
               You stay in control. Arc supports your decisions and reduces noise.
             </p>
           </div>
@@ -432,7 +432,7 @@ export default function ClinicsPage() {
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={prefersReducedMotion ? {} : { y: -2 }}
-                  className="group relative p-6 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/10 transition-all duration-200 focus-within:ring-2 focus-within:ring-[#4DEECD]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
+                  className="group relative p-6 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/10 transition-all duration-200 focus-within:ring-2 focus-within:ring-[var(--accent-alpha-20)]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
                   tabIndex={0}
                 >
                   <h3 className="text-lg font-semibold text-white mb-3">{card.title}</h3>
@@ -498,9 +498,9 @@ export default function ClinicsPage() {
                           handleProblemClick(chip.id);
                         }
                       }}
-                      className={`px-3 py-1.5 rounded-full border text-xs transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer ${
+                      className={`px-3 py-1.5 rounded-full border text-xs transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-alpha-20)] focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer ${
                         isActive
-                          ? "bg-white/10 border-[#4DEECD]/40 text-white"
+                          ? "bg-white/10 border-[var(--accent)]/40 text-white"
                           : isHovered
                           ? "bg-white/8 border-white/20 text-gray-300"
                           : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/8 hover:border-white/15 hover:text-gray-300"
@@ -600,21 +600,21 @@ export default function ClinicsPage() {
                     animate={{
                       opacity: isDeemphasized ? 0.6 : 1,
                     }}
-                    className={`group relative rounded-[20px] bg-gradient-to-b transition-all duration-200 focus-within:ring-2 focus-within:ring-[#4DEECD]/50 focus-within:ring-offset-2 focus-within:ring-offset-black ${
+                    className={`group relative rounded-[20px] bg-gradient-to-b transition-all duration-200 focus-within:ring-2 focus-within:ring-[var(--accent-alpha-20)]/50 focus-within:ring-offset-2 focus-within:ring-offset-black ${
                       isExpanded
-                        ? "from-[#0d0d0d] to-[#131313] border-[#4DEECD]/50 shadow-[0_0_20px_rgba(77,238,205,0.12)] p-6 md:p-7"
+                        ? "from-[#0d0d0d] to-[#131313] border-[var(--accent)]/50 shadow-[0_0_20px_var(--accent-alpha-20),0.12)] p-6 md:p-7"
                         : "from-[#0b0b0b] to-[#111111] border-white/6 hover:border-white/15 p-6 md:p-7"
                     } ${isDeemphasized ? "border-white/4" : "border"}`}
                     tabIndex={0}
                   >
                     {/* Top border accent */}
                     <div className={`absolute top-0 left-0 right-0 h-0.5 rounded-t-[20px] transition-all duration-200 ${
-                      isExpanded ? "bg-[#4DEECD]/50" : "bg-[#4DEECD]/20"
+                      isExpanded ? "bg-[var(--accent)]/50" : "bg-[var(--accent)]/20"
                     }`}></div>
                     
                     {/* Icon and Title Row */}
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="text-[#4DEECD] flex-shrink-0 mt-0.5">
+                      <div className="text-[var(--accent)] flex-shrink-0 mt-0.5">
                         {card.icon}
                       </div>
                       <h3 id={`problem-label-${card.id}`} className="text-lg font-semibold text-white">{card.title}</h3>
@@ -655,7 +655,7 @@ export default function ClinicsPage() {
                                       height="16"
                                       viewBox="0 0 16 16"
                                       fill="none"
-                                      className="text-[#4DEECD] flex-shrink-0 mt-0.5"
+                                      className="text-[var(--accent)] flex-shrink-0 mt-0.5"
                                     >
                                       <path
                                         d="M13 4L6 11L3 8"
@@ -775,15 +775,15 @@ export default function ClinicsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative p-4 md:p-5 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/20 transition-all duration-200 hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#4DEECD]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
+                  className="group relative p-4 md:p-5 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/20 transition-all duration-200 hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[var(--accent-alpha-20)]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
                   tabIndex={0}
                 >
                     {/* Subtle top accent */}
-                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#4DEECD]/20 rounded-t-[20px]"></div>
+                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-[var(--accent)]/20 rounded-t-[20px]"></div>
                     
                     {/* Icon and Name Row */}
                     <div className="flex items-center gap-2.5 mb-2.5">
-                      <div className="text-[#4DEECD] flex-shrink-0">
+                      <div className="text-[var(--accent)] flex-shrink-0">
                         {module.icon}
                       </div>
                       <h3 className="text-base font-semibold text-white">{module.name}</h3>
@@ -820,7 +820,7 @@ export default function ClinicsPage() {
             <div className="flex justify-center md:justify-end mt-6">
               <Link
                 href="#workflows"
-                className="text-sm text-[#4DEECD] hover:text-[#4DEECD]/80 transition-colors inline-flex items-center gap-2"
+                className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors inline-flex items-center gap-2"
               >
                 See clinical workflows
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -861,11 +861,11 @@ export default function ClinicsPage() {
                       <div className="hidden lg:block relative z-10 flex-shrink-0 mt-2">
                         <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
                           isActive
-                            ? "bg-[#4DEECD]/20 border-[#4DEECD]"
+                            ? "bg-[var(--accent)]/20 border-[var(--accent)]"
                             : "bg-[#0b0b0b] border-white/20"
                         }`}>
                           <div className={`w-2 h-2 rounded-full transition-all ${
-                            isActive ? "bg-[#4DEECD]" : "bg-white/30"
+                            isActive ? "bg-[var(--accent)]" : "bg-white/30"
                           }`}></div>
                         </div>
                       </div>
@@ -879,11 +879,11 @@ export default function ClinicsPage() {
                             handleStepClick(step.id);
                           }
                         }}
-                        className={`w-full text-left p-4 rounded-[20px] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
+                        className={`w-full text-left p-4 rounded-[20px] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-alpha-20)] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
                           isActive
-                            ? "border-[#4DEECD]/50 bg-gradient-to-b from-[#0d0d0d] to-[#131313] shadow-[0_0_20px_rgba(77,238,205,0.12)]"
+                            ? "border-[var(--accent)]/50 bg-gradient-to-b from-[#0d0d0d] to-[#131313] shadow-[0_0_20px_var(--accent-alpha-20),0.12)]"
                             : "border-white/10 bg-[#050607] hover:border-white/25"
-                        } ${isLast && isActive ? "border-[#4DEECD]/60" : ""}`}
+                        } ${isLast && isActive ? "border-[var(--accent)]/60" : ""}`}
                         aria-selected={isActive}
                         aria-label={`${step.title}: ${step.description}`}
                         tabIndex={0}
@@ -903,7 +903,7 @@ export default function ClinicsPage() {
 
               {/* Right: Preview Panel */}
               <div className="order-1 lg:order-2">
-                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-6 shadow-[0_0_15px_rgba(77,238,205,0.05)] min-h-[400px]">
+                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-6 shadow-[0_0_15px_var(--accent-alpha-20),0.05)] min-h-[400px]">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeStep}
@@ -941,7 +941,7 @@ export default function ClinicsPage() {
                                   height="16"
                                   viewBox="0 0 16 16"
                                   fill="none"
-                                  className="text-[#4DEECD] flex-shrink-0 mt-0.5"
+                                  className="text-[var(--accent)] flex-shrink-0 mt-0.5"
                                 >
                                   <path
                                     d="M13 4L6 11L3 8"
@@ -979,7 +979,7 @@ export default function ClinicsPage() {
                           <div className="space-y-1.5">
                             {activeStepData.preview.example.map((item, idx) => (
                               <div key={idx} className="flex items-center gap-2 text-sm text-gray-300">
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#4DEECD]"></div>
+                                <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></div>
                                 <span>{item}</span>
                               </div>
                             ))}
@@ -1001,7 +1001,7 @@ export default function ClinicsPage() {
                 <ArcButton href="/contact">Request a demo</ArcButton>
                 <Link
                   href="/clinics#workflows"
-                  className="text-sm text-[#4DEECD] hover:text-[#4DEECD]/80 transition-colors inline-flex items-center gap-2"
+                  className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors inline-flex items-center gap-2"
                 >
                   Explore Clinics features
                 </Link>
@@ -1041,7 +1041,7 @@ export default function ClinicsPage() {
                         height="16"
                         viewBox="0 0 16 16"
                         fill="none"
-                        className="text-[#4DEECD] flex-shrink-0 mt-0.5"
+                        className="text-[var(--accent)] flex-shrink-0 mt-0.5"
                       >
                         <path
                           d="M13 4L6 11L3 8"
@@ -1067,7 +1067,7 @@ export default function ClinicsPage() {
                       { icon: "user", text: "Assigned reviewer and follow up timing" },
                     ].map((item, idx) => (
                       <div key={idx} className="flex items-start gap-2 pt-2 border-t border-white/5 first:border-t-0 first:pt-0">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#4DEECD] mt-1.5 flex-shrink-0"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] mt-1.5 flex-shrink-0"></div>
                         <span className="text-sm text-gray-300">{item.text}</span>
                       </div>
                     ))}
@@ -1078,7 +1078,7 @@ export default function ClinicsPage() {
                 <div>
                   <Link
                     href="#workflows"
-                    className="text-sm text-[#4DEECD] hover:text-[#4DEECD]/80 transition-colors inline-flex items-center gap-2"
+                    className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors inline-flex items-center gap-2"
                   >
                     Explore ordering workflow
                   </Link>
@@ -1087,7 +1087,7 @@ export default function ClinicsPage() {
 
             {/* Right Column: Interactive Ordering Panel */}
             <div className="order-1 lg:order-2">
-                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-6 shadow-[0_0_15px_rgba(77,238,205,0.05)]">
+                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-6 shadow-[0_0_15px_var(--accent-alpha-20),0.05)]">
                   {/* Panel Header */}
                   <div className="pb-4 border-b border-white/5 mb-4">
                     <h4 className="text-sm font-semibold text-white mb-1">Ordering panel</h4>
@@ -1142,8 +1142,8 @@ export default function ClinicsPage() {
                                 handleOrderClick(item.id);
                               }
                             }}
-                            className={`w-full text-left p-3 rounded bg-[#050607] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
-                              isExpanded ? "border-[#4DEECD]/30" : "border-white/5 hover:border-white/10"
+                            className={`w-full text-left p-3 rounded bg-[#050607] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-alpha-20)] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
+                              isExpanded ? "border-[var(--accent)]/30" : "border-white/5 hover:border-white/10"
                             }`}
                             aria-expanded={isExpanded}
                             aria-controls={`order-details-${item.id}`}
@@ -1153,7 +1153,7 @@ export default function ClinicsPage() {
                               <span className="text-xs font-medium text-white">{item.name}</span>
                               <span className={`text-xs px-2 py-0.5 rounded ${
                                 item.status === "Ready" || item.status === "Sent"
-                                  ? "text-[#4DEECD] bg-[#4DEECD]/10"
+                                  ? "text-[var(--accent)] bg-[var(--accent)]/10"
                                   : "text-gray-400 bg-white/5"
                               }`}>
                                 {item.status}
@@ -1198,7 +1198,7 @@ export default function ClinicsPage() {
                       type="button"
                       onClick={handleSendOrder}
                       disabled={orderStatus === "sending" || orderStatus === "sent"}
-                      className="w-full px-4 py-2 rounded-lg bg-[#4DEECD]/10 border border-[#4DEECD]/30 text-[#4DEECD] text-xs font-medium hover:bg-[#4DEECD]/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4DEECD] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                      className="w-full px-4 py-2 rounded-lg bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)] text-xs font-medium hover:bg-[var(--accent)]/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-alpha-20)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                       aria-label="Send order"
                     >
                       {orderStatus === "sending" ? "Sending..." : orderStatus === "sent" ? "Order sent" : "Send order"}
@@ -1214,7 +1214,7 @@ export default function ClinicsPage() {
                           transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                           className="mt-3 pt-3 border-t border-white/5"
                         >
-                          <p className="text-xs text-[#4DEECD]">
+                          <p className="text-xs text-[var(--accent)]">
                             Orders sent. Timeline will update when results arrive.
                           </p>
                         </motion.div>
@@ -1269,7 +1269,7 @@ export default function ClinicsPage() {
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={prefersReducedMotion ? {} : { y: -2 }}
-                  className="group relative p-6 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/10 transition-all duration-200 focus-within:ring-2 focus-within:ring-[#4DEECD]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
+                  className="group relative p-6 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/10 transition-all duration-200 focus-within:ring-2 focus-within:ring-[var(--accent-alpha-20)]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
                   tabIndex={0}
                 >
                   {/* Subtle inner glow on hover */}
@@ -1392,7 +1392,7 @@ export default function ClinicsPage() {
           <div className="text-center mt-8">
             <Link
               href="/contact"
-              className="text-sm text-[#4DEECD] hover:text-[#4DEECD]/80 transition-colors inline-flex items-center gap-2"
+              className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors inline-flex items-center gap-2"
             >
               Contact the team if you have more questions
             </Link>

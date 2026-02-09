@@ -10,7 +10,7 @@ interface CardProps {
 
 export default function Card({ children, className = "", hover = true }: CardProps) {
   const hoverClass = hover 
-    ? "hover:border-[#4DE4C1] hover:shadow-[0_0_20px_rgba(77,228,193,0.2)]" 
+    ? "hover:border-[var(--accent)] hover:shadow-[0_0_20px_var(--accent-alpha-20)]" 
     : "";
   
   return (

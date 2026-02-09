@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./mobile-responsive.css";
 import Footer from "../components/Footer";
-import HeroWithOverlay from "../components/HeroWithOverlay";
-import DNABackground from "../components/DNABackground";
 import MainLayoutClient from "../components/MainLayoutClient";
 import Header from "../components/Header";
 import { Analytics } from "@vercel/analytics/next";
@@ -33,7 +31,6 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "TheArc - Longevity System & Health Screening",
   description: "A private longevity circle guided by science, precision, and deep personalization. Built around you. Evolving with you.",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
@@ -45,11 +42,17 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
@@ -77,7 +80,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         
       </head>
-      <body className={`${montserrat.variable} font-montserrat antialiased bg-black text-white min-h-screen flex flex-col`}>
+      <body className={`${montserrat.variable} font-montserrat antialiased text-white min-h-screen flex flex-col`} style={{ backgroundColor: '#0B0E10' }}>
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe 
@@ -92,11 +95,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <MixPanelProvider />
         <ConditionalHeaderFooter>
           <Header />
-          <Footer />
         </ConditionalHeaderFooter>
         <MainLayoutClient>
           {children}
         </MainLayoutClient>
+        <ConditionalHeaderFooter>
+          <Footer />
+        </ConditionalHeaderFooter>
         <CookieConsent />
         <Analytics />
       </body>

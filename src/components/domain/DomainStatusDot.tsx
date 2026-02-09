@@ -16,13 +16,13 @@ export default function DomainStatusDot({ dot, size = "md" }: DomainStatusDotPro
   const getColor = () => {
     switch (dot) {
       case "green":
-        return "#10B981"; // var(--success)
+        return "#7BD8C9"; // var(--success) - aligned with jade
       case "yellow":
-        return "#F59E0B"; // var(--warning)
+        return "#D7B56D"; // var(--warning) - muted gold
       case "red":
-        return "#EF4444"; // var(--danger)
+        return "#D07A7A"; // var(--danger) - muted red
       case "gray":
-        return "#9CA3AF"; // var(--text-tertiary)
+        return "rgba(231, 240, 238, 0.25)"; // var(--border) - clinical gray
     }
   };
 

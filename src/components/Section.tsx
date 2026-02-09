@@ -14,7 +14,8 @@ export default function Section({ id, children, className = "", background = "bl
   return (
     <section 
       id={id} 
-      className={`w-full bg-black ${className}`}
+      className={`w-full ${className}`}
+      style={{ backgroundColor: '#0B0E10' }} // Match hero section background
     >
       <Container applySectionSpacing={true}>
         {children}

@@ -29,7 +29,7 @@ export default function PlanCard({
     <Card
       className={`${
         featured 
-          ? 'border-[#4DE4C1] scale-105 shadow-[0_0_30px_rgba(77,228,193,0.3)]' 
+          ? 'border-[var(--accent)] scale-105 shadow-[0_0_30px_var(--accent-alpha-20)]' 
           : ''
       } ${waitlist ? 'opacity-75' : ''}`}
     >
@@ -41,7 +41,7 @@ export default function PlanCard({
       <ul className="space-y-3 mb-8">
         {highlights.map((highlight, i) => (
           <li key={i} className="flex items-start">
-            <span className="text-[#4DE4C1] mr-3 text-xl">✓</span>
+            <span className="text-[var(--accent)] mr-3 text-xl">✓</span>
             <span className="text-[#E0E0E0] leading-relaxed">{highlight}</span>
           </li>
         ))}
@@ -57,14 +57,14 @@ export default function PlanCard({
         onPlanClick ? (
           <button
             onClick={onPlanClick}
-            className="inline-flex items-center justify-center w-full px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
+            className="inline-flex items-center justify-center w-full px-8 py-3.5 rounded-full bg-[var(--accent)] text-[#071012] border border-transparent text-base font-medium tracking-tight transition-all duration-200 hover:bg-[var(--accent-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-alpha-20)] focus:ring-offset-2 focus:ring-offset-[var(--page-bg)] active:bg-[var(--accent-pressed)]"
           >
             Choose plan
           </button>
         ) : (
           <Link
             href={ctaHref}
-            className="inline-flex items-center justify-center w-full px-8 py-3.5 rounded-full bg-black text-[#4DEECD] border border-white/20 text-base font-medium tracking-tight transition-all duration-200 hover:border-white/30 hover:text-[#4DEECD] hover:bg-black"
+            className="inline-flex items-center justify-center w-full px-8 py-3.5 rounded-full bg-[var(--accent)] text-[#071012] border border-transparent text-base font-medium tracking-tight transition-all duration-200 hover:bg-[var(--accent-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-alpha-20)] focus:ring-offset-2 focus:ring-offset-[var(--page-bg)] active:bg-[var(--accent-pressed)]"
           >
             Choose plan
           </Link>

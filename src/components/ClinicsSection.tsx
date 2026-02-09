@@ -39,7 +39,7 @@ const clinicFeatures: ClinicFeature[] = [
               <p className="text-xs font-medium text-white">Baseline panel</p>
               <p className="text-xs text-gray-400">Metabolic markers established</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-[#4DEECD] mt-1"></div>
+            <div className="w-2 h-2 rounded-full bg-[var(--accent)] mt-1"></div>
           </div>
           <div className="flex items-start gap-3 p-2 rounded bg-[#050607] border border-white/5">
             <div className="w-16 text-xs text-gray-400">Mar 2024</div>
@@ -47,7 +47,7 @@ const clinicFeatures: ClinicFeature[] = [
               <p className="text-xs font-medium text-white">Protocol started</p>
               <p className="text-xs text-gray-400">Cardiometabolic blueprint</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-[#4DEECD] mt-1"></div>
+            <div className="w-2 h-2 rounded-full bg-[var(--accent)] mt-1"></div>
           </div>
           <div className="flex items-start gap-3 p-2 rounded bg-[#050607] border border-white/5">
             <div className="w-16 text-xs text-gray-400">Jun 2024</div>
@@ -55,7 +55,7 @@ const clinicFeatures: ClinicFeature[] = [
               <p className="text-xs font-medium text-white">Follow up labs</p>
               <p className="text-xs text-gray-400">Markers improved</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-[#4DEECD] mt-1"></div>
+            <div className="w-2 h-2 rounded-full bg-[var(--accent)] mt-1"></div>
           </div>
           <div className="flex items-start gap-3 p-2 rounded bg-[#050607] border border-white/5">
             <div className="w-16 text-xs text-gray-400">Sep 2024</div>
@@ -63,7 +63,7 @@ const clinicFeatures: ClinicFeature[] = [
               <p className="text-xs font-medium text-white">Review and adjustment</p>
               <p className="text-xs text-gray-400">Protocol updated</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-[#4DEECD] mt-1"></div>
+            <div className="w-2 h-2 rounded-full bg-[var(--accent)] mt-1"></div>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@ const clinicFeatures: ClinicFeature[] = [
       <div className="space-y-3">
         <div className="flex items-center justify-between pb-2 border-b border-white/5">
           <h4 className="text-sm font-semibold text-white">Critical signals</h4>
-          <span className="text-xs text-[#4DEECD] bg-[#4DEECD]/10 px-2 py-1 rounded">3 active</span>
+          <span className="text-xs text-[var(--accent)] bg-[var(--accent-alpha-20)] px-2 py-1 rounded">3 active</span>
         </div>
         <div className="space-y-2">
           <div className="p-3 rounded bg-[#050607] border border-red-500/30 flex items-center justify-between">
@@ -169,7 +169,7 @@ const clinicFeatures: ClinicFeature[] = [
           <div className="p-3 rounded bg-[#050607] border border-white/5">
             <div className="flex items-start justify-between mb-1">
               <span className="text-xs font-medium text-white">Protocol adjustment</span>
-              <span className="text-xs text-[#4DEECD] bg-[#4DEECD]/10 px-2 py-0.5 rounded">Complete</span>
+              <span className="text-xs text-[var(--accent)] bg-[var(--accent-alpha-20)] px-2 py-0.5 rounded">Complete</span>
             </div>
             <p className="text-xs text-gray-300 mt-1">Reduced intervention frequency based on improved markers</p>
             <p className="text-xs text-gray-400 mt-1">Dr. Martinez, Jan 15</p>
@@ -185,7 +185,7 @@ const clinicFeatures: ClinicFeature[] = [
           <div className="p-3 rounded bg-[#050607] border border-white/5">
             <div className="flex items-start justify-between mb-1">
               <span className="text-xs font-medium text-white">Lab review</span>
-              <span className="text-xs text-[#4DEECD] bg-[#4DEECD]/10 px-2 py-0.5 rounded">Complete</span>
+              <span className="text-xs text-[var(--accent)] bg-[var(--accent-alpha-20)] px-2 py-0.5 rounded">Complete</span>
             </div>
             <p className="text-xs text-gray-300 mt-1">Markers within target range, no changes needed</p>
             <p className="text-xs text-gray-400 mt-1">Dr. Martinez, Jan 10</p>
@@ -195,7 +195,7 @@ const clinicFeatures: ClinicFeature[] = [
           <input
             type="text"
             placeholder="Add note"
-            className="w-full px-3 py-2 rounded bg-[#050607] border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#4DEECD]/50"
+            className="w-full px-3 py-2 rounded bg-[#050607] border border-white/10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[var(--accent-alpha-60)]"
             readOnly
           />
         </div>
@@ -209,20 +209,20 @@ const clinicFeatures: ClinicFeature[] = [
       <div className="space-y-3">
         <div className="flex items-center justify-between pb-2 border-b border-white/5">
           <h4 className="text-sm font-semibold text-white">Order diagnostics</h4>
-          <span className="text-xs text-[#4DEECD]">3 selected</span>
+          <span className="text-xs text-[var(--accent)]">3 selected</span>
         </div>
         <div className="space-y-2">
           <div className="p-3 rounded bg-[#050607] border border-white/5">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs font-medium text-white">Baseline screening bundle</span>
-              <span className="text-xs text-[#4DEECD]">Recommended</span>
+              <span className="text-xs text-[var(--accent)]">Recommended</span>
             </div>
             <p className="text-xs text-gray-400">Metabolic markers, lipid panel, inflammation</p>
           </div>
           <div className="p-3 rounded bg-[#050607] border border-white/5">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs font-medium text-white">Hormone health panel</span>
-              <span className="text-xs text-[#4DEECD]">Recommended</span>
+              <span className="text-xs text-[var(--accent)]">Recommended</span>
             </div>
             <p className="text-xs text-gray-400">Based on patient timeline signals</p>
           </div>
@@ -236,7 +236,7 @@ const clinicFeatures: ClinicFeature[] = [
         </div>
         <div className="pt-2 border-t border-white/5">
           <p className="text-xs text-gray-400 mb-2">Status: Ready to send</p>
-          <button className="w-full px-4 py-2 rounded-lg bg-[#4DEECD]/10 border border-[#4DEECD]/30 text-[#4DEECD] text-xs font-medium hover:bg-[#4DEECD]/20 transition-colors">
+          <button className="w-full px-4 py-2 rounded-lg bg-[var(--accent-alpha-20)] border border-[var(--accent-alpha-60)] text-[var(--accent)] text-xs font-medium hover:bg-[var(--accent-alpha-20)] hover:border-[var(--accent)] transition-colors">
             Send order
           </button>
         </div>

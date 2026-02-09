@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import EmailSignupModal from "../components/EmailSignupModal";
 import PartnershipModal from "../components/PartnershipModal";
-import { HeroSection } from "../components/HeroSection";
+import { HeroSectionV2 } from "../components/hero/HeroSectionV2";
 import { ArcButton } from "../components/ui/ArcButton";
 import Section from "../components/Section";
 import SectionTitle from "../components/SectionTitle";
@@ -560,13 +560,16 @@ export default function HomePage() {
     <div className="min-h-screen bg-black text-white">
       {/* home.hero */}
       <section id="home.hero">
-        <HeroSection
-          title="The End of Fragmented Health."
-          subtitle="Your data, your concierge, and your longevity strategy in a single, unified system. We alert you when to act and provide your doctor with the intelligence to help you live longer."
-          supportingLine="Built for individuals longevity programs and clinics."
-          primaryCTA={{ label: "Get Started", onClick: () => setShowEmailModal(true) }}
-          secondaryCTA={{ label: "For Clinics and Doctors", href: "/clinics" }}
-          image={{ src: "/header main page.png", alt: "The Arc cinematic hero" }}
+        <HeroSectionV2
+          onPrimaryCTAClick={() => setShowEmailModal(true)}
+          onSecondaryCTAClick={() => {
+            if (typeof window !== "undefined") {
+              const element = document.getElementById("home.howItWorks");
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }
+          }}
         />
       </section>
 

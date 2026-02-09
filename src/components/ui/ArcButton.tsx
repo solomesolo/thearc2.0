@@ -25,19 +25,23 @@ export function ArcButton({
     justify-center
     px-8 py-3.5
     rounded-full
-    bg-black
-    text-[#4DEECD]
+    bg-[var(--accent)]
+    text-[#071012]
     border
-    border-white/20
+    border-transparent
     text-base
     font-medium
     tracking-tight
     transition-all
     duration-200
     ease-out
-    hover:border-white/30
-    hover:text-[#4DEECD]
-    hover:bg-black
+    hover:bg-[var(--accent-hover)]
+    focus:outline-none
+    focus:ring-2
+    focus:ring-[var(--accent-alpha-20)]
+    focus:ring-offset-2
+    focus:ring-offset-[var(--page-bg)]
+    active:bg-[var(--accent-pressed)]
   `;
 
   if (href) {

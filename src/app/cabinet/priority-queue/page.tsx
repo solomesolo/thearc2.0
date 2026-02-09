@@ -3,11 +3,6 @@ export const metadata = {
   description: "Clinical priority queue for physicians",
 };
 
-export const viewport = {
-  width: "device-width",
-  initialScale: 1,
-};
-
 // Mock queue items data - matching the actual dashboard
 const mockQueueItems = [
   {

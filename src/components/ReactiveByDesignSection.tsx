@@ -182,7 +182,7 @@ export default function ReactiveByDesignSection() {
           <div className="text-center">
             <Link
               href="#home.capabilities"
-              className="text-sm text-[#4DEECD] hover:text-[#4DEECD]/80 transition-colors inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#4DEECD] focus:ring-offset-2 focus:ring-offset-black rounded px-2 py-1"
+              className="text-sm text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-[var(--accent-alpha-20)] focus:ring-offset-2 focus:ring-offset-[var(--page-bg)] rounded px-2 py-1"
             >
               See how the timeline works
             </Link>

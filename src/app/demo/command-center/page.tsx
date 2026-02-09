@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+
+// Force dynamic rendering to support search params
+export const dynamic = 'force-dynamic';
 import CommandCenterWhoopLayout from "@/components/command-center/CommandCenterWhoopLayout";
 import DailyBriefingHeader from "@/components/command-center/DailyBriefingHeader";
 import HeroTilesRow from "@/components/command-center/HeroTilesRow";
@@ -14,8 +18,29 @@ import { useCommandCenterStore } from "@/state/useCommandCenterStore";
 import { computeAllDomainStatuses } from "@/domain/computeDomainStatus";
 import { DomainId } from "@/domain/domainConfig";
 
-export default function CommandCenterPage() {
+function CommandCenterContent() {
   const { evtAppLoaded, selectedFocusTile, selectedDomain } = useCommandCenterStore();
+  const searchParams = useSearchParams();
+  const [preset, setPreset] = useState<string | null>(null);
+
+  // Read preset from query params
+  useEffect(() => {
+    const presetParam = searchParams.get("preset");
+    if (presetParam && ["records", "trends", "signals"].includes(presetParam)) {
+      setPreset(presetParam);
+    }
+  }, [searchParams]);
+
+  // Listen for postMessage from parent (if embedded)
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === "preset" && event.data?.preset) {
+        setPreset(event.data.preset);
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
 
   // Initialize on mount only
   useEffect(() => {
@@ -265,5 +290,24 @@ export default function CommandCenterPage() {
         </div>
       </div>
     </CommandCenterWhoopLayout>
+  );
+}
+
+export default function CommandCenterPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ 
+        minHeight: "100vh", 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center",
+        backgroundColor: "var(--bg)",
+        color: "var(--text-primary)"
+      }}>
+        Loading...
+      </div>
+    }>
+      <CommandCenterContent />
+    </Suspense>
   );
 }

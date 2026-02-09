@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import HeroWithOverlay from "./HeroWithOverlay";
 import { usePathname } from "next/navigation";
 
 export default function MainLayoutClient({ children }: { children: React.ReactNode }) {
@@ -16,7 +15,7 @@ export default function MainLayoutClient({ children }: { children: React.ReactNo
   }
 
   return (
-    <main className={`flex-1 flex flex-col relative z-10 ${!isOverlay && !hasFooter ? 'pb-32' : ''}`}>
+    <main className={`flex-1 flex flex-col relative z-10`}>
       {/* <HeroWithOverlay /> */}
       {children}
     </main>
