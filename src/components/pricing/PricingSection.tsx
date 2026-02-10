@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import PricingCard from "./PricingCard";
+import RegionUnavailableModal from "../modals/RegionUnavailableModal";
 
 interface PricingSectionProps {
   prefersReducedMotion?: boolean;
@@ -10,6 +11,27 @@ interface PricingSectionProps {
 export default function PricingSection({
   prefersReducedMotion = false,
 }: PricingSectionProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalSource, setModalSource] = useState<string>("pricing_health_intelligence");
+
+  const handleRegionUnavailable = (source: string) => {
+    setModalSource(source);
+    setIsModalOpen(true);
+  };
+  // Primary bullets (max 3, always visible)
+  const tier1PrimaryBullets = [
+    "Upload and unify your medical history",
+    "See trends and risks across time",
+    "Get clear next-step guidance",
+  ];
+
+  const tier2PrimaryBullets = [
+    "Everything in Health Intelligence",
+    "Personalized longevity blueprint",
+    "Investigation and experiment tracking",
+  ];
+
+  // Expandable feature groups (collapsed by default)
   const tier1Features = [
     {
       title: "Data Foundation",
@@ -47,11 +69,7 @@ export default function PricingSection({
 
   const tier2Features = [
     {
-      title: "Includes Everything in Health Intelligence PLUS:",
-      features: [],
-    },
-    {
-      title: "Longevity Blueprint Engine",
+      title: "Blueprint Engine",
       features: [
         "Personalized longevity roadmap",
         "Multi-year health optimization tracking",
@@ -59,7 +77,7 @@ export default function PricingSection({
       ],
     },
     {
-      title: "Investigation Blueprints",
+      title: "Investigation Frameworks",
       features: [
         "Evidence-based investigation frameworks",
         "Signal deep-dive protocols",
@@ -67,7 +85,7 @@ export default function PricingSection({
       ],
     },
     {
-      title: "Experimentation Tracking",
+      title: "Experiment Tracking",
       features: [
         "Protocol outcome tracking",
         "Before / after signal comparison",
@@ -133,19 +151,21 @@ export default function PricingSection({
             badge="Most people start here"
             price="$29"
             tagline="See your full health story and detect meaningful change early."
+            primaryBullets={tier1PrimaryBullets}
             featureGroups={tier1Features}
             ctaText="Start Health Intelligence"
             ctaLink="/signup?tier=intelligence"
             isHighlighted={false}
             prefersReducedMotion={prefersReducedMotion}
+            onRegionUnavailable={handleRegionUnavailable}
           />
 
           {/* Tier 2 - Highlighted */}
           <PricingCard
             tierName="Arc Longevity Studio"
-            badge="For proactive longevity planning"
             price="$99"
             tagline="Turn visibility into a long-term health strategy."
+            primaryBullets={tier2PrimaryBullets}
             featureGroups={tier2Features}
             ctaText="Start Longevity Studio"
             ctaLink="/signup?tier=longevity"
@@ -168,7 +188,15 @@ export default function PricingSection({
           </p>
         </div>
       </div>
+
+      {/* Region Unavailable Modal */}
+      <RegionUnavailableModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        source={modalSource}
+      />
     </section>
   );
 }
+
 

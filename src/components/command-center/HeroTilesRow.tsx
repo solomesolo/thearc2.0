@@ -38,3 +38,4 @@ export default function HeroTilesRow({ readiness, riskLoad, dataConfidence }: He
   );
 }
 
+

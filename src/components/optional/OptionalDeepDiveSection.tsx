@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import OptionalFeatureCard from "./OptionalFeatureCard";
+import StrategicModePanel from "./StrategicModePanel";
 
 interface OptionalDeepDiveSectionProps {
   prefersReducedMotion?: boolean;
@@ -12,102 +12,99 @@ export default function OptionalDeepDiveSection({
 }: OptionalDeepDiveSectionProps) {
   return (
     <section
-      className="py-20 md:py-24"
+      className="py-16 md:py-20"
       style={{
         backgroundColor: "#060B0C",
       }}
     >
       <div className="max-w-[1320px] mx-auto px-5 md:px-7 lg:px-10 xl:px-12">
         {/* Section Header */}
-        <div className="text-center mb-12 max-w-3xl mx-auto">
+        <div className="text-center mb-10 max-w-3xl mx-auto">
           <p
             className="text-xs font-semibold uppercase tracking-[0.18em] mb-3"
             style={{
-              color: "var(--text-muted)",
+              color: "rgba(143,166,163,0.65)",
             }}
           >
-            OPTIONAL — GO DEEPER WHEN YOU'RE READY
+            OPTIONAL — ADVANCED MODES
           </p>
           <h2
-            className="text-3xl md:text-4xl font-semibold mb-4"
+            className="text-2xl md:text-3xl font-semibold mb-4"
             style={{
               color: "rgba(231,240,238,0.95)",
-              fontWeight: 500,
+              fontWeight: 600,
               letterSpacing: "-0.2px",
             }}
           >
-            Turn visibility into a personal strategy
+            Move from visibility to active strategy
           </h2>
           <p
-            className="text-lg leading-relaxed"
+            className="text-base leading-relaxed"
             style={{
-              color: "var(--text-secondary)",
-              lineHeight: 1.6,
+              color: "rgba(143,166,163,0.78)",
+              lineHeight: 1.5,
             }}
           >
-            Some people stop at visibility and check-ins.
+            Some people stay in monitoring mode.
             <br />
-            Others want to actively shape their long-term trajectory.
-            <br />
-            <span style={{ color: "var(--text-muted)" }}>Arc supports both — without pressure.</span>
+            Others choose to actively shape long-term outcomes.
           </p>
         </div>
 
-        {/* Two-card grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12">
-          {/* Card 1: Longevity Blueprint */}
-          <OptionalFeatureCard
-            title="Start your longevity blueprint"
-            description="A structured, evolving plan built from your timeline, risks, and goals — updated as your data grows."
-            connectionBullets={[
+        {/* Two-module grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10">
+          {/* Module 1: Longevity Blueprint System */}
+          <StrategicModePanel
+            title="Blueprint System"
+            status="Available"
+            description="Structured longitudinal health planning built from your timeline, risk domains, and detected change patterns."
+            dataInputs={[
               "Medical timeline",
-              "Detected patterns",
-              "Risk domains",
-              "Missing data gaps",
+              "Detected signal clusters",
+              "Risk domain weighting",
+              "Missing data mapping",
             ]}
-            flowSteps={[
-              { emoji: "1️⃣", text: "Review your baseline (timeline + signals)" },
-              { emoji: "2️⃣", text: "Choose focus area (cardio, metabolic, neuro, etc.)" },
-              { emoji: "3️⃣", text: "Follow structured testing + intervention roadmap" },
+            processSteps={[
+              "Baseline",
+              "Focus Domain",
+              "Protocol Path",
+              "Outcome Tracking",
             ]}
-            benefits={[
+            outcomes={[
               "Prioritized testing roadmap",
               "Structured follow-up cadence",
-              "Outcome tracking over years",
+              "Multi-year outcome tracking",
             ]}
-            primaryCTA="Start blueprint"
-            secondaryCTA="See example blueprint →"
-            variant="blueprint"
+            primaryCTA="Start Blueprint"
+            secondaryCTA="View example blueprint"
             primaryCTALink="/programs/blueprints"
             secondaryCTALink="/programs/blueprints/example"
-            prefersReducedMotion={prefersReducedMotion}
           />
 
-          {/* Card 2: Self Investigation */}
-          <OptionalFeatureCard
-            title="Run your own investigations using proven blueprints"
-            description="Explore structured investigation frameworks without committing to a full program."
-            connectionBullets={[
-              "Why did inflammation trend change?",
-              "Why did sleep variability increase?",
-              "Why did LDL shift despite stable diet?",
+          {/* Module 2: Investigation Mode */}
+          <StrategicModePanel
+            title="Investigation Mode"
+            status="Available"
+            description="Run targeted evidence-based investigations triggered by signal changes — without committing to full programs."
+            dataInputs={[
+              "Inflammation drift",
+              "Sleep variability shift",
+              "Lipid trajectory change",
             ]}
-            flowSteps={[
-              { emoji: "1️⃣", text: "Pick investigation blueprint" },
-              { emoji: "2️⃣", text: "Run recommended labs or tracking" },
-              { emoji: "3️⃣", text: "Compare results to your baseline timeline" },
+            processSteps={[
+              "Select Framework",
+              "Run Tests / Tracking",
+              "Compare vs Baseline",
             ]}
-            benefits={[
-              "Structured curiosity",
-              "Evidence-based frameworks",
+            outcomes={[
+              "Hypothesis validation",
+              "Evidence-grounded experimentation",
               "Timeline-integrated results",
             ]}
-            primaryCTA="Browse investigation blueprints"
-            secondaryCTA="See example investigation →"
-            variant="investigation"
+            primaryCTA="Browse Investigations"
+            secondaryCTA="View example investigation"
             primaryCTALink="/programs/investigations"
             secondaryCTALink="/programs/investigations/example"
-            prefersReducedMotion={prefersReducedMotion}
           />
         </div>
 
@@ -116,7 +113,7 @@ export default function OptionalDeepDiveSection({
           <p
             className="text-sm leading-relaxed max-w-[720px] mx-auto"
             style={{
-              color: "var(--text-muted)",
+              color: "rgba(143,166,163,0.65)",
             }}
           >
             You can stay in visibility mode forever.
@@ -128,4 +125,5 @@ export default function OptionalDeepDiveSection({
     </section>
   );
 }
+
 

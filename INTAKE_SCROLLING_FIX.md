@@ -164,3 +164,4 @@ Before considering the scrolling fix complete, verify:
 - Layout structure: See `FirstVisitIntakeWorkspace.tsx` for exact layout implementation
 
 
+

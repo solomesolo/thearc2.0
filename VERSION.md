@@ -1,4 +1,4 @@
-# The Arc Website - Version 1.0.0 (Minimal)
+ # The Arc Website - Version 1.0.0 (Minimal)
 
 **Version:** 1.0.0  
 **Date:** January 2025  

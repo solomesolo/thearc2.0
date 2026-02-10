@@ -157,3 +157,4 @@ export function computeAllDomainStatuses(data: Record<DomainId, DomainData>): Do
     .sort((a, b) => b.score - a.score); // Sort by priority (highest first)
 }
 
+

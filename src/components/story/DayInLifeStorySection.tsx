@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import StoryNarrativeSticky, { StoryStep } from "./StoryNarrativeSticky";
-import StoryVisualPanel from "./StoryVisualPanel";
+import StageSceneSwitcher from "./StageSceneSwitcher";
+
+export type DayLifeStep = "upload" | "timeline" | "signals" | "action" | "marketplace";
 
 interface DayInLifeStorySectionProps {
   prefersReducedMotion?: boolean;
@@ -11,10 +13,9 @@ interface DayInLifeStorySectionProps {
 export default function DayInLifeStorySection({
   prefersReducedMotion = false,
 }: DayInLifeStorySectionProps) {
-  const [activeStep, setActiveStep] = useState<StoryStep>("upload");
+  const [activeStep, setActiveStep] = useState<DayLifeStep>("upload");
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const stepRefs = useRef<{ [key in StoryStep]?: HTMLDivElement }>({});
 
   // Check if mobile
   useEffect(() => {
@@ -27,66 +28,79 @@ export default function DayInLifeStorySection({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Scroll-based step detection using Intersection Observer
+  // Scroll handler to detect active step (scrollytelling activation)
   useEffect(() => {
     if (typeof window === "undefined" || isMobile) return;
 
-    const steps: StoryStep[] = ["upload", "timeline", "signal", "action", "marketplace"];
-    const observers: IntersectionObserver[] = [];
+    const steps: DayLifeStep[] = ["upload", "timeline", "signals", "action", "marketplace"];
+    let rafId: number | null = null;
 
-    // Wait for refs to be set
-    const checkRefs = () => {
-      const allRefsReady = steps.every((step) => stepRefs.current[step]);
-      if (!allRefsReady) {
-        setTimeout(checkRefs, 100);
-        return;
+    const handleScroll = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
       }
 
-      steps.forEach((step) => {
-        const element = stepRefs.current[step];
-        if (!element) return;
+      rafId = requestAnimationFrame(() => {
+        // Trigger point: 40% from top of viewport
+        const triggerPoint = window.innerHeight * 0.4;
+        let active: DayLifeStep = "upload";
+        let closestDistance = Infinity;
+        let hasVisibleStep = false;
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                // Check if this step is in the middle 60% of viewport
-                const rect = entry.boundingClientRect;
-                const viewportMiddle = window.innerHeight / 2;
-                const isInMiddle = rect.top <= viewportMiddle && rect.bottom >= viewportMiddle;
-
-                if (isInMiddle) {
-                  setActiveStep(step);
-                }
+        // Find step closest to trigger point
+        steps.forEach((step) => {
+          const element = document.getElementById(`story-step-${step}`);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            const stepCenter = rect.top + rect.height / 2;
+            const distance = Math.abs(stepCenter - triggerPoint);
+            
+            // Only consider steps that are visible in viewport
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              hasVisibleStep = true;
+              if (distance < closestDistance) {
+                closestDistance = distance;
+                active = step;
               }
-            });
-          },
-          {
-            rootMargin: "-20% 0px -20% 0px", // Trigger when step is in middle 60% of viewport
-            threshold: [0, 0.5, 1],
+            }
           }
-        );
+        });
 
-        observer.observe(element);
-        observers.push(observer);
+        // Only update if we found a visible step
+        if (hasVisibleStep) {
+          setActiveStep(active);
+        }
       });
     };
 
-    checkRefs();
+    // Initial call after DOM is ready
+    const initTimeout = setTimeout(() => {
+      handleScroll();
+    }, 800);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
 
     return () => {
-      observers.forEach((observer) => observer.disconnect());
+      clearTimeout(initTimeout);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, [isMobile]);
 
   const handleStepClick = (step: StoryStep) => {
-    setActiveStep(step);
-    const element = stepRefs.current[step];
-    if (element && typeof window !== "undefined") {
-      element.scrollIntoView({
-        behavior: prefersReducedMotion ? "auto" : "smooth",
-        block: "center",
-      });
+    setActiveStep(step as DayLifeStep);
+    if (typeof window !== "undefined") {
+      const element = document.getElementById(`story-step-${step}`);
+      if (element) {
+        element.scrollIntoView({
+          behavior: prefersReducedMotion ? "auto" : "smooth",
+          block: "center",
+        });
+      }
     }
   };
 
@@ -132,15 +146,11 @@ export default function DayInLifeStorySection({
 
         {/* Two-column layout (desktop) or stacked (mobile) */}
         {!isMobile ? (
-          <div className="grid grid-cols-12 gap-8 lg:gap-12">
-            {/* Left column - Sticky narrative */}
+          <div className="grid grid-cols-12 gap-8 lg:gap-12" style={{ position: "relative" }}>
+            {/* Left column - Roadmap steps (scrolls naturally) */}
             <div className="col-span-12 lg:col-span-5">
-              <div
-                className="sticky top-24"
-                style={{
-                  maxWidth: "480px",
-                }}
-              >
+              {/* Add padding bottom so last step can activate while stage still visible */}
+              <div style={{ paddingBottom: "600px" }}>
                 <StoryNarrativeSticky
                   activeStep={activeStep}
                   onStepClick={handleStepClick}
@@ -149,42 +159,20 @@ export default function DayInLifeStorySection({
               </div>
             </div>
 
-            {/* Right column - Visual panel */}
-            <div className="col-span-12 lg:col-span-7 relative">
-              {/* Invisible anchor points for scroll detection */}
+            {/* Right column - Sticky stage (fixed size, stays in place) */}
+            <div className="col-span-12 lg:col-span-7" style={{ position: "relative" }}>
               <div
-                ref={(el) => {
-                  if (el) stepRefs.current["upload"] = el;
+                style={{
+                  position: "sticky",
+                  top: "120px", // Fixed position under navbar
+                  width: "100%",
+                  height: "520px", // Fixed height - stage never resizes
+                  zIndex: 10,
+                  alignSelf: "flex-start",
+                  marginTop: "0",
                 }}
-                className="absolute top-0 h-[100vh] pointer-events-none"
-                style={{ top: "-20vh" }}
-              />
-              <div
-                ref={(el) => {
-                  if (el) stepRefs.current["timeline"] = el;
-                }}
-                className="absolute top-[20vh] h-[100vh] pointer-events-none"
-              />
-              <div
-                ref={(el) => {
-                  if (el) stepRefs.current["signal"] = el;
-                }}
-                className="absolute top-[40vh] h-[100vh] pointer-events-none"
-              />
-              <div
-                ref={(el) => {
-                  if (el) stepRefs.current["action"] = el;
-                }}
-                className="absolute top-[60vh] h-[100vh] pointer-events-none"
-              />
-              <div
-                ref={(el) => {
-                  if (el) stepRefs.current["marketplace"] = el;
-                }}
-                className="absolute top-[80vh] h-[100vh] pointer-events-none"
-              />
-              <div className="sticky top-24">
-                <StoryVisualPanel
+              >
+                <StageSceneSwitcher
                   activeStep={activeStep}
                   prefersReducedMotion={prefersReducedMotion}
                 />
@@ -192,25 +180,23 @@ export default function DayInLifeStorySection({
             </div>
           </div>
         ) : (
-          /* Mobile: Stacked layout */
+          /* Mobile: Inline scenes (no sticky) - each step followed by its scene */
           <div className="space-y-12">
-            {(["upload", "timeline", "signal", "action", "marketplace"] as StoryStep[]).map(
+            {(["upload", "timeline", "signals", "action", "marketplace"] as StoryStep[]).map(
               (step) => (
-                <div key={step} className="space-y-4">
-                  <div
-                    ref={(el) => {
-                      if (el) stepRefs.current[step] = el;
-                    }}
-                  >
+                <div key={step} className="space-y-6">
+                  {/* Step narrative */}
+                  <div>
                     <StoryNarrativeSticky
                       activeStep={step}
                       onStepClick={handleStepClick}
                       prefersReducedMotion={prefersReducedMotion}
                     />
                   </div>
-                  <div className="w-full">
-                    <StoryVisualPanel
-                      activeStep={step}
+                  {/* Inline scene */}
+                  <div className="w-full" style={{ height: "320px" }}>
+                    <StageSceneSwitcher
+                      activeStep={step as DayLifeStep}
                       prefersReducedMotion={prefersReducedMotion}
                     />
                   </div>

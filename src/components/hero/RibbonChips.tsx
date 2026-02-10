@@ -72,3 +72,4 @@ export function RibbonChips({ mode, onModeChange, prefersReducedMotion = false }
   );
 }
 
+

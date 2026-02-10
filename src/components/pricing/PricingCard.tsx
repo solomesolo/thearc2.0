@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { regionAvailability } from "@/config/regionAvailability";
+import PricingModuleAccordion from "./PricingModuleAccordion";
 
 interface FeatureGroup {
   title: string;
@@ -11,14 +13,16 @@ interface FeatureGroup {
 
 interface PricingCardProps {
   tierName: string;
-  badge: string;
+  badge?: string;
   price: string;
   tagline: string;
-  featureGroups: FeatureGroup[];
+  primaryBullets: string[]; // Max 3 visible bullets
+  featureGroups: FeatureGroup[]; // Expandable modules
   ctaText: string;
   ctaLink: string;
   isHighlighted?: boolean;
   prefersReducedMotion?: boolean;
+  onRegionUnavailable?: (source: string) => void;
 }
 
 export default function PricingCard({
@@ -26,13 +30,29 @@ export default function PricingCard({
   badge,
   price,
   tagline,
+  primaryBullets,
   featureGroups,
   ctaText,
   ctaLink,
   isHighlighted = false,
   prefersReducedMotion = false,
+  onRegionUnavailable,
 }: PricingCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleCTAClick = (e: React.MouseEvent) => {
+    // Check if this is "Start Health Intelligence" and region is unavailable
+    if (
+      ctaText === "Start Health Intelligence" &&
+      !regionAvailability.healthIntelligence &&
+      onRegionUnavailable
+    ) {
+      e.preventDefault();
+      onRegionUnavailable("pricing_health_intelligence");
+      return;
+    }
+    // Otherwise, let Link handle navigation normally
+  };
 
   return (
     <motion.div
@@ -40,192 +60,170 @@ export default function PricingCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
-      className="rounded-[24px] border p-8 md:p-10 relative transition-all z-10"
+      className="rounded-[16px] border p-8 md:p-10 relative transition-all"
       style={{
-        backgroundColor: "#0C1416",
-        borderRadius: "24px",
-        borderColor: isHighlighted
-          ? isHovered
-            ? "rgba(110,211,194,0.4)"
-            : "rgba(110,211,194,0.25)"
-          : "rgba(231,240,238,0.08)",
-        boxShadow: isHighlighted
-          ? isHovered
-            ? "0 12px 40px rgba(0,0,0,0.5), 0 0 30px rgba(110,211,194,0.15), inset 0 1px 0 rgba(231,240,238,0.04)"
-            : "0 8px 32px rgba(0,0,0,0.45), 0 0 20px rgba(110,211,194,0.1), inset 0 1px 0 rgba(231,240,238,0.04)"
-          : isHovered
-          ? "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(231,240,238,0.04)"
-          : "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
-        transform: isHighlighted
-          ? isHovered
-            ? "translateY(-4px) scale(1.02)"
-            : "translateY(-2px) scale(1.02)"
-          : isHovered
-          ? "translateY(-2px)"
-          : "translateY(0)",
+        backgroundColor: isHighlighted
+          ? "linear-gradient(180deg, rgba(110,211,194,0.06), rgba(255,255,255,0.02))"
+          : "rgba(255,255,255,0.02)",
+        background: isHighlighted
+          ? "linear-gradient(180deg, rgba(110,211,194,0.06), rgba(255,255,255,0.02))"
+          : "rgba(255,255,255,0.02)",
+        borderRadius: "16px",
+        borderColor: isHovered
+          ? "rgba(110,211,194,0.18)"
+          : "rgba(255,255,255,0.06)",
         transition: "all 200ms ease",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Highlight gradient border for Tier 2 */}
-      {isHighlighted && (
-        <div
-          className="absolute -inset-[1px] rounded-[25px] pointer-events-none z-0"
-          style={{
-            background: "linear-gradient(135deg, rgba(110,211,194,0.3) 0%, rgba(110,211,194,0.1) 50%, rgba(110,211,194,0.05) 100%)",
-            filter: "blur(0.5px)",
-          }}
-        />
+      {/* Badge (subtle capsule) */}
+      {badge && (
+        <div style={{ marginBottom: "20px" }}>
+          <span
+            className="inline-block px-3 py-1.5 rounded-full text-xs font-medium"
+            style={{
+              backgroundColor: "rgba(110,211,194,0.08)",
+              border: "1px solid rgba(110,211,194,0.18)",
+              color: "rgba(110,211,194,0.95)",
+            }}
+          >
+            {badge}
+          </span>
+        </div>
       )}
 
-      {/* Badge */}
-      <div className="mb-4">
-        <span
-          className="text-xs font-semibold uppercase px-3 py-1.5 rounded-full inline-block"
-          style={{
-            backgroundColor: isHighlighted
-              ? "rgba(110,211,194,0.15)"
-              : "rgba(231,240,238,0.08)",
-            color: isHighlighted ? "var(--accent)" : "var(--text-muted)",
-            letterSpacing: "0.8px",
-          }}
-        >
-          {badge}
-        </span>
-      </div>
-
-      {/* Title */}
+      {/* Tier Name */}
       <h3
-        className="text-2xl font-semibold mb-2"
         style={{
+          fontSize: "28px",
+          fontWeight: 600,
+          letterSpacing: "-0.01em",
           color: "rgba(231,240,238,0.95)",
-          fontWeight: 500,
+          marginBottom: "12px",
         }}
       >
         {tierName}
       </h3>
 
       {/* Price */}
-      <div className="mb-3">
+      <div style={{ marginBottom: "20px" }}>
         <span
-          className="text-4xl font-semibold"
           style={{
-            color: "rgba(231,240,238,0.95)",
+            fontSize: "42px",
             fontWeight: 600,
+            color: "rgba(231,240,238,0.95)",
           }}
         >
           {price}
         </span>
         <span
-          className="text-lg ml-1"
           style={{
-            color: "var(--text-muted)",
+            fontSize: "16px",
+            color: "rgba(143,166,163,0.78)",
+            marginLeft: "4px",
           }}
         >
           / month
         </span>
       </div>
 
-      {/* Tagline */}
+      {/* Description */}
       <p
-        className="text-sm mb-8 leading-relaxed"
         style={{
-          color: "var(--text-secondary)",
+          fontSize: "15px",
           lineHeight: 1.6,
+          color: "rgba(143,166,163,0.78)",
+          marginBottom: "24px",
         }}
       >
         {tagline}
       </p>
 
-      {/* Feature Groups */}
-      <div className="space-y-6 mb-8">
-        {featureGroups.map((group, groupIdx) => {
-          // Handle header-only groups (like "Includes Everything...")
-          if (group.features.length === 0) {
-            return (
-              <div key={groupIdx}>
-                <p
-                  className="text-sm font-medium mb-4"
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
-                >
-                  {group.title}
-                </p>
-              </div>
-            );
-          }
-          return (
-            <div key={groupIdx}>
-              <h4
-                className="text-xs font-semibold uppercase mb-3"
-                style={{
-                  color: "var(--text-muted)",
-                  letterSpacing: "1px",
-                }}
-              >
-                {group.title}
-              </h4>
-              <div className="space-y-2.5">
-                {group.features.map((feature, featureIdx) => (
-                  <div key={featureIdx} className="flex items-start gap-2.5">
-                    <span
-                      className="text-sm mt-0.5 flex-shrink-0"
-                      style={{
-                        color: "var(--accent)",
-                      }}
-                    >
-                      ✓
-                    </span>
-                    <p
-                      className="text-sm leading-relaxed"
-                      style={{
-                        color: "var(--text-secondary)",
-                      }}
-                    >
-                      {feature}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+      {/* Primary Value Bullets (max 3) */}
+      <div style={{ marginBottom: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+        {primaryBullets.map((bullet, idx) => (
+          <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+            <span
+              style={{
+                fontSize: "14px",
+                color: "rgba(110,211,194,0.95)",
+                marginTop: "2px",
+                flexShrink: 0,
+              }}
+            >
+              ✔
+            </span>
+            <p
+              style={{
+                fontSize: "14px",
+                lineHeight: 1.5,
+                color: "rgba(231,240,238,0.95)",
+              }}
+            >
+              {bullet}
+            </p>
+          </div>
+        ))}
       </div>
 
-      {/* CTA */}
-      <Link
-        href={ctaLink}
-        className="block w-full text-center py-3.5 px-6 rounded-full font-semibold text-sm transition-all"
+      {/* CTA Button */}
+      <div style={{ marginBottom: "24px" }}>
+        <Link
+          href={ctaLink}
+          onClick={handleCTAClick}
+          className="block w-full text-center py-3.5 px-6 rounded-full font-semibold text-sm transition-all"
+          style={{
+            backgroundColor: "rgba(110,211,194,0.95)",
+            color: "#071012",
+          }}
+          onMouseEnter={(e) => {
+            if (typeof window !== "undefined" && e.currentTarget) {
+              e.currentTarget.style.backgroundColor = "rgba(110,211,194,1)";
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (typeof window !== "undefined" && e.currentTarget) {
+              e.currentTarget.style.backgroundColor = "rgba(110,211,194,0.95)";
+            }
+          }}
+        >
+          {ctaText}
+        </Link>
+      </div>
+
+      {/* Divider */}
+      <div
         style={{
-          backgroundColor: isHighlighted
-            ? isHovered
-              ? "var(--accent-hover)"
-              : "var(--accent)"
-            : isHovered
-            ? "rgba(110,211,194,0.9)"
-            : "var(--accent)",
-          color: "#071012",
+          height: "1px",
+          backgroundColor: "rgba(255,255,255,0.06)",
+          marginBottom: "24px",
         }}
-        onMouseEnter={(e) => {
-          if (typeof window !== "undefined" && e.currentTarget) {
-            e.currentTarget.style.backgroundColor = isHighlighted
-              ? "var(--accent-hover)"
-              : "var(--accent-hover)";
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (typeof window !== "undefined" && e.currentTarget) {
-            e.currentTarget.style.backgroundColor = isHighlighted
-              ? "var(--accent)"
-              : "var(--accent)";
-          }
-        }}
-      >
-        {ctaText}
-      </Link>
+      />
+
+      {/* Expandable Modules List */}
+      <div>
+        <p
+          style={{
+            fontSize: "13px",
+            fontWeight: 500,
+            color: "rgba(143,166,163,0.65)",
+            marginBottom: "12px",
+          }}
+        >
+          What's inside
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+          {featureGroups.map((group, idx) => (
+            <PricingModuleAccordion
+              key={idx}
+              title={group.title}
+              items={group.features}
+              prefersReducedMotion={prefersReducedMotion}
+            />
+          ))}
+        </div>
+      </div>
     </motion.div>
   );
 }
-

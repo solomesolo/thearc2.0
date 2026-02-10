@@ -9,7 +9,7 @@ import { DemoEmbedCard } from "../../components/hero/DemoEmbedCard";
 import MarketingSignalExampleMini from "../../components/marketing/MarketingSignalExampleMini";
 import TimelineMiniStrip from "../../components/marketing/TimelineMiniStrip";
 import DevicePreviewMini from "../../components/marketing/DevicePreviewMini";
-import DayInLifeStorySection from "../../components/story/DayInLifeStorySection";
+import DayInLifeSection from "../../components/marketing/DayInLifeSection";
 import OptionalDeepDiveSection from "../../components/optional/OptionalDeepDiveSection";
 import PricingSection from "../../components/pricing/PricingSection";
 import Link from "next/link";
@@ -503,13 +503,21 @@ export default function YourArcPage() {
                   {card.supporting && (
                     <p className="text-xs mb-3" style={{ color: "var(--text-muted)" }}>{card.supporting}</p>
                   )}
-                  <button
-                    type="button"
+                  <div
+                    role="button"
+                    tabIndex={0}
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedOutcome(cardId);
                     }}
-                    className="text-xs font-medium inline-flex items-center gap-1 transition-colors"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSelectedOutcome(cardId);
+                      }
+                    }}
+                    className="text-xs font-medium inline-flex items-center gap-1 transition-colors cursor-pointer"
                     style={{ 
                       color: isActive ? colorTheme.accent : "var(--accent)",
                     }}
@@ -526,7 +534,7 @@ export default function YourArcPage() {
                   >
                     View example
                     <span aria-hidden="true">→</span>
-                  </button>
+                  </div>
                 </motion.button>
               );
             })}
@@ -1402,7 +1410,7 @@ export default function YourArcPage() {
       </section>
 
       {/* Section 5.5: Day in the life story section */}
-      <DayInLifeStorySection prefersReducedMotion={prefersReducedMotion} />
+      <DayInLifeSection />
 
       {/* Section 5.6: Optional deep dive section */}
       <OptionalDeepDiveSection prefersReducedMotion={prefersReducedMotion} />

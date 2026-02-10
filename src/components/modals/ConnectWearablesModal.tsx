@@ -249,3 +249,4 @@ export default function ConnectWearablesModal({ isOpen, onClose }: ConnectWearab
   );
 }
 
+

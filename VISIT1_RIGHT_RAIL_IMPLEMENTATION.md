@@ -190,3 +190,4 @@ Each tab panel uses the same shared structure:
 6. Enhance AI suggestions based on narrative analysis
 
 
+

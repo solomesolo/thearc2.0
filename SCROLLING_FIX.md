@@ -145,3 +145,4 @@ The `min-height: 0` property is essential because:
 - `src/components/cabinet/CabinetFooterStatus.tsx` - Footer component
 
 
+

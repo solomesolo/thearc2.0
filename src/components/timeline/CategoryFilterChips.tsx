@@ -47,3 +47,4 @@ export default function CategoryFilterChips({ selectedCategory, onCategoryChange
   );
 }
 
+

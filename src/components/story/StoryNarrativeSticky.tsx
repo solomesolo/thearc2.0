@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 
-export type StoryStep = "upload" | "timeline" | "signal" | "action" | "marketplace";
+export type StoryStep = "upload" | "timeline" | "signals" | "action" | "marketplace";
 
 interface StepData {
   id: StoryStep;
@@ -32,7 +32,7 @@ const steps: StepData[] = [
     ctaText: "Explore timeline →",
   },
   {
-    id: "signal",
+    id: "signals",
     label: "3 — Signals",
     title: "A trend becomes visible",
     body: "A single result may look normal — but a pattern across time can matter.",

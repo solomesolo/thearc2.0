@@ -33,6 +33,17 @@ export default function DocumentsPage() {
     if (documentsData.documents && documentsData.documents.length > 0) {
       setSelectedDocumentId(documentsData.documents[0].id);
     }
+
+    // Check for state=upload query parameter to auto-open upload modal
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("state") === "upload") {
+        // Small delay to ensure modals are ready
+        setTimeout(() => {
+          useCommandCenterStore.getState().evtAddDataClick();
+        }, 300);
+      }
+    }
   }, []);
 
   // Enable review mode when reviewMode is true
