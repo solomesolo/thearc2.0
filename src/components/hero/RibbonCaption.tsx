@@ -58,3 +58,4 @@ export function RibbonCaption({ mode, prefersReducedMotion = false }: RibbonCapt
 }
 
 
+

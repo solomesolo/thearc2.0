@@ -23,9 +23,9 @@ export default function SceneTimeline() {
               key={filter}
               className="px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.5px] rounded border transition-colors cursor-default"
               style={{
-                backgroundColor: idx === 0 ? "rgba(110,211,194,0.10)" : "rgba(255,255,255,0.02)",
-                borderColor: idx === 0 ? "rgba(110,211,194,0.18)" : "rgba(255,255,255,0.06)",
-                color: idx === 0 ? "rgba(110,211,194,0.95)" : "rgba(143,166,163,0.78)",
+                backgroundColor: idx === 0 ? "var(--accent-soft)" : "var(--surface-2)",
+                borderColor: idx === 0 ? "var(--accent)" : "var(--border)",
+                color: idx === 0 ? "var(--accent)" : "var(--text-muted)",
               }}
             >
               {filter}
@@ -41,16 +41,16 @@ export default function SceneTimeline() {
                 key={item.id}
                 className="rounded-lg border p-2.5 flex items-center gap-3"
                 style={{
-                  backgroundColor: item.isNew ? "rgba(110,211,194,0.05)" : "rgba(255,255,255,0.03)",
-                  borderColor: item.isNew ? "rgba(110,211,194,0.18)" : "rgba(255,255,255,0.06)",
+                  backgroundColor: item.isNew ? "var(--accent-soft)" : "var(--surface-2)",
+                  borderColor: item.isNew ? "var(--accent)" : "var(--border)",
                 }}
               >
                 {/* Icon */}
                 <div
                   className="w-8 h-8 rounded flex items-center justify-center text-[10px] font-semibold flex-shrink-0"
                   style={{
-                    backgroundColor: item.isNew ? "rgba(110,211,194,0.15)" : "rgba(255,255,255,0.05)",
-                    color: item.isNew ? "rgba(110,211,194,0.95)" : "rgba(231,240,238,0.65)",
+                    backgroundColor: item.isNew ? "var(--accent-soft)" : "var(--surface-2)",
+                    color: item.isNew ? "var(--accent)" : "var(--text-muted)",
                   }}
                 >
                   {item.icon}
@@ -59,22 +59,22 @@ export default function SceneTimeline() {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-xs font-medium truncate" style={{ color: "rgba(231,240,238,0.95)" }}>
+                    <p className="text-xs font-medium truncate" style={{ color: "var(--text)" }}>
                       {item.title}
                     </p>
                     {item.isNew && (
                       <span
                         className="px-1.5 py-0.5 text-[9px] font-semibold uppercase rounded flex-shrink-0"
                         style={{
-                          backgroundColor: "rgba(110,211,194,0.20)",
-                          color: "rgba(110,211,194,0.95)",
+                          backgroundColor: "var(--accent-soft)",
+                          color: "var(--accent)",
                         }}
                       >
                         NEW
                       </span>
                     )}
                   </div>
-                  <p className="text-[10px]" style={{ color: "rgba(143,166,163,0.65)" }}>
+                  <p className="text-[10px]" style={{ color: "var(--text-muted)" }}>
                     {item.date}
                   </p>
                 </div>
@@ -83,8 +83,8 @@ export default function SceneTimeline() {
                 <span
                   className="px-2 py-0.5 text-[10px] font-medium rounded flex-shrink-0"
                   style={{
-                    backgroundColor: "rgba(255,255,255,0.05)",
-                    color: "rgba(143,166,163,0.78)",
+                    backgroundColor: "var(--surface-2)",
+                    color: "var(--text-muted)",
                   }}
                 >
                   {item.tag}

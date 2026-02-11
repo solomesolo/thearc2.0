@@ -1,0 +1,75 @@
+/**
+ * Design Tokens - Single Source of Truth
+ * 
+ * All colors, typography, spacing, and design decisions live here.
+ * Pages and components reference these tokens, never hard-coded values.
+ */
+
+:root {
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Inter', 'Arial', sans-serif;
+
+  /* Radii */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+
+  /* Shadows */
+  --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.10);
+  --shadow-dark: 0 40px 120px rgba(0, 0, 0, 0.55);
+
+  /* Accent (shared across themes) */
+  --accent: 110 211 194;
+}
+
+/* ============================================
+   LIGHT MODE (Clinical)
+   ============================================ */
+html[data-theme="light"] {
+  /* Backgrounds */
+  --bg: 248 250 250;
+  --surface: 255 255 255;
+  --surface-2: 245 248 248;
+
+  /* Text */
+  --text-1: 12 18 18;
+  --text-2: 45 60 58;
+  --text-3: 90 108 104;
+
+  /* Borders */
+  --border: 12 18 18 / 0.10;
+
+  /* Buttons */
+  --btn-primary-bg: var(--accent);
+  --btn-primary-text: 9 14 15;
+  --btn-secondary-bg: 255 255 255;
+  --btn-secondary-text: 12 18 18;
+  --btn-secondary-border: 12 18 18 / 0.12;
+}
+
+/* ============================================
+   DARK MODE (Lab/Intelligence)
+   ============================================ */
+html[data-theme="dark"] {
+  /* Backgrounds */
+  --bg: 8 12 12;
+  --surface: 12 18 18;
+  --surface-2: 16 24 24;
+
+  /* Text */
+  --text-1: 231 240 238;
+  --text-2: 164 185 181;
+  --text-3: 120 140 136;
+
+  /* Borders */
+  --border: 255 255 255 / 0.08;
+
+  /* Buttons */
+  --btn-primary-bg: var(--accent);
+  --btn-primary-text: 9 14 15;
+  --btn-secondary-bg: 16 24 24;
+  --btn-secondary-text: 231 240 238;
+  --btn-secondary-border: 255 255 255 / 0.14;
+}
+
+

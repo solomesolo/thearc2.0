@@ -341,3 +341,4 @@ export default function EventDetailPanel({ event, documents = {}, signals = [], 
 }
 
 
+

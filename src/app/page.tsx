@@ -156,19 +156,19 @@ function MarketplaceContent() {
     category: MarketplaceCategoryContent,
     audience: MarketplaceAudience
   ) => (
-    <div className="mt-4 rounded-xl bg-[#050607] border border-white/10 p-4 md:p-5 space-y-3">
-      <p className="text-xs font-semibold text-gray-300 uppercase tracking-[0.12em]">
+    <div className="mt-4 rounded-xl p-4 md:p-5 space-y-3" style={{ backgroundColor: "var(--surface-2)", border: "1px solid var(--border)" }}>
+      <p className="text-xs font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--text-muted)" }}>
         How it connects to your timeline
       </p>
-      <p className="text-sm text-gray-300">{category.timelineConnection}</p>
+      <p className="text-sm" style={{ color: "var(--text)" }}>{category.timelineConnection}</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
         <div className="space-y-1">
-          <p className="text-xs font-semibold text-gray-400">Trigger</p>
-          <p className="text-xs text-gray-300">{category.trigger}</p>
+          <p className="text-xs font-semibold" style={{ color: "var(--text-muted)" }}>Trigger</p>
+          <p className="text-xs" style={{ color: "var(--text)" }}>{category.trigger}</p>
           </div>
         <div className="space-y-1">
-          <p className="text-xs font-semibold text-gray-400">Outcome</p>
-          <p className="text-xs text-gray-300">{category.outcome}</p>
+          <p className="text-xs font-semibold" style={{ color: "var(--text-muted)" }}>Outcome</p>
+          <p className="text-xs" style={{ color: "var(--text)" }}>{category.outcome}</p>
         </div>
         </div>
       </div>
@@ -355,14 +355,14 @@ function MarketplaceContent() {
           {activeCategory ? (
             renderDetailsCard(activeCategory, activeTab)
           ) : (
-            <div className="mt-4 rounded-xl bg-[#050607] border border-white/10 p-5 space-y-3">
-              <p className="text-xs font-semibold text-gray-300 uppercase tracking-[0.12em]">
+            <div className="mt-4 rounded-xl border p-5 space-y-3" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+              <p className="text-xs font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--text-muted)" }}>
                 How it connects to your timeline
               </p>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm" style={{ color: "var(--text)" }}>
                 Marketplace options appear when your data and goals reach a point where a diagnostic device or service can move you forward.
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>
                 Example: A change in a marker can prompt a new diagnostic and the result adjusts your plan automatically.
               </p>
             </div>
@@ -544,8 +544,8 @@ function CapabilityCard({
         }}
         transition={{ duration: 0.25, ease: "easeOut" }}
       >
-        <div className="mt-3 pt-3 border-t border-white/10">
-          <p className="text-gray-400 text-xs italic">{example}</p>
+        <div className="mt-3 pt-3 border-t" style={{ borderColor: "var(--border)" }}>
+          <p className="text-xs italic" style={{ color: "var(--text-muted)" }}>{example}</p>
         </div>
       </motion.div>
     </motion.div>
@@ -557,7 +557,7 @@ export default function HomePage() {
   const [showPartnershipModal, setShowPartnershipModal] = useState(false);
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen" style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}>
       {/* home.hero */}
       <section id="home.hero">
         <HeroSectionV2

@@ -6,12 +6,17 @@ import Container from "../../components/Container";
 import { ArcButton } from "../../components/ui/ArcButton";
 import { HeroContinuityCardMini } from "../../components/hero/HeroContinuityCardMini";
 import { DemoEmbedCard } from "../../components/hero/DemoEmbedCard";
+import { HeroFloatingUI } from "../../components/hero/HeroFloatingUI";
 import MarketingSignalExampleMini from "../../components/marketing/MarketingSignalExampleMini";
-import TimelineMiniStrip from "../../components/marketing/TimelineMiniStrip";
-import DevicePreviewMini from "../../components/marketing/DevicePreviewMini";
+import WebDashboardPreview from "../../components/marketing/WebDashboardPreview";
+import MobileViewPreview from "../../components/marketing/MobileViewPreview";
 import DayInLifeSection from "../../components/marketing/DayInLifeSection";
 import OptionalDeepDiveSection from "../../components/optional/OptionalDeepDiveSection";
 import PricingSection from "../../components/pricing/PricingSection";
+import { ThemeSection } from "../../theme/ThemeSection";
+import { useTheme } from "../../theme/ThemeProvider";
+import PageShell from "../../components/layout/PageShell";
+import { Section } from "../../components/layout/Section";
 import Link from "next/link";
 
 type OutcomeId = "inflammation" | "blood-timing" | "sleep-pattern";
@@ -150,30 +155,447 @@ const actionPathData: Record<
 > = {
   diagnostics: {
     context: [
-      "A change in your timeline suggests additional clarity may help.",
-      "Arc shows relevant testing options with preparation notes expected costs and how results would fit into your history.",
-      "You decide whether and when to proceed.",
+      "LDL Cholesterol Pattern Detected",
+      "",
+      "Your records indicate a change in LDL cholesterol dynamics across recent results.",
+      "",
+      "Rather than viewing this as an isolated value, The Arc evaluates lipid markers longitudinally, where trends often carry greater clinical meaning than single measurements.",
+      "",
+      "Elevated attention may be appropriate when patterns suggest:",
+      "",
+      "• Persistent shifts rather than temporary variation",
+      "• Changes linked to metabolic or inflammatory influences",
+      "• Profiles associated with altered cardiovascular risk",
+      "",
+      "Additional insight may come from targeted lipid markers that clarify underlying physiology and refine interpretation.",
     ],
   },
   specialists: {
     context: [
-      "If interpretation matters more than more data Arc highlights specialists experienced in early stage prevention.",
-      "Your timeline provides shared context before any conversation begins.",
+      "Sleep Regulation Signals Identified",
+      "",
+      "Recent data suggests changes in sleep efficiency, resting heart rate, and recovery variability.",
+      "",
+      "These metrics reflect regulatory activity within the autonomic nervous system. When observed together, they may indicate adaptive stress responses or emerging disruption of restorative processes.",
+      "",
+      "Patterns of interest typically include:",
+      "",
+      "• Concurrent movement across multiple recovery indicators",
+      "• Sustained deviation from established baselines",
+      "• Signatures associated with sleep instability",
+      "",
+      "Further evaluation may help distinguish transient adaptation from patterns that benefit from specialist insight.",
     ],
   },
   services: {
     context: [
-      "When lifestyle or longitudinal support is appropriate Arc surfaces services tied to clinical guidance.",
-      "Programs are transparent optional and easy to stop.",
+      "Vitamin D Trend Observed",
+      "",
+      "Your documents show a reduction in Vitamin D levels alongside reported fatigue.",
+      "",
+      "Vitamin D participates in neuromuscular function, immune modulation, and metabolic processes. Contextual interpretation is important, as clinical relevance depends on magnitude, duration, and symptom correlation.",
+      "",
+      "Considerations may include:",
+      "",
+      "• Degree and persistence of the reduction",
+      "• Biological plausibility of associated symptoms",
+      "• Expected physiological response to normalization",
+      "",
+      "Structured correction strategies are available when appropriate.",
     ],
   },
 };
 
+// Clinical Summary Panel Component
+interface ClinicalSummaryPanelProps {
+  actionPathData: {
+    context: string[];
+  };
+  prefersReducedMotion?: boolean;
+}
+
+function ClinicalSummaryPanel({
+  actionPathData,
+  prefersReducedMotion = false,
+}: ClinicalSummaryPanelProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  // Parse the context array into structured sections
+  // Structure: [title, "", summary, "", interpretation, "", patternsLabel, "", bullets..., "", finalParagraph]
+  const title = actionPathData.context[0] || "";
+  const summaryParagraph = actionPathData.context[2] || "";
+  const interpretationParagraph = actionPathData.context[4] || "";
+  
+  // Find patterns label (usually around index 6)
+  let patternsLabel = "";
+  for (let i = 0; i < actionPathData.context.length; i++) {
+    const line = actionPathData.context[i];
+    if (line && (line.toLowerCase().includes("pattern") || 
+                 line.toLowerCase().includes("include") ||
+                 line.toLowerCase().includes("consider") ||
+                 line.toLowerCase().includes("appropriate"))) {
+      patternsLabel = line;
+      break;
+    }
+  }
+  if (!patternsLabel) {
+    patternsLabel = "Patterns of interest typically include:";
+  }
+  
+  // Get bullets (lines starting with •)
+  const bullets = actionPathData.context.filter(line => line.startsWith("•"));
+  
+  // Get final paragraph (last non-empty, non-bullet line)
+  const finalParagraph = actionPathData.context
+    .slice()
+    .reverse()
+    .find(line => line !== "" && !line.startsWith("•") && !line.toLowerCase().includes("pattern") && !line.toLowerCase().includes("include") && !line.toLowerCase().includes("consider")) || "";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
+      className="border mb-6 practice-panel clinical-summary"
+      style={{
+        backgroundColor: `var(--surface-raised)`,
+        borderRadius: "var(--radius-xl)",
+        borderWidth: "1px",
+        borderStyle: "solid",
+        borderColor: `var(--border-subtle)`,
+        padding: "20px 24px",
+      }}
+    >
+      {/* Eyebrow */}
+      <p 
+        className="font-semibold uppercase mb-2"
+        style={{
+          fontSize: "10px",
+          letterSpacing: "0.2em",
+          color: `var(--text-muted)`,
+        }}
+      >
+        HOW THIS WORKS IN PRACTICE
+      </p>
+
+      {/* Title */}
+      <h3
+        style={{
+          fontSize: "26px",
+          fontWeight: 600,
+          color: `var(--text-primary)`,
+          marginBottom: "12px",
+        }}
+      >
+        {title}
+      </h3>
+
+      {/* Summary Section (Always Visible) */}
+      <div style={{ marginBottom: "14px" }}>
+        <p
+          className="summary-text"
+          style={{
+            fontSize: "16px",
+            lineHeight: 1.6,
+            color: `var(--text-muted)`,
+            fontWeight: 400,
+            display: "-webkit-box",
+            WebkitLineClamp: isExpanded ? "none" : 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
+          {summaryParagraph}
+        </p>
+      </div>
+
+      {/* What it may indicate (Collapsed view) */}
+      {!isExpanded && (
+        <div style={{ marginBottom: "14px" }}>
+          <p
+            style={{
+              fontSize: "16px",
+              lineHeight: 1.6,
+              color: `var(--text-muted)`,
+              fontWeight: 400,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            {interpretationParagraph}
+          </p>
+        </div>
+      )}
+
+      {/* Patterns Section (Always Visible) */}
+      <div style={{ marginBottom: "14px" }}>
+        <p
+          style={{
+            fontSize: "14px",
+            fontWeight: 500,
+            color: `var(--text-muted)`,
+            marginBottom: "10px",
+          }}
+        >
+          {patternsLabel}
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          {bullets.slice(0, 3).map((bullet, idx) => (
+            <div
+              key={idx}
+              className="pattern-item"
+              style={{
+                position: "relative",
+                paddingLeft: "14px",
+                margin: "0",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: "15px",
+                  lineHeight: 1.6,
+                  color: `var(--text-primary)`,
+                  fontWeight: 400,
+                }}
+              >
+                {bullet.replace("•", "").trim()}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Expand/Collapse Control */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="expand-control w-full flex items-center justify-between text-left transition-all"
+        style={{
+          marginTop: "12px",
+          padding: "8px 0",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          color: `var(--text-muted)`,
+        }}
+        onMouseEnter={(e) => {
+          if (typeof window !== "undefined" && e.currentTarget) {
+            e.currentTarget.style.textDecoration = "underline";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (typeof window !== "undefined" && e.currentTarget) {
+            e.currentTarget.style.textDecoration = "none";
+          }
+        }}
+        onFocus={(e) => {
+          if (typeof window !== "undefined" && e.currentTarget) {
+            e.currentTarget.style.outline = "2px solid var(--accent-soft)";
+            e.currentTarget.style.outlineOffset = "2px";
+            e.currentTarget.style.borderRadius = "4px";
+          }
+        }}
+        onBlur={(e) => {
+          if (typeof window !== "undefined" && e.currentTarget) {
+            e.currentTarget.style.outline = "none";
+          }
+        }}
+      >
+        <span
+          style={{
+            fontSize: "14px",
+            fontWeight: 500,
+            color: `var(--text-muted)`,
+          }}
+        >
+          {isExpanded ? "Hide clinical rationale" : "Read clinical rationale"}
+        </span>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          style={{
+            color: "var(--text-muted)",
+            transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.2s ease",
+            flexShrink: 0,
+          }}
+        >
+          <path
+            d="M4 6L8 10L12 6"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      {/* Expanded Content */}
+      {isExpanded && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: "easeOut" }}
+          style={{ overflow: "hidden", marginTop: "18px" }}
+        >
+          {/* Context Section */}
+          <div style={{ marginBottom: "18px", paddingTop: "14px", borderTop: "1px solid var(--border-subtle)" }}>
+            <h4
+              style={{
+                fontSize: "14px",
+                fontWeight: 500,
+                color: `var(--text-muted)`,
+                marginBottom: "12px",
+              }}
+            >
+              Context
+            </h4>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: 1.6,
+                color: `var(--text-muted)`,
+                fontWeight: 400,
+              }}
+            >
+              {summaryParagraph}
+            </p>
+          </div>
+
+          {/* Interpretation Section */}
+          <div style={{ marginBottom: "18px" }}>
+            <h4
+              style={{
+                fontSize: "14px",
+                fontWeight: 500,
+                color: `var(--text-muted)`,
+                marginBottom: "12px",
+              }}
+            >
+              Interpretation
+            </h4>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: 1.6,
+                color: `var(--text-muted)`,
+                fontWeight: 400,
+              }}
+            >
+              {interpretationParagraph}
+            </p>
+          </div>
+
+          {/* Patterns of Interest Section */}
+          <div style={{ marginBottom: "18px" }}>
+            <h4
+              style={{
+                fontSize: "14px",
+                fontWeight: 500,
+                color: `var(--text-muted)`,
+                marginBottom: "12px",
+              }}
+            >
+              Patterns of interest
+            </h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {bullets.map((bullet, idx) => (
+                <div
+                  key={idx}
+                  className="pattern-item"
+                  style={{
+                    position: "relative",
+                    paddingLeft: "14px",
+                    margin: "0",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontSize: "15px",
+                      lineHeight: 1.6,
+                      color: `var(--text-primary)`,
+                      fontWeight: 400,
+                    }}
+                  >
+                    {bullet.replace("•", "").trim()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* What to do next Section */}
+          {finalParagraph && (
+            <div style={{ paddingTop: "14px", borderTop: "1px solid var(--border-subtle)" }}>
+              <h4
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: `var(--text-muted)`,
+                  marginBottom: "12px",
+                }}
+              >
+                What to do next
+              </h4>
+              <p
+                style={{
+                  fontSize: "16px",
+                  lineHeight: 1.6,
+                  color: `var(--text-muted)`,
+                  fontWeight: 400,
+                }}
+              >
+                {finalParagraph}
+              </p>
+            </div>
+          )}
+        </motion.div>
+      )}
+
+      {/* Practice Note - Subtle Footnote */}
+      <div 
+        className="practice-note"
+        style={{
+          marginTop: "18px",
+          paddingTop: "14px",
+          borderTop: "1px solid var(--border-subtle)",
+          background: `var(--surface-2)`,
+          borderRadius: "12px",
+          padding: "10px 12px",
+          color: "var(--text-muted)",
+          fontSize: "13px",
+          lineHeight: 1.5,
+        }}
+      >
+        <p 
+          style={{
+            fontSize: "13px",
+            lineHeight: 1.5,
+            color: `var(--text-muted)`,
+            margin: 0,
+          }}
+        >
+          Early access users receive priority access and locked in discounts on selected services.
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function YourArcPage() {
+  const { theme } = useTheme();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [selectedOutcome, setSelectedOutcome] = useState<OutcomeId>("inflammation");
   const [selectedStep, setSelectedStep] = useState<UsageStepId>("step1");
   const [selectedActionPath, setSelectedActionPath] = useState<ActionPathId>("diagnostics");
+  
+  // Hero section should be light unless user explicitly selected dark globally
+  const heroTheme = theme === "dark" ? "dark" : "light";
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -208,17 +630,18 @@ export default function YourArcPage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "var(--bg)", color: "var(--text-primary)" }}>
+    <PageShell>
       {/* Section 1: Hero v2 - Split Layout */}
-      <section 
-        className="relative"
-            style={{ 
-          minHeight: "clamp(600px, 85vh, 820px)",
-          paddingTop: "clamp(48px, 8vh, 88px)",
-          paddingBottom: "clamp(48px, 10vh, 96px)",
-          backgroundColor: "var(--bg)",
-        }}
-      >
+      <ThemeSection theme={heroTheme}>
+        <section 
+          className="relative"
+          style={{ 
+            minHeight: "clamp(600px, 85vh, 820px)",
+            paddingTop: "clamp(48px, 8vh, 88px)",
+            paddingBottom: "clamp(48px, 10vh, 96px)",
+            backgroundColor: "rgb(var(--bg))",
+          }}
+        >
         {/* Full-width container with proper padding */}
         <div className="w-full max-w-[1440px] mx-auto px-5 md:px-8 lg:px-16">
           {/* 12-col grid container */}
@@ -238,7 +661,7 @@ export default function YourArcPage() {
                       fontSize: "12px",
                       fontWeight: 600,
                       letterSpacing: "2.4px",
-                      color: "var(--text-muted)",
+                      color: "var(--text-3)",
                       marginBottom: "18px",
                     }}
                   >
@@ -251,12 +674,9 @@ export default function YourArcPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.7, delay: 0.1 }}
-                  className="font-semibold"
+                  className="h1-unified"
                   style={{
                     fontSize: "clamp(38px, 5vw, 56px)",
-                    fontWeight: 600,
-                    lineHeight: 1.1,
-                    color: "var(--text-primary)",
                     maxWidth: "680px",
                     marginBottom: "20px",
                   }}
@@ -271,11 +691,9 @@ export default function YourArcPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.7, delay: 0.2 }}
+                  className="body-unified"
                   style={{
                     fontSize: "18px",
-                    fontWeight: 400,
-                    lineHeight: 1.6,
-                    color: "var(--text-secondary)",
                     maxWidth: "560px",
                     marginBottom: "8px",
                   }}
@@ -292,7 +710,7 @@ export default function YourArcPage() {
                     fontSize: "14px",
                     fontWeight: 400,
                     lineHeight: 1.5,
-                    color: "var(--text-muted)",
+                    color: "var(--text-3)",
                     maxWidth: "560px",
                     marginBottom: "22px",
                   }}
@@ -324,21 +742,21 @@ export default function YourArcPage() {
                   <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-start">
                     <button
                       onClick={handlePrimaryCTA}
-                      className="rounded-full px-[22px] h-12 flex items-center justify-center font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] w-full sm:w-auto"
+                      className="rounded-full px-[22px] h-12 flex items-center justify-center font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--accent))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))] w-full sm:w-auto"
                       style={{
-                        backgroundColor: "var(--accent)",
-                        color: "#071012",
+                        backgroundColor: `rgb(var(--btn-primary-bg))`,
+                        color: `rgb(var(--btn-primary-text))`,
                         fontSize: "15px",
                         fontWeight: 600,
                       }}
                       onMouseEnter={(e) => {
                         if (typeof window !== "undefined" && e.currentTarget) {
-                          e.currentTarget.style.backgroundColor = "var(--accent-hover)";
+                          e.currentTarget.style.backgroundColor = `rgb(var(--accent) / 0.9)`;
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (typeof window !== "undefined" && e.currentTarget) {
-                          e.currentTarget.style.backgroundColor = "var(--accent)";
+                          e.currentTarget.style.backgroundColor = `rgb(var(--btn-primary-bg))`;
                         }
                       }}
                     >
@@ -346,24 +764,24 @@ export default function YourArcPage() {
                     </button>
                     <button
                       onClick={handleSecondaryCTA}
-                      className="rounded-full px-[22px] h-12 flex items-center justify-center font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] w-full sm:w-auto"
+                      className="rounded-full px-[22px] h-12 flex items-center justify-center font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--accent))] focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--bg))] w-full sm:w-auto"
                       style={{
-                        backgroundColor: "transparent",
-                        border: "1px solid var(--border-strong)",
-                        color: "var(--text-primary)",
+                        backgroundColor: `rgb(var(--btn-secondary-bg))`,
+                        border: `1px solid rgb(var(--btn-secondary-border))`,
+                        color: `rgb(var(--btn-secondary-text))`,
                         fontSize: "15px",
                         fontWeight: 500,
                       }}
                       onMouseEnter={(e) => {
                         if (typeof window !== "undefined" && e.currentTarget) {
-                          e.currentTarget.style.borderColor = "var(--accent-muted)";
-                          e.currentTarget.style.color = "var(--accent-hover)";
+                          e.currentTarget.style.borderColor = `rgb(var(--accent))`;
+                          e.currentTarget.style.color = `rgb(var(--accent))`;
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (typeof window !== "undefined" && e.currentTarget) {
-                          e.currentTarget.style.borderColor = "var(--border-strong)";
-                          e.currentTarget.style.color = "var(--text-primary)";
+                          e.currentTarget.style.borderColor = `rgb(var(--btn-secondary-border))`;
+                          e.currentTarget.style.color = `rgb(var(--btn-secondary-text))`;
                         }
                       }}
                     >
@@ -374,7 +792,7 @@ export default function YourArcPage() {
                     className="text-xs"
                     style={{
                       fontSize: "12px",
-                      color: "var(--text-muted)",
+                      color: "var(--text-3)",
                       marginTop: "12px",
                     }}
                   >
@@ -384,7 +802,7 @@ export default function YourArcPage() {
           </div>
             </div>
 
-            {/* Right Column: Demo Embed (spans cols 6-12, 7 cols = ~55%) */}
+            {/* Right Column: Floating UI Visualization (spans cols 6-12, 7 cols = ~55%) */}
             <div className="lg:col-span-7 lg:col-start-6 flex items-center justify-center lg:justify-start order-1 lg:order-2 mb-8 lg:mb-0">
               <div className="w-full">
                 <motion.div
@@ -392,32 +810,54 @@ export default function YourArcPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.8, delay: 0.5 }}
                 >
-                  <DemoEmbedCard prefersReducedMotion={prefersReducedMotion} />
+                  <HeroFloatingUI prefersReducedMotion={prefersReducedMotion} />
                 </motion.div>
               </div>
             </div>
           </div>
         </div>
       </section>
+      </ThemeSection>
 
       {/* Section 2: Realistic outcomes section */}
-      <section className="py-16 md:py-20" style={{ backgroundColor: "#060B0C" }}>
-        <div className="max-w-[1160px] mx-auto px-5 md:px-7 lg:px-10 xl:px-12">
+      <Section variant="surface2">
           {/* Section Header */}
           <div className="text-center mb-12 max-w-3xl mx-auto">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] mb-3" style={{ color: "var(--text-muted)" }}>
+            <p 
+              className="text-xs font-semibold uppercase tracking-[0.18em]" 
+              style={{ 
+                color: "var(--text-muted)",
+                marginBottom: "12px",
+              }}
+            >
               EARLY VISIBILITY
             </p>
-            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "rgba(231,240,238,0.95)" }}>
+            <h2 
+              className="font-semibold"
+              style={{
+                fontSize: "clamp(36px, 4vw, 48px)",
+                lineHeight: 1.1,
+                letterSpacing: "-0.02em",
+                color: "rgb(var(--text-1))",
+                marginBottom: "14px",
+              }}
+            >
               What early visibility actually looks like
             </h2>
-            <p className="text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            <p 
+              className="text-lg text-center"
+              style={{ 
+                fontSize: "18px",
+                lineHeight: 1.6,
+                color: "var(--text-muted)",
+              }}
+            >
               Not predictions. Not diagnoses. Just seeing what is hard to see when your records are scattered.
             </p>
           </div>
 
           {/* Outcome Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
             {[
               {
                 id: "inflammation" as OutcomeId,
@@ -443,7 +883,6 @@ export default function YourArcPage() {
             ].map((card, index) => {
               const cardId = card.id;
               const isActive = selectedOutcome === cardId;
-              const colorTheme = outcomeData[cardId].colorTheme;
               return (
                 <motion.button
                   key={card.id}
@@ -459,49 +898,89 @@ export default function YourArcPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: index * 0.1 }}
-                  className="text-left p-5 rounded-[20px] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B0C]"
+                  className="text-left border transition-all focus:outline-none"
                   style={{
-                    backgroundColor: "#0C1416",
-                    borderColor: isActive ? colorTheme.border : "rgba(231,240,238,0.08)",
-                    borderRadius: "20px",
-                    boxShadow: isActive
-                      ? `0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04), 0 0 20px ${colorTheme.shadow}`
-                      : "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
-                    transition: "all 180ms ease",
+                    backgroundColor: `var(--surface-card)`,
+                    borderWidth: "1px",
+                    borderStyle: "solid",
+                    borderColor: isActive ? `var(--accent-soft)` : `var(--border-subtle)`,
+                    borderRadius: "var(--radius-xl)",
+                    padding: "26px",
+                    boxShadow: isActive ? `var(--shadow-soft)` : "none",
+                    transition: "all 150ms ease-out",
                   }}
                   onMouseEnter={(e) => {
                     if (typeof window !== "undefined" && !isActive && e.currentTarget) {
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.borderColor = "rgba(110,211,194,0.25)";
+                      e.currentTarget.style.borderColor = `var(--border-subtle)`;
+                      e.currentTarget.style.boxShadow = `var(--shadow-soft)`;
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (typeof window !== "undefined" && !isActive && e.currentTarget) {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.borderColor = "rgba(231,240,238,0.08)";
+                      e.currentTarget.style.borderColor = `var(--border-subtle)`;
+                      e.currentTarget.style.boxShadow = "none";
+                    }
+                  }}
+                  onFocus={(e) => {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      e.currentTarget.style.outline = "2px solid var(--accent-soft)";
+                      e.currentTarget.style.outlineOffset = "2px";
+                    }
+                  }}
+                  onBlur={(e) => {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      e.currentTarget.style.outline = "none";
                     }
                   }}
                   aria-pressed={isActive}
                   tabIndex={0}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-semibold" style={{ color: "rgba(231,240,238,0.95)" }}>{card.title}</h3>
+                  <div className="flex items-center justify-between" style={{ marginBottom: "10px" }}>
+                    <h3 
+                      className="font-semibold"
+                      style={{ 
+                        fontSize: "24px",
+                        lineHeight: 1.25,
+                        color: `rgb(var(--text-1))`,
+                      }}
+                    >
+                      {card.title}
+                    </h3>
                     {isActive && (
                       <div
                         className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: colorTheme.accent }}
+                        style={{ backgroundColor: `var(--accent-soft)` }}
                       ></div>
                     )}
                   </div>
                   <p
-                    className="text-sm mb-2.5 font-medium"
-                    style={{ color: isActive ? colorTheme.accent : "var(--accent)" }}
+                    className="text-sm font-medium"
+                    style={{ 
+                      color: isActive ? `var(--accent-strong)` : `var(--accent-primary)`,
+                      marginBottom: "8px",
+                    }}
                   >
                     {card.subtitle}
                   </p>
-                  <p className="text-xs mb-2" style={{ color: "var(--text-muted)" }}>{card.timeLabel}</p>
+                  <p 
+                    className="text-xs" 
+                    style={{ 
+                      color: "var(--text-muted)",
+                      marginBottom: card.supporting ? "8px" : "14px",
+                    }}
+                  >
+                    {card.timeLabel}
+                  </p>
                   {card.supporting && (
-                    <p className="text-xs mb-3" style={{ color: "var(--text-muted)" }}>{card.supporting}</p>
+                    <p 
+                      className="text-xs" 
+                      style={{ 
+                        color: "var(--text-muted)",
+                        marginBottom: "14px",
+                      }}
+                    >
+                      {card.supporting}
+                    </p>
                   )}
                   <div
                     role="button"
@@ -517,18 +996,37 @@ export default function YourArcPage() {
                         setSelectedOutcome(cardId);
                       }
                     }}
-                    className="text-xs font-medium inline-flex items-center gap-1 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 transition-all cursor-pointer"
                     style={{ 
-                      color: isActive ? colorTheme.accent : "var(--accent)",
+                      color: `var(--accent-strong)`,
+                      fontSize: "14px",
+                      fontWeight: 500,
+                      paddingTop: "6px",
+                      paddingBottom: "6px",
+                      textDecoration: "none",
                     }}
                     onMouseEnter={(e) => {
                       if (typeof window !== "undefined" && e.currentTarget) {
-                        e.currentTarget.style.color = "var(--accent-hover)";
+                        e.currentTarget.style.color = `var(--accent-strong)`;
+                        e.currentTarget.style.textDecoration = "underline";
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (typeof window !== "undefined" && e.currentTarget) {
-                        e.currentTarget.style.color = isActive ? colorTheme.accent : "var(--accent)";
+                        e.currentTarget.style.color = `var(--accent-strong)`;
+                        e.currentTarget.style.textDecoration = "none";
+                      }
+                    }}
+                    onFocus={(e) => {
+                      if (typeof window !== "undefined" && e.currentTarget) {
+                        e.currentTarget.style.outline = "2px solid var(--accent-soft)";
+                        e.currentTarget.style.outlineOffset = "2px";
+                        e.currentTarget.style.borderRadius = "4px";
+                      }
+                    }}
+                    onBlur={(e) => {
+                      if (typeof window !== "undefined" && e.currentTarget) {
+                        e.currentTarget.style.outline = "none";
                       }
                     }}
                   >
@@ -548,165 +1046,351 @@ export default function YourArcPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
-              className="rounded-[20px] border p-6 md:p-8 relative overflow-hidden"
+              className="border relative overflow-hidden example-panel"
               style={{
-                backgroundColor: "#0C1416",
-                borderColor: outcomeData[selectedOutcome]?.colorTheme.border || "rgba(231,240,238,0.08)",
-                borderRadius: "20px",
-                boxShadow: "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
+                backgroundColor: `var(--surface-card)`,
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: `var(--border-subtle)`,
+                borderRadius: "24px",
+                padding: "32px 36px",
+                boxShadow: `var(--shadow-soft)`,
+                transition: "all 150ms ease-out",
+              }}
+              onMouseEnter={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.borderColor = `var(--border-subtle)`;
+                  // Increase indicator bar opacity on hover
+                  const indicatorBar = e.currentTarget.querySelector('[data-signal-indicator]') as HTMLElement;
+                  if (indicatorBar) {
+                    indicatorBar.style.opacity = "0.9";
+                  }
+                  // Deepen title color slightly
+                  const title = e.currentTarget.querySelector('[data-signal-title]') as HTMLElement;
+                  if (title) {
+                    title.style.opacity = "0.95";
+                  }
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.borderColor = `var(--border-subtle)`;
+                  // Reset indicator bar opacity
+                  const indicatorBar = e.currentTarget.querySelector('[data-signal-indicator]') as HTMLElement;
+                  if (indicatorBar) {
+                    indicatorBar.style.opacity = "0.7";
+                  }
+                  // Reset title color
+                  const title = e.currentTarget.querySelector('[data-signal-title]') as HTMLElement;
+                  if (title) {
+                    title.style.opacity = "1";
+                  }
+                }
               }}
             >
-            {/* Subtle amber gradient overlay for inflammation card */}
-            {selectedOutcome === "inflammation" && (
+              {/* Left-edge Signal Bar (Monitor state) */}
               <div
+                data-signal-indicator
                 style={{
                   position: "absolute",
-                  top: 0,
                   left: 0,
-                  right: 0,
-                  height: "2px",
-                  background: "linear-gradient(90deg, rgba(215,181,109,0.2) 0%, rgba(215,181,109,0.05) 100%)",
-                  pointerEvents: "none",
+                  top: "24px",
+                  bottom: "24px",
+                  width: "3px",
+                  borderRadius: "2px",
+                  background: `var(--signal-monitor)`,
+                  opacity: 0.7,
+                  transition: "opacity 150ms ease-out",
                 }}
               />
-            )}
-            <div className="space-y-5">
+              
+            <div className="space-y-5" style={{ paddingLeft: "0" }}>
               {/* Alert Content */}
               <div className="space-y-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.12em]" style={{ color: "var(--text-muted)" }}>
-                  Example signal
+                <p 
+                  className="font-semibold uppercase" 
+                  style={{ 
+                    color: "var(--signal-neutral)",
+                    fontSize: "11px",
+                    letterSpacing: "0.2em",
+                    marginBottom: "0",
+                  }}
+                >
+                  EXAMPLE SIGNAL
                 </p>
                 <h4
-                  className="text-xl font-semibold"
+                  data-signal-title
+                  className="font-semibold"
                   style={{
-                    color: selectedOutcome === "inflammation" 
-                      ? "rgba(231,240,238,0.95)" 
-                      : (outcomeData[selectedOutcome]?.colorTheme.accent || "var(--accent)"),
+                    fontSize: "24px",
+                    lineHeight: 1.25,
+                    color: `var(--signal-monitor)`,
+                    fontWeight: 500,
+                    letterSpacing: "-0.01em",
+                    marginBottom: "0",
+                    transition: "opacity 150ms ease-out",
                   }}
                 >
                   {outcomeData[selectedOutcome]?.alert.headline || outcomeData["inflammation"].alert.headline}
                 </h4>
-                <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+                <p 
+                  className="text-xs" 
+                  style={{ 
+                    color: "var(--signal-neutral)",
+                    fontSize: "14px",
+                    marginBottom: "0",
+                  }}
+                >
                   Timeline: {outcomeData[selectedOutcome]?.alert.timeline || outcomeData["inflammation"].alert.timeline}
                 </p>
-                <div className="space-y-2.5">
+                <div className="space-y-3.5">
                   {(outcomeData[selectedOutcome]?.alert.details || outcomeData["inflammation"].alert.details).map(
                     (detail, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5">
+                      <div key={idx} className="flex items-start gap-3">
                         <div
-                          className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                          className="rounded-full mt-2.5 flex-shrink-0"
                           style={{
-                            backgroundColor: selectedOutcome === "inflammation"
-                              ? "#D7B56D" // amber muted for example signal
-                              : "var(--accent-alpha-60)", // jade alpha for default
+                            width: "6px",
+                            height: "6px",
+                            backgroundColor: `var(--accent-soft)`,
                           }}
                         ></div>
-                        <p className="text-sm leading-relaxed" style={{ color: "rgba(231,240,238,0.95)" }}>{detail}</p>
+                        <p 
+                          className="leading-relaxed" 
+                          style={{ 
+                            color: `rgb(var(--text-1))`,
+                            fontSize: "16px",
+                            lineHeight: 1.75,
+                          }}
+                        >
+                          {detail}
+                        </p>
                       </div>
                     )
                   )}
                 </div>
               </div>
 
-              {/* Timeline Preview */}
-              <div className="pt-4 border-t" style={{ borderColor: "rgba(231,240,238,0.08)" }}>
-                <div className="flex items-center gap-2 mb-2">
+              {/* Section Divider */}
+              <div 
+                className="section-divider"
+                style={{ 
+                  borderTop: "1px solid var(--border-subtle)",
+                  margin: "18px 0",
+                }}
+              />
+
+              {/* Timeline Preview - Borderless Surface Band */}
+              <div 
+                className="timeline-band"
+                style={{
+                  background: `var(--surface-raised)`,
+                  border: "0",
+                  borderRadius: "14px",
+                  padding: "14px 16px",
+                }}
+              >
+                <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 flex-1">
                     {Array.from({ length: outcomeData[selectedOutcome]?.timelineDots || 18 }).map((_, idx) => {
                       const totalDots = outcomeData[selectedOutcome]?.timelineDots || 18;
                       const highlightedCount = outcomeData[selectedOutcome]?.highlightedDots || 7;
                       const isHighlighted = idx >= totalDots - highlightedCount;
+                      
+                      // Calculate elegant color progression: muted red → amber → teal (left to right)
+                      const progress = idx / (totalDots - 1); // 0 to 1
+                      let dotColor: string;
+                      let dotBorderColor: string;
+                      
+                      // Elegant muted colors
+                      // Red: #C26F6F (194, 111, 111) - desaturated clinical red
+                      // Amber: #C7A95B (199, 169, 91) - muted amber
+                      // Teal: #4DAE9E (77, 174, 158) - elegant teal
+                      
+                      if (progress < 0.5) {
+                        // Muted Red to Amber (0 to 0.5)
+                        const t = progress * 2; // 0 to 1
+                        const r = Math.round(194 * (1 - t) + 199 * t); // 194 to 199
+                        const g = Math.round(111 * (1 - t) + 169 * t); // 111 to 169
+                        const b = Math.round(111 * (1 - t) + 91 * t); // 111 to 91
+                        dotColor = `rgba(${r}, ${g}, ${b}, 0.16)`;
+                        dotBorderColor = `rgba(${r}, ${g}, ${b}, 0.6)`;
+                      } else {
+                        // Amber to Teal (0.5 to 1)
+                        const t = (progress - 0.5) * 2; // 0 to 1
+                        const r = Math.round(199 * (1 - t) + 77 * t); // 199 to 77
+                        const g = Math.round(169 * (1 - t) + 174 * t); // 169 to 174
+                        const b = Math.round(91 * (1 - t) + 158 * t); // 91 to 158
+                        dotColor = `rgba(${r}, ${g}, ${b}, 0.16)`;
+                        dotBorderColor = `rgba(${r}, ${g}, ${b}, 0.6)`;
+                      }
+                      
                       return (
                         <div
                           key={idx}
-                          className={`h-1.5 rounded-full transition-all ${
+                          className={`rounded-full transition-all ${
                             isHighlighted
-                              ? "w-2"
-                              : "w-1.5"
+                              ? "w-2 h-2"
+                              : "w-1.5 h-1.5"
                           }`}
                           style={{
-                            backgroundColor: isHighlighted
-                              ? (selectedOutcome === "inflammation" 
-                                  ? "#D7B56D" // amber muted for example signal
-                                  : "var(--accent-alpha-60)") // jade alpha for default
-                              : "rgba(255, 255, 255, 0.2)",
-                            opacity: isHighlighted ? 1 : 0.4,
+                            backgroundColor: dotColor,
+                            border: `1px solid ${dotBorderColor}`,
+                            opacity: isHighlighted ? 1 : 0.6,
+                            transition: "opacity 150ms ease-out",
+                            cursor: "default",
+                          }}
+                          onMouseEnter={(e) => {
+                            if (typeof window !== "undefined" && e.currentTarget) {
+                              e.currentTarget.style.opacity = "1";
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (typeof window !== "undefined" && e.currentTarget) {
+                              e.currentTarget.style.opacity = isHighlighted ? "1" : "0.6";
+                            }
                           }}
                         />
                       );
                     })}
                   </div>
-                  <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+                  <p 
+                    className="text-xs timeline-meta" 
+                    style={{ 
+                      color: "var(--signal-neutral)",
+                      fontSize: "14px",
+                      paddingRight: "10px",
+                    }}
+                  >
                     {outcomeData[selectedOutcome]?.alert.timeline || outcomeData["inflammation"].alert.timeline}
                   </p>
                 </div>
               </div>
 
-              {/* Recommendation */}
-              <div className="pt-4 border-t" style={{ borderColor: "rgba(231,240,238,0.08)" }}>
-                <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--text-muted)" }}>
-                  Recommendation
-                </p>
-                <p
-                  className="text-sm leading-relaxed font-medium"
-                  style={{
-                    color: selectedOutcome === "inflammation"
-                      ? "#D7B56D" // amber muted for inflammation
-                      : (outcomeData[selectedOutcome]?.colorTheme.accent || "var(--accent)"),
+              {/* Section Divider */}
+              <div 
+                className="section-divider"
+                style={{ 
+                  borderTop: "1px solid var(--border-subtle)",
+                  margin: "18px 0",
+                }}
+              />
+
+              {/* Recommendation - Premium Callout */}
+              <div>
+                <p 
+                  className="font-semibold uppercase mb-3" 
+                  style={{ 
+                    color: "var(--signal-neutral)",
+                    fontSize: "11px",
+                    letterSpacing: "0.2em",
+                    marginBottom: "12px",
                   }}
                 >
-                  {outcomeData[selectedOutcome]?.alert.recommendation || outcomeData["inflammation"].alert.recommendation}
+                  RECOMMENDATION
                 </p>
+                <div
+                  className="recommendation-callout relative"
+                  style={{
+                    background: `var(--accent-soft)`,
+                    border: `1px solid var(--border-subtle)`,
+                    borderRadius: "16px",
+                    padding: "16px 18px",
+                  }}
+                >
+                  {/* Left accent rule */}
+                  <div
+                    style={{
+                      content: "",
+                      position: "absolute",
+                      left: 0,
+                      top: "12px",
+                      bottom: "12px",
+                      width: "3px",
+                      borderRadius: "2px",
+                      background: `var(--accent-primary)`,
+                      opacity: 0.8,
+                    }}
+                  />
+                  <p
+                    className="leading-relaxed"
+                    style={{
+                      color: `rgb(var(--text-1))`,
+                      fontSize: "16px",
+                      lineHeight: 1.6,
+                      fontWeight: 500,
+                      margin: 0,
+                    }}
+                  >
+                    {outcomeData[selectedOutcome]?.alert.recommendation || outcomeData["inflammation"].alert.recommendation}
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Trust Line */}
-              <div className="pt-6 mt-6 border-t" style={{ borderColor: "rgba(231,240,238,0.08)" }}>
-                <p className="text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                {outcomeData[selectedOutcome]?.trustLine || outcomeData["inflammation"].trustLine}
-              </p>
-            </div>
+            {/* Disclaimer - Inline Footnote */}
+              <div 
+                className="disclaimer"
+                style={{
+                  marginTop: "18px",
+                  paddingTop: "14px",
+                  borderTop: "1px solid var(--border-subtle)",
+                  fontSize: "14px",
+                  lineHeight: 1.5,
+                  color: "var(--text-muted)",
+                }}
+              >
+                <p 
+                  className="leading-relaxed" 
+                  style={{ 
+                    color: "var(--text-muted)",
+                    fontSize: "14px",
+                    lineHeight: 1.5,
+                    margin: 0,
+                  }}
+                >
+                  {outcomeData[selectedOutcome]?.trustLine || outcomeData["inflammation"].trustLine}
+                </p>
+              </div>
             </motion.div>
           </AnimatePresence>
-        </div>
-      </section>
+      </Section>
 
       {/* Section 3: How people actually use Arc */}
-      <section 
-        id="how-it-works" 
-        className="py-16 md:py-20"
-        style={{
-          backgroundColor: "#060B0C",
-          background: "linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 100%)",
-        }}
-      >
-        <div className="max-w-[1160px] mx-auto px-5 md:px-7 lg:px-10 xl:px-12">
+      <Section id="how-it-works" variant="default">
           {/* Section Header */}
           <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 
-              className="text-3xl md:text-4xl font-semibold mb-4"
-              style={{
-                color: "var(--text-primary)",
-                fontWeight: 500,
-                letterSpacing: "-0.2px",
-                marginBottom: "calc(1rem + 8px)",
-              }}
-            >
+            <h2 className="h2-unified mb-4">
               How people actually use Arc
             </h2>
-            <p 
-              className="text-lg leading-relaxed"
-              style={{
-                color: "var(--text-secondary)",
-                lineHeight: 1.6,
-              }}
-            >
+            <p className="body-unified text-lg text-center">
               Not all at once. Not automatically. At your own pace.
             </p>
           </div>
 
-          {/* Four Step Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {/* Four Step Cards - Narrative Journey */}
+          <div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 step-row"
+            onMouseLeave={(e) => {
+              // Reset all cards when leaving row
+              if (typeof window !== "undefined") {
+                const cards = e.currentTarget.querySelectorAll('.step-card');
+                cards.forEach((card) => {
+                  const htmlCard = card as HTMLElement;
+                  htmlCard.style.opacity = "1";
+                });
+                // Reset practice panel
+                const panel = document.querySelector('[data-practice-panel]') as HTMLElement;
+                if (panel) {
+                  panel.style.borderColor = `var(--border-subtle)`;
+                  const label = panel.querySelector('[data-practice-label]') as HTMLElement;
+                  if (label) {
+                    label.style.color = `var(--text-muted)`;
+                  }
+                }
+              }
+            }}
+          >
             {[
               {
                 id: "step1" as UsageStepId,
@@ -738,6 +1422,9 @@ export default function YourArcPage() {
               },
             ].map((step, index) => {
               const isActive = selectedStep === step.id;
+              // Sequential narrative emphasis: Step 1 = stable, Step 2 = slight emphasis, Step 3 = active focal, Step 4 = soft anticipation
+              const stepState = index === 0 ? "stable" : index === 1 ? "emphasis" : index === 2 ? "active" : "anticipation";
+              
               return (
                 <motion.button
                   key={step.id}
@@ -753,99 +1440,201 @@ export default function YourArcPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: index * 0.1 }}
-                  className="text-left p-5 rounded-[20px] border relative focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B0C]"
+                  className="text-left border relative focus:outline-none step-card"
+                  data-step={stepState}
+                  data-active={isActive ? "true" : "false"}
                   style={{
-                    backgroundColor: "#0C1416",
-                    borderRadius: "20px",
-                    borderColor: isActive 
-                      ? "rgba(110,211,194,0.35)" 
-                      : "rgba(231,240,238,0.08)",
+                    backgroundColor: `var(--surface-card)`,
+                    borderWidth: "1px",
+                    borderStyle: "solid",
+                    borderColor: `var(--border-subtle)`,
+                    borderRadius: "var(--radius-xl)",
+                    padding: "26px",
                     boxShadow: isActive
-                      ? "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)"
-                      : "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
-                    background: isActive
-                      ? "linear-gradient(180deg, rgba(110,211,194,0.06) 0%, rgba(0,0,0,0) 70%), #0C1416"
-                      : "#0C1416",
-                    transition: "transform 180ms ease, border-color 180ms ease",
+                      ? `0 18px 60px rgba(14,26,24,0.10), 0 0 0 6px var(--accent-soft)`
+                      : "none",
+                    transition: "all 160ms ease-out",
+                    opacity: 1,
                   }}
                   onMouseEnter={(e) => {
-                    if (typeof window !== "undefined" && e.currentTarget && !isActive) {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      // Activate this card with focus halo
                       e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.borderColor = "rgba(110,211,194,0.22)";
+                      e.currentTarget.style.boxShadow = `0 18px 60px rgba(14,26,24,0.10), 0 0 0 6px var(--accent-soft)`;
+                      
+                      // Activate step chip
+                      const chip = e.currentTarget.querySelector('.step-chip') as HTMLElement;
+                      if (chip) {
+                        chip.style.backgroundColor = `var(--accent-soft)`;
+                        chip.style.borderColor = `rgba(77,174,158,0.30)`;
+                        chip.style.color = `var(--accent-strong)`;
+                      }
+                      
+                      // Emphasize title
+                      const title = e.currentTarget.querySelector('.step-title') as HTMLElement;
+                      if (title) {
+                        title.style.color = `rgb(var(--text-1))`;
+                      }
+                      
+                      // Soften siblings
+                      const row = e.currentTarget.closest('.step-row');
+                      if (row) {
+                        const siblings = row.querySelectorAll('.step-card');
+                        siblings.forEach((sibling) => {
+                          if (sibling !== e.currentTarget) {
+                            const htmlSibling = sibling as HTMLElement;
+                            htmlSibling.style.opacity = "0.65";
+                          }
+                        });
+                      } else {
+                        // Fallback: find all step cards in parent
+                        const allCards = document.querySelectorAll('.step-card');
+                        allCards.forEach((card) => {
+                          if (card !== e.currentTarget) {
+                            const htmlCard = card as HTMLElement;
+                            htmlCard.style.opacity = "0.65";
+                          }
+                        });
+                      }
+                      
+                      // Activate practice panel (keep calm, no green)
+                      const panel = document.querySelector('[data-practice-panel]') as HTMLElement;
+                      if (panel) {
+                        const label = panel.querySelector('[data-practice-label]') as HTMLElement;
+                        if (label) {
+                          label.style.color = `rgb(var(--text-1))`;
+                        }
+                      }
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (typeof window !== "undefined" && e.currentTarget && !isActive) {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      // Reset this card
                       e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.borderColor = "rgba(231,240,238,0.08)";
+                      e.currentTarget.style.boxShadow = "none";
+                      
+                      // Reset step chip
+                      const chip = e.currentTarget.querySelector('.step-chip') as HTMLElement;
+                      if (chip && !isActive) {
+                        chip.style.backgroundColor = `var(--surface-raised)`;
+                        chip.style.borderColor = `var(--border-subtle)`;
+                        chip.style.color = `var(--text-muted)`;
+                      }
+                    }
+                  }}
+                  onFocus={(e) => {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      e.currentTarget.style.outline = "2px solid var(--accent-soft)";
+                      e.currentTarget.style.outlineOffset = "2px";
+                    }
+                  }}
+                  onBlur={(e) => {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      e.currentTarget.style.outline = "none";
                     }
                   }}
                   aria-pressed={isActive}
                   tabIndex={0}
                 >
-                  {/* Optional top accent line for active card */}
-                  {isActive && (
+                  {/* Step Number Chip - Carries Active Signal */}
+                  <div 
+                    className="step-chip-container"
+                    style={{ 
+                      marginBottom: "16px",
+                      height: "32px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     <div
+                      className="step-chip transition-all"
                       style={{
-                        position: "absolute",
-                        top: 0,
-                        left: "20px",
-                        right: "20px",
-                        height: "2px",
-                        background: "rgba(110,211,194,0.45)",
-                        borderRadius: "2px",
-                      }}
-                    />
-                  )}
-                  <div className="flex items-center gap-2.5 mb-3">
-                    <div
-                      className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-semibold transition-all"
-                      style={{
+                        width: "32px",
+                        height: "32px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                         backgroundColor: isActive
-                          ? "rgba(110,211,194,0.18)"
-                          : "rgba(231,240,238,0.10)",
+                          ? `var(--accent-soft)`
+                          : `var(--surface-raised)`,
                         color: isActive
-                          ? "var(--accent)"
-                          : "var(--text-secondary)",
-                        border: "1px solid rgba(231,240,238,0.12)",
+                          ? `var(--accent-strong)`
+                          : `var(--text-muted)`,
+                        border: `1px solid ${isActive ? `rgba(77,174,158,0.30)` : `var(--border-subtle)`}`,
+                        borderRadius: "10px",
+                        fontSize: "14px",
+                        fontWeight: 600,
+                        lineHeight: "1",
+                        transition: "all 160ms ease-out",
                       }}
                     >
                       {step.stepNumber}
                     </div>
                   </div>
+                  
+                  {/* Title - Active Emphasis */}
                   <h3 
-                    className="text-base font-semibold leading-tight"
+                    className="font-semibold step-title"
                     style={{
-                      color: "rgba(231,240,238,0.95)",
-                      fontWeight: 500,
-                      marginBottom: "calc(0.625rem + 4px)",
+                      fontSize: "24px",
+                      lineHeight: 1.25,
+                      color: isActive
+                        ? `rgb(var(--text-1))`
+                        : `rgb(var(--text-1))`,
+                      fontWeight: 600,
+                      marginBottom: "12px",
+                      transition: "color 160ms ease-out",
                     }}
                   >
                     {step.title}
                   </h3>
+                  
+                  {/* Body */}
                   <p 
-                    className="text-sm leading-relaxed mb-3"
+                    className="leading-relaxed"
                     style={{
-                      color: "var(--text-secondary)",
+                      fontSize: "16px",
                       lineHeight: 1.6,
+                      color: "var(--text-muted)",
+                      marginBottom: "12px",
                     }}
                   >
                     {step.body}
                   </p>
+                  
+                  {/* Microcopy */}
                   <p 
-                    className="text-xs"
+                    className="leading-relaxed"
                     style={{
+                      fontSize: "14px",
+                      lineHeight: 1.6,
                       color: "var(--text-muted)",
+                      marginBottom: "0",
                     }}
                   >
                     {step.note}
                   </p>
+                  
+                  {/* Subtle Gradient Fade to Next Step */}
+                  {index < 3 && (
+                    <div
+                      className="absolute pointer-events-none"
+                      style={{
+                        right: "-12px",
+                        top: "20%",
+                        bottom: "20%",
+                        width: "24px",
+                        background: `linear-gradient(to right, rgba(0,0,0,0.04), transparent)`,
+                        zIndex: 1,
+                      }}
+                    />
+                  )}
                 </motion.button>
               );
             })}
           </div>
 
-          {/* Context Panel */}
+          {/* Practice Panel - Single Premium Container */}
           <AnimatePresence mode="wait">
             <motion.div
               key={selectedStep}
@@ -853,33 +1642,40 @@ export default function YourArcPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
-              className="rounded-[24px] border"
+              className="border practice-panel"
+              data-practice-panel
               style={{
-                backgroundColor: "#0C1416",
-                borderRadius: "24px",
-                borderColor: "rgba(231,240,238,0.08)",
+                backgroundColor: `var(--surface-raised)`,
+                borderRadius: "var(--radius-xl)",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: `var(--border-subtle)`,
                 padding: "28px 32px",
-                boxShadow: "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
+                transition: "all 180ms ease-out",
               }}
             >
               <p 
-                className="text-xs font-semibold uppercase mb-4"
+                className="font-semibold uppercase mb-4"
+                data-practice-label
                 style={{
-                  color: "var(--text-muted)",
-                  letterSpacing: "1.8px",
+                  fontSize: "11px",
+                  letterSpacing: "0.2em",
+                  color: `var(--text-muted)`,
+                  transition: "color 180ms ease-out",
                 }}
               >
-                What this looks like in practice
+                WHAT THIS LOOKS LIKE IN PRACTICE
               </p>
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {(usageStepData[selectedStep]?.context || usageStepData["step1"].context).map(
                   (line, idx) => (
                     <p 
                       key={idx} 
-                      className="text-sm leading-relaxed"
+                      className="leading-relaxed"
                       style={{
-                        color: "var(--text-secondary)",
+                        fontSize: "16px",
                         lineHeight: 1.6,
+                        color: `rgb(var(--text-1))`,
                       }}
                     >
                       {line}
@@ -888,17 +1684,35 @@ export default function YourArcPage() {
                 )}
               </div>
 
-              {/* Trust Line */}
+              {/* Optional Divider */}
               <div 
-                className="pt-6 mt-6 border-t"
+                className="practice-divider"
                 style={{
-                  borderColor: "rgba(231,240,238,0.06)",
+                  borderTop: "1px solid var(--border-subtle)",
+                  margin: "18px 0",
+                }}
+              />
+
+              {/* Practice Note - Soft Callout Band */}
+              <div 
+                className="practice-note"
+                style={{
+                  marginTop: "18px",
+                  background: `rgba(14,26,24,0.03)`,
+                  borderRadius: "16px",
+                  padding: "14px 16px",
+                  color: "var(--text-muted)",
+                  fontSize: "14px",
+                  lineHeight: 1.5,
                 }}
               >
                 <p 
-                  className="text-xs leading-relaxed"
+                  className="leading-relaxed"
                   style={{
-                    color: "var(--text-muted)",
+                    fontSize: "14px",
+                    lineHeight: 1.5,
+                    color: `var(--text-muted)`,
+                    margin: 0,
                   }}
                 >
                   Arc does not automate decisions. It helps you see clearly so you can decide deliberately.
@@ -906,24 +1720,34 @@ export default function YourArcPage() {
               </div>
             </motion.div>
           </AnimatePresence>
-        </div>
-      </section>
+      </Section>
 
       {/* Section 4: Marketplace section with early access advantage */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-[1160px] mx-auto px-5 md:px-7 lg:px-10 xl:px-12">
+      <Section variant="surface">
           {/* Section Header */}
           <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="h2-unified mb-4">
               From insight to real action
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed">
+            <p className="body-unified text-lg text-center">
               When your data suggests attention may be needed, Arc connects you to trusted options with full context and no pressure.
             </p>
           </div>
 
-          {/* Action Path Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {/* Action Path Cards - Decision Support Flow */}
+          <div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 card-row"
+            onMouseLeave={(e) => {
+              // Reset all cards when leaving row
+              if (typeof window !== "undefined") {
+                const cards = e.currentTarget.querySelectorAll('.action-card');
+                cards.forEach((card) => {
+                  const htmlCard = card as HTMLElement;
+                  htmlCard.style.opacity = "1";
+                });
+              }
+            }}
+          >
             {[
               {
                 id: "diagnostics" as ActionPathId,
@@ -936,6 +1760,7 @@ export default function YourArcPage() {
                   ],
                   suggestedAction: "Lipid panel follow-up suggested",
                 },
+                actionType: "diagnostics" as const,
               },
               {
                 id: "specialists" as ActionPathId,
@@ -950,6 +1775,7 @@ export default function YourArcPage() {
                   ],
                   suggestedAction: "Optional consult: Sleep medicine",
                 },
+                actionType: "specialists" as const,
               },
               {
                 id: "services" as ActionPathId,
@@ -963,9 +1789,16 @@ export default function YourArcPage() {
                   ],
                   suggestedAction: "Vitamin D repletion protocol available",
                 },
+                actionType: "services" as const,
               },
             ].map((card, index) => {
               const isActive = selectedActionPath === card.id;
+              // Decision flow semantics: subtle indicator colors
+              const indicatorColor = 
+                card.actionType === "diagnostics" ? `var(--signal-monitor)` :
+                card.actionType === "specialists" ? `var(--accent-primary)` :
+                `var(--signal-clear)`;
+              
               return (
                 <motion.button
                   key={card.id}
@@ -981,48 +1814,106 @@ export default function YourArcPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: index * 0.1 }}
-                  className="text-left p-5 rounded-[20px] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B0C]"
+                  className="text-left border relative transition-all focus:outline-none action-card"
+                  data-state={isActive ? "active" : "idle"}
+                  data-active={isActive ? "true" : "false"}
+                  data-type={card.actionType}
                   style={{
-                    backgroundColor: "#0C1416",
-                    borderRadius: "20px",
-                    borderColor: isActive
-                      ? "rgba(110,211,194,0.35)"
-                      : "rgba(231,240,238,0.08)",
-                    boxShadow: "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
-                    transition: "transform 180ms ease, border-color 180ms ease",
+                    backgroundColor: `var(--surface-card)`,
+                    borderWidth: "1px",
+                    borderStyle: "solid",
+                    borderColor: `var(--border-subtle)`,
+                    borderRadius: "var(--radius-xl)",
+                    padding: "26px",
+                    boxShadow: isActive
+                      ? `0 18px 60px rgba(14,26,24,0.10), 0 0 0 6px var(--accent-soft)`
+                      : "none",
+                    transition: "all 160ms ease-out",
+                    opacity: 1,
                   }}
                   onMouseEnter={(e) => {
-                    if (typeof window !== "undefined" && e.currentTarget && !isActive) {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      // Activate this card with focus halo
                       e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.borderColor = "rgba(110,211,194,0.22)";
+                      e.currentTarget.style.boxShadow = `0 18px 60px rgba(14,26,24,0.10), 0 0 0 6px var(--accent-soft)`;
+                      
+                      // Soften siblings
+                      const row = e.currentTarget.closest('.card-row');
+                      if (row) {
+                        const siblings = row.querySelectorAll('.action-card');
+                        siblings.forEach((sibling) => {
+                          if (sibling !== e.currentTarget) {
+                            const htmlSibling = sibling as HTMLElement;
+                            htmlSibling.style.opacity = "0.65";
+                          }
+                        });
+                      }
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (typeof window !== "undefined" && e.currentTarget && !isActive) {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      // Reset this card
                       e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.borderColor = "rgba(231,240,238,0.08)";
+                      e.currentTarget.style.boxShadow = isActive
+                        ? `0 18px 60px rgba(14,26,24,0.10), 0 0 0 6px var(--accent-soft)`
+                        : "none";
+                    }
+                  }}
+                  onFocus={(e) => {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      e.currentTarget.style.outline = "2px solid var(--accent-soft)";
+                      e.currentTarget.style.outlineOffset = "2px";
+                    }
+                  }}
+                  onBlur={(e) => {
+                    if (typeof window !== "undefined" && e.currentTarget) {
+                      e.currentTarget.style.outline = "none";
                     }
                   }}
                   aria-pressed={isActive}
                   tabIndex={0}
                 >
-                  <h3 
-                    className="text-base font-semibold mb-2.5 leading-tight"
+                  {/* Subtle Left Indicator - Decision Flow Semantics */}
+                  <div
+                    className="absolute left-0"
                     style={{
-                      color: "rgba(231,240,238,0.95)",
-                      fontWeight: 500,
+                      top: "24px",
+                      bottom: "24px",
+                      width: "3px",
+                      borderRadius: "2px",
+                      background: indicatorColor,
+                      opacity: 0.3,
+                      transition: "opacity 160ms ease-out",
+                    }}
+                  />
+                  
+                  {/* Title */}
+                  <h3 
+                    className="font-semibold leading-tight"
+                    style={{
+                      fontSize: "24px",
+                      lineHeight: 1.25,
+                      color: `rgb(var(--text-1))`,
+                      fontWeight: 600,
+                      marginBottom: "12px",
                     }}
                   >
                     {card.title}
                   </h3>
+                  
+                  {/* Body */}
                   <p 
-                    className="text-sm leading-relaxed"
+                    className="leading-relaxed"
                     style={{
-                      color: "var(--text-secondary)",
+                      fontSize: "16px",
+                      lineHeight: 1.6,
+                      color: "var(--text-muted)",
+                      marginBottom: "14px",
                     }}
                   >
                     {card.body}
                   </p>
+                  
                   {/* Example from timeline */}
                   {card.example && (
                     <div className="group">
@@ -1045,17 +1936,36 @@ export default function YourArcPage() {
                           }
                         }}
                       />
-                      {/* Hover reveal: What changed */}
+                      {/* What Changed - Footnote Style */}
                       <div
-                        className="mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        className="what-changed mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                         style={{
+                          marginTop: "14px",
                           color: "var(--text-muted)",
+                          fontSize: "14px",
+                          lineHeight: 1.5,
                         }}
                       >
-                        <p className="text-[10px] font-medium uppercase mb-1" style={{ letterSpacing: "0.8px" }}>
+                        <p 
+                          className="label mb-1" 
+                          style={{
+                            fontSize: "11px",
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase",
+                            color: "var(--text-muted)",
+                            marginBottom: "4px",
+                          }}
+                        >
                           What changed:
                         </p>
-                        <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
+                        <p 
+                          style={{
+                            color: "var(--text-muted)",
+                            fontSize: "14px",
+                            lineHeight: 1.5,
+                            margin: 0,
+                          }}
+                        >
                           {card.id === "diagnostics" && "LDL increased 14% over 18 months"}
                           {card.id === "specialists" && "Sleep efficiency declined 12% over 3 months"}
                           {card.id === "services" && "Vitamin D levels below optimal range"}
@@ -1068,86 +1978,74 @@ export default function YourArcPage() {
             })}
           </div>
 
-          {/* Context Panel */}
+          {/* Practice Panel - Single Premium Container */}
           <AnimatePresence mode="wait">
-            <motion.div
+            <ClinicalSummaryPanel
               key={selectedActionPath}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
-              className="rounded-[24px] border mb-6"
-              style={{
-                backgroundColor: "#0C1416",
-                borderRadius: "24px",
-                borderColor: "rgba(231,240,238,0.08)",
-                padding: "28px 32px",
-                boxShadow: "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
-              }}
-            >
-              <p 
-                className="text-xs font-semibold uppercase mb-4"
-                style={{
-                  color: "var(--text-muted)",
-                  letterSpacing: "1.8px",
-                }}
-              >
-                How this works in practice
-              </p>
-              <div className="space-y-2.5">
-                {(actionPathData[selectedActionPath]?.context || actionPathData["diagnostics"].context).map(
-                  (line, idx) => (
-                    <p 
-                      key={idx} 
-                      className="text-sm leading-relaxed"
-                      style={{
-                        color: "var(--text-secondary)",
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {line}
-                    </p>
-                  )
-                )}
-              </div>
-
-              {/* Timeline Mini Strip */}
-              <TimelineMiniStrip />
-
-              {/* Early Access Strip - Integrated */}
-              <div 
-                className="pt-6 mt-6 border-t"
-                style={{
-                  borderColor: "rgba(231,240,238,0.06)",
-                }}
-              >
-                <p 
-                  className="text-sm leading-relaxed"
-                  style={{
-                    color: "var(--text-secondary)",
-                  }}
-                >
-                  Early access users receive priority access and locked in discounts on selected services.
-                </p>
-              </div>
-            </motion.div>
+              actionPathData={actionPathData[selectedActionPath] || actionPathData["diagnostics"]}
+              prefersReducedMotion={prefersReducedMotion}
+            />
           </AnimatePresence>
 
-          {/* CTA */}
-          <div className="text-center space-y-4">
-            <ArcButton href="/contact">Request early access</ArcButton>
-            <p className="text-xs text-gray-400 leading-relaxed">
+          {/* CTA - Critical Button Visibility Fix */}
+          <div className="text-center" style={{ marginTop: "32px" }}>
+            <button
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.location.href = "/contact";
+                }
+              }}
+              className="primary-cta inline-flex items-center justify-center px-8 py-3.5 rounded-full font-medium tracking-tight transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-offset-2"
+              style={{
+                backgroundColor: `var(--accent-primary)`,
+                color: `white`,
+                border: "none",
+                fontSize: "16px",
+                fontWeight: 500,
+                boxShadow: `0 10px 30px rgba(0,0,0,0.12)`,
+              }}
+              onMouseEnter={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.backgroundColor = `var(--accent-strong)`;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.backgroundColor = `var(--accent-primary)`;
+                }
+              }}
+              onFocus={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.outline = "2px solid var(--accent-soft)";
+                  e.currentTarget.style.outlineOffset = "2px";
+                }
+              }}
+              onBlur={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.outline = "none";
+                }
+              }}
+            >
+              Request early access
+            </button>
+            <p 
+              className="leading-relaxed"
+              style={{
+                fontSize: "14px",
+                lineHeight: 1.6,
+                color: "var(--text-muted)",
+                marginTop: "16px",
+              }}
+            >
               Arc connects you to care. It never pushes decisions.
             </p>
           </div>
-        </div>
-      </section>
+      </Section>
 
       {/* Section 5: Web platform and mobile app section */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-[1160px] mx-auto px-5 md:px-7 lg:px-10 xl:px-12">
-          {/* CTA Above Section */}
-          <div className="text-center mb-12">
+      <Section variant="surface2">
+          {/* CTA Above Section - Tertiary Link */}
+          <div className="text-center mb-10">
             <button
               onClick={() => {
                 if (typeof window !== "undefined") {
@@ -1160,18 +2058,24 @@ export default function YourArcPage() {
                   }
                 }
               }}
-              className="text-sm font-medium transition-colors inline-flex items-center gap-1"
+              className="text-sm font-medium transition-all inline-flex items-center gap-1"
               style={{
-                color: "var(--accent)",
+                color: `rgb(var(--accent-primary))`,
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
               }}
               onMouseEnter={(e) => {
                 if (typeof window !== "undefined" && e.currentTarget) {
-                  e.currentTarget.style.color = "var(--accent-hover)";
+                  e.currentTarget.style.color = `rgb(var(--accent-strong))`;
+                  e.currentTarget.style.textDecoration = "underline";
+                  e.currentTarget.style.textDecorationColor = `rgba(110,211,194,0.4)`;
                 }
               }}
               onMouseLeave={(e) => {
                 if (typeof window !== "undefined" && e.currentTarget) {
-                  e.currentTarget.style.color = "var(--accent)";
+                  e.currentTarget.style.color = `rgb(var(--accent-primary))`;
+                  e.currentTarget.style.textDecoration = "none";
                 }
               }}
             >
@@ -1181,117 +2085,236 @@ export default function YourArcPage() {
 
           {/* Section Header */}
           <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 
-              className="text-3xl md:text-4xl font-semibold mb-4"
-              style={{
-                color: "rgba(231,240,238,0.95)",
-                fontWeight: 500,
-                letterSpacing: "-0.2px",
-              }}
-            >
+            <h2 className="h2-unified mb-4">
               Your health, visible where you need it
             </h2>
-            <p 
-              className="text-lg leading-relaxed"
-              style={{
-                color: "var(--text-secondary)",
-                lineHeight: 1.6,
-              }}
-            >
+            <p className="body-unified text-lg text-center">
               Use the web platform for deep review and the mobile app for only what matters in the moment.
             </p>
           </div>
 
-          {/* Platform Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {/* Platform Cards - Interactive Demo Row */}
+          <div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 demo-row device-grid"
+            onMouseLeave={(e) => {
+              // Reset all frames and cards when leaving row
+              if (typeof window !== "undefined") {
+                const frames = e.currentTarget.querySelectorAll('.demo-frame');
+                frames.forEach((frame) => {
+                  const htmlFrame = frame as HTMLElement;
+                  htmlFrame.style.opacity = "0.9";
+                  htmlFrame.style.filter = "saturate(1)";
+                  htmlFrame.style.transform = "translateY(0)";
+                  htmlFrame.style.boxShadow = "0 18px 60px rgba(14,26,24,0.10)";
+                  htmlFrame.style.outline = "none";
+                });
+                const cards = e.currentTarget.querySelectorAll('.device-card');
+                cards.forEach((card) => {
+                  const htmlCard = card as HTMLElement;
+                  htmlCard.style.opacity = "1";
+                  htmlCard.style.transform = "translateY(0)";
+                  htmlCard.style.borderColor = `var(--border-subtle)`;
+                  htmlCard.style.boxShadow = "0 18px 60px rgba(14,26,24,0.06)";
+                });
+              }
+            }}
+          >
             {/* Web Platform Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
-              className="p-6 md:p-8 rounded-[20px] border"
+              className="p-6 md:p-8 rounded-[20px] border device-card"
               style={{
-                backgroundColor: "#0C1416",
-                borderRadius: "20px",
-                borderColor: "rgba(231,240,238,0.08)",
-                boxShadow: "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
+                backgroundColor: `var(--surface-card)`,
+                borderRadius: "var(--radius-xl)",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: `var(--border-subtle)`,
+                boxShadow: "0 18px 60px rgba(14,26,24,0.06)",
+                transition: "all 180ms ease-out",
+              }}
+              onMouseEnter={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.borderColor = "rgba(77,174,158,0.22)";
+                  e.currentTarget.style.boxShadow = "0 24px 80px rgba(14,26,24,0.10)";
+                  // Soften siblings
+                  const grid = e.currentTarget.closest('.device-grid');
+                  if (grid) {
+                    const siblings = grid.querySelectorAll('.device-card');
+                    siblings.forEach((sibling) => {
+                      if (sibling !== e.currentTarget) {
+                        const htmlSibling = sibling as HTMLElement;
+                        htmlSibling.style.opacity = "0.7";
+                      }
+                    });
+                  }
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.borderColor = `var(--border-subtle)`;
+                  e.currentTarget.style.boxShadow = "0 18px 60px rgba(14,26,24,0.06)";
+                }
               }}
             >
               <h3 
-                className="text-lg font-semibold mb-5"
+                className="font-semibold"
                 style={{
-                  color: "rgba(231,240,238,0.95)",
-                  fontWeight: 500,
+                  fontSize: "24px",
+                  color: `rgb(var(--text-1))`,
+                  fontWeight: 600,
+                  marginBottom: "14px",
                 }}
               >
                 Web platform
               </h3>
-              <div className="space-y-3 mb-6">
-                <div className="flex items-start gap-2.5">
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+              <div className="mb-5" style={{ marginBottom: "20px" }}>
+                <div 
+                  className="feature-item"
+                  style={{
+                    position: "relative",
+                    paddingLeft: "14px",
+                    margin: "10px 0",
+                    color: `rgb(var(--text-1))`,
+                    fontSize: "16px",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <div
+                    className="feature-indicator"
                     style={{
-                      backgroundColor: "var(--accent-alpha-60)",
+                      content: "",
+                      position: "absolute",
+                      left: 0,
+                      top: "6px",
+                      bottom: "6px",
+                      width: "2px",
+                      borderRadius: "2px",
+                      background: `var(--border-subtle)`,
                     }}
                   />
-                  <p 
-                    className="text-sm leading-relaxed"
-                    style={{
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    Review your documents and history in one living timeline
-                  </p>
+                  Review your documents and history in one living timeline
                 </div>
-                <div className="flex items-start gap-2.5">
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                <div 
+                  className="feature-item"
+                  style={{
+                    position: "relative",
+                    paddingLeft: "14px",
+                    margin: "10px 0",
+                    color: `rgb(var(--text-1))`,
+                    fontSize: "16px",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <div
+                    className="feature-indicator"
                     style={{
-                      backgroundColor: "var(--accent-alpha-60)",
+                      content: "",
+                      position: "absolute",
+                      left: 0,
+                      top: "6px",
+                      bottom: "6px",
+                      width: "2px",
+                      borderRadius: "2px",
+                      background: `var(--border-subtle)`,
                     }}
                   />
-                  <p 
-                    className="text-sm leading-relaxed"
-                    style={{
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    See trends across months and years
-                  </p>
+                  See trends across months and years
                 </div>
-                <div className="flex items-start gap-2.5">
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                <div 
+                  className="feature-item"
+                  style={{
+                    position: "relative",
+                    paddingLeft: "14px",
+                    margin: "10px 0",
+                    color: `rgb(var(--text-1))`,
+                    fontSize: "16px",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <div
+                    className="feature-indicator"
                     style={{
-                      backgroundColor: "var(--accent-alpha-60)",
+                      content: "",
+                      position: "absolute",
+                      left: 0,
+                      top: "6px",
+                      bottom: "6px",
+                      width: "2px",
+                      borderRadius: "2px",
+                      background: `var(--border-subtle)`,
                     }}
                   />
-                  <p 
-                    className="text-sm leading-relaxed"
-                    style={{
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    Export and share context when needed
-                  </p>
+                  Export and share context when needed
                 </div>
               </div>
               
-              {/* Device Preview */}
-              <DevicePreviewMini
-                mode="web"
-                caption="Example: Reviewing 3 years of labs + wearables to see long-term pattern."
-              />
+              {/* Device Preview - Interactive */}
+              <div
+                style={{ marginTop: "18px" }}
+                onMouseEnter={(e) => {
+                  if (typeof window !== "undefined") {
+                    const frame = e.currentTarget.querySelector('.demo-frame') as HTMLElement;
+                    if (frame) {
+                      frame.style.opacity = "1";
+                      frame.style.transform = "translateY(-2px)";
+                      frame.style.boxShadow = "0 24px 80px rgba(14,26,24,0.10)";
+                      frame.style.outline = "none";
+                      // Highlight Timeline tab
+                      const timelineTab = frame.querySelector('[data-tab="timeline"]') as HTMLElement;
+                      if (timelineTab) {
+                        timelineTab.style.backgroundColor = "rgba(110,211,194,0.12)";
+                        timelineTab.style.borderColor = "rgba(110,211,194,0.30)";
+                      }
+                    }
+                    // Soften other frame
+                    const row = e.currentTarget.closest('.demo-row');
+                    if (row) {
+                      const otherFrames = row.querySelectorAll('.demo-frame');
+                      otherFrames.forEach((otherFrame) => {
+                        if (otherFrame !== frame) {
+                          const htmlOtherFrame = otherFrame as HTMLElement;
+                          htmlOtherFrame.style.opacity = "0.55";
+                          htmlOtherFrame.style.filter = "saturate(0.9)";
+                        }
+                      });
+                    }
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (typeof window !== "undefined") {
+                    const frame = e.currentTarget.querySelector('.demo-frame') as HTMLElement;
+                    if (frame) {
+                      frame.style.opacity = "0.9";
+                      frame.style.transform = "translateY(0)";
+                      frame.style.boxShadow = "0 18px 60px rgba(14,26,24,0.10)";
+                      frame.style.outline = "none";
+                      // Reset Timeline tab
+                      const timelineTab = frame.querySelector('[data-tab="timeline"]') as HTMLElement;
+                      if (timelineTab) {
+                        timelineTab.style.backgroundColor = "rgba(255,255,255,0.06)";
+                        timelineTab.style.borderColor = "rgba(110,211,194,0.25)";
+                      }
+                    }
+                  }
+                }}
+              >
+                <WebDashboardPreview
+                  caption="Reviewing 3 years of labs + wearables to see long-term pattern."
+                />
+              </div>
               
               <p 
-                className="text-xs pt-4 border-t mt-6"
+                className="example-caption"
                 style={{
+                  marginTop: "12px",
+                  fontSize: "13px",
+                  lineHeight: 1.4,
                   color: "var(--text-muted)",
-                  borderColor: "rgba(231,240,238,0.06)",
                 }}
               >
                 For understanding your full health story.
@@ -1304,88 +2327,189 @@ export default function YourArcPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: 0.1 }}
-              className="p-6 md:p-8 rounded-[20px] border"
+              className="p-6 md:p-8 rounded-[20px] border device-card"
               style={{
-                backgroundColor: "#0C1416",
-                borderRadius: "20px",
-                borderColor: "rgba(231,240,238,0.08)",
-                boxShadow: "0 6px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(231,240,238,0.04)",
+                backgroundColor: `var(--surface-card)`,
+                borderRadius: "var(--radius-xl)",
+                borderWidth: "1px",
+                borderStyle: "solid",
+                borderColor: `var(--border-subtle)`,
+                boxShadow: "0 18px 60px rgba(14,26,24,0.06)",
+                transition: "all 180ms ease-out",
+              }}
+              onMouseEnter={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.borderColor = "rgba(77,174,158,0.22)";
+                  e.currentTarget.style.boxShadow = "0 24px 80px rgba(14,26,24,0.10)";
+                  // Soften siblings
+                  const grid = e.currentTarget.closest('.device-grid');
+                  if (grid) {
+                    const siblings = grid.querySelectorAll('.device-card');
+                    siblings.forEach((sibling) => {
+                      if (sibling !== e.currentTarget) {
+                        const htmlSibling = sibling as HTMLElement;
+                        htmlSibling.style.opacity = "0.7";
+                      }
+                    });
+                  }
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (typeof window !== "undefined" && e.currentTarget) {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.borderColor = `var(--border-subtle)`;
+                  e.currentTarget.style.boxShadow = "0 18px 60px rgba(14,26,24,0.06)";
+                }
               }}
             >
               <h3 
-                className="text-lg font-semibold mb-5"
+                className="font-semibold"
                 style={{
-                  color: "rgba(231,240,238,0.95)",
-                  fontWeight: 500,
+                  fontSize: "24px",
+                  color: `rgb(var(--text-1))`,
+                  fontWeight: 600,
+                  marginBottom: "14px",
                 }}
               >
                 Mobile app
               </h3>
-              <div className="space-y-3 mb-6">
-                <div className="flex items-start gap-2.5">
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+              <div className="mb-5" style={{ marginBottom: "20px" }}>
+                <div 
+                  className="feature-item"
+                  style={{
+                    position: "relative",
+                    paddingLeft: "14px",
+                    margin: "10px 0",
+                    color: `rgb(var(--text-1))`,
+                    fontSize: "16px",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <div
+                    className="feature-indicator"
                     style={{
-                      backgroundColor: "var(--accent-alpha-60)",
+                      content: "",
+                      position: "absolute",
+                      left: 0,
+                      top: "6px",
+                      bottom: "6px",
+                      width: "2px",
+                      borderRadius: "2px",
+                      background: `var(--border-subtle)`,
                     }}
                   />
-                  <p 
-                    className="text-sm leading-relaxed"
-                    style={{
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    See only the most important trends
-                  </p>
+                  See only the most important trends
                 </div>
-                <div className="flex items-start gap-2.5">
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                <div 
+                  className="feature-item"
+                  style={{
+                    position: "relative",
+                    paddingLeft: "14px",
+                    margin: "10px 0",
+                    color: `rgb(var(--text-1))`,
+                    fontSize: "16px",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <div
+                    className="feature-indicator"
                     style={{
-                      backgroundColor: "var(--accent-alpha-60)",
+                      content: "",
+                      position: "absolute",
+                      left: 0,
+                      top: "6px",
+                      bottom: "6px",
+                      width: "2px",
+                      borderRadius: "2px",
+                      background: `var(--border-subtle)`,
                     }}
                   />
-                  <p 
-                    className="text-sm leading-relaxed"
-                    style={{
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    Receive notifications only when attention is needed
-                  </p>
+                  Receive notifications only when attention is needed
                 </div>
-                <div className="flex items-start gap-2.5">
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                <div 
+                  className="feature-item"
+                  style={{
+                    position: "relative",
+                    paddingLeft: "14px",
+                    margin: "10px 0",
+                    color: `rgb(var(--text-1))`,
+                    fontSize: "16px",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  <div
+                    className="feature-indicator"
                     style={{
-                      backgroundColor: "var(--accent-alpha-60)",
+                      content: "",
+                      position: "absolute",
+                      left: 0,
+                      top: "6px",
+                      bottom: "6px",
+                      width: "2px",
+                      borderRadius: "2px",
+                      background: `var(--border-subtle)`,
                     }}
                   />
-                  <p 
-                    className="text-sm leading-relaxed"
-                    style={{
-                      color: "var(--text-secondary)",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    Capture and upload records instantly
-                  </p>
+                  Capture and upload records instantly
                 </div>
               </div>
               
-              {/* Device Preview */}
-              <DevicePreviewMini
-                mode="mobile"
-                caption='Example: "Sleep trend worsening — review in web dashboard when ready."'
-              />
+              {/* Device Preview - Interactive */}
+              <div
+                style={{ marginTop: "18px" }}
+                onMouseEnter={(e) => {
+                  if (typeof window !== "undefined") {
+                    const frame = e.currentTarget.querySelector('.demo-frame') as HTMLElement;
+                    if (frame) {
+                      frame.style.opacity = "1";
+                      frame.style.transform = "translateY(-2px)";
+                      frame.style.boxShadow = "0 24px 80px rgba(14,26,24,0.10)";
+                      frame.style.outline = "none";
+                      // Pulse signal card
+                      const signalCard = frame.querySelector('[data-signal-card]') as HTMLElement;
+                      if (signalCard) {
+                        signalCard.style.animation = "pulse 0.6s ease-out";
+                      }
+                    }
+                    // Soften other frame
+                    const row = e.currentTarget.closest('.demo-row');
+                    if (row) {
+                      const otherFrames = row.querySelectorAll('.demo-frame');
+                      otherFrames.forEach((otherFrame) => {
+                        if (otherFrame !== frame) {
+                          const htmlOtherFrame = otherFrame as HTMLElement;
+                          htmlOtherFrame.style.opacity = "0.55";
+                          htmlOtherFrame.style.filter = "saturate(0.9)";
+                        }
+                      });
+                    }
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (typeof window !== "undefined") {
+                    const frame = e.currentTarget.querySelector('.demo-frame') as HTMLElement;
+                    if (frame) {
+                      frame.style.opacity = "0.9";
+                      frame.style.transform = "translateY(0)";
+                      frame.style.boxShadow = "0 18px 60px rgba(14,26,24,0.10)";
+                      frame.style.outline = "none";
+                    }
+                  }
+                }}
+              >
+                <MobileViewPreview
+                  caption='Sleep trend worsening — review in web dashboard when ready.'
+                />
+              </div>
               
               <p 
-                className="text-xs pt-4 border-t mt-6"
+                className="example-caption"
                 style={{
+                  marginTop: "12px",
+                  fontSize: "13px",
+                  lineHeight: 1.4,
                   color: "var(--text-muted)",
-                  borderColor: "rgba(231,240,238,0.06)",
                 }}
               >
                 For knowing when something actually needs attention.
@@ -1393,21 +2517,26 @@ export default function YourArcPage() {
             </motion.div>
           </div>
 
-          {/* Reassurance Line */}
-          <motion.p
+          {/* Reassurance Line - Trust Badge */}
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: prefersReducedMotion ? 0 : 0.5, delay: 0.2 }}
-            className="text-center text-sm leading-relaxed"
+            className="trust-footnote text-center"
             style={{
+              marginTop: "18px",
+              padding: "12px 14px",
+              borderRadius: "14px",
+              background: "rgba(77,174,158,0.08)",
               color: "var(--text-muted)",
+              fontSize: "14px",
+              lineHeight: 1.5,
             }}
           >
             No constant alerts. You are notified only when attention is actually needed.
-          </motion.p>
-        </div>
-      </section>
+          </motion.div>
+      </Section>
 
       {/* Section 5.5: Day in the life story section */}
       <DayInLifeSection />
@@ -1419,25 +2548,23 @@ export default function YourArcPage() {
       <PricingSection prefersReducedMotion={prefersReducedMotion} />
 
       {/* Section 7: Final CTA section */}
-      <section className="py-16 md:py-20">
-        <Container>
-          <div className="text-center max-w-3xl mx-auto space-y-6">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white">
-              See what your records have been trying to tell you
-            </h2>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              Early access gives you a head start on visibility, coordination, and action.
-            </p>
-            <div className="pt-4">
-              <ArcButton href="/contact">Request early access</ArcButton>
-            </div>
-            <p className="text-xs text-gray-400 pt-4">
-              You own your data. Always.
-            </p>
+      <Section variant="default">
+        <div className="text-center max-w-3xl mx-auto space-y-6">
+          <h2 className="h2-unified">
+            See what your records have been trying to tell you
+          </h2>
+          <p className="body-unified text-lg text-center">
+            Early access gives you a head start on visibility, coordination, and action.
+          </p>
+          <div className="pt-4">
+            <ArcButton href="/contact">Request early access</ArcButton>
           </div>
-        </Container>
-      </section>
-    </div>
+          <p className="text-xs pt-4" style={{ color: `rgb(var(--text-3))` }}>
+            You own your data. Always.
+          </p>
+        </div>
+      </Section>
+    </PageShell>
   );
 }
 

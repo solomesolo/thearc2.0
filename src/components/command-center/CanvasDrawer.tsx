@@ -50,7 +50,7 @@ export default function CanvasDrawer({ children }: CanvasDrawerProps) {
         width: "400px",
         backgroundColor: "var(--surface)",
         borderLeft: "1px solid var(--border)",
-        boxShadow: "-4px 0 12px rgba(0, 0, 0, 0.1)",
+        boxShadow: "var(--shadow-lg)",
         zIndex: 50,
         display: "flex",
         flexDirection: "column",

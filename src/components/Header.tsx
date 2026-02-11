@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { PERSONAS } from "@/lib/persona";
 import EmailSignupModal from "./EmailSignupModal";
+import ThemeToggle from "./theme/ThemeToggle";
 
 export default function Header() {
   const pathname = usePathname();
@@ -146,7 +147,8 @@ export default function Header() {
         </nav>
 
         {/* Primary CTAs: Get Started (Individuals) + For Clinics and Doctors */}
-        <div className="premium-nav-ctas">
+        <div className="premium-nav-ctas" style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <ThemeToggle variant="icon" showLabel={false} />
           <Link 
             href="/clinics"
             className="premium-nav-cta-secondary"

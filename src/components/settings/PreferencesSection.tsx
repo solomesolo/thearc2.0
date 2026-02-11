@@ -1,13 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useTheme } from "@/theme/ThemeProvider";
 
 export default function PreferencesSection() {
-  const [appearance, setAppearance] = useState<"system" | "light" | "dark">("system");
+  const { theme, setTheme } = useTheme();
   const [units, setUnits] = useState<"metric" | "imperial">("metric");
 
+  const handleAppearanceChange = (newTheme: "light" | "dark") => {
+    setTheme(newTheme);
+  };
+
   const handleSave = () => {
-    // TODO: Save preferences
+    // TODO: Save preferences (units, etc.)
     alert("Preferences saved.");
   };
 
@@ -57,7 +62,7 @@ export default function PreferencesSection() {
               Appearance
             </label>
             <div style={{ display: "flex", gap: "12px" }}>
-              {(["system", "light", "dark"] as const).map((option) => (
+              {(["light", "dark"] as const).map((option) => (
                 <label
                   key={option}
                   style={{
@@ -67,19 +72,21 @@ export default function PreferencesSection() {
                     cursor: "pointer",
                     padding: "8px 12px",
                     borderRadius: "6px",
-                    backgroundColor: appearance === option ? "var(--surface-alt)" : "transparent",
+                    backgroundColor: theme === option ? "var(--bg-2)" : "transparent",
+                    border: `1px solid ${theme === option ? "var(--border-2)" : "var(--border-1)"}`,
+                    transition: "all 0.2s",
                   }}
                 >
                   <input
                     type="radio"
                     name="appearance"
                     value={option}
-                    checked={appearance === option}
-                    onChange={(e) => setAppearance(e.target.value as any)}
+                    checked={theme === option}
+                    onChange={() => handleAppearanceChange(option)}
                     style={{ cursor: "pointer" }}
                   />
                   <span style={{ fontSize: "13px", color: "var(--text-primary)" }}>
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                    {option === "light" ? "Clinical (Light)" : "Power (Dark)"}
                   </span>
                 </label>
               ))}

@@ -70,7 +70,7 @@ export default function HealthStoryStrip({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
+        boxShadow: "var(--shadow-lg)",
       }}
     >
       <h2

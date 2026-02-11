@@ -2,64 +2,164 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 @import "tailwindcss";
+@import "../styles/tokens.css"; /* Design tokens - single source of truth */
 @import "./mobile-fixes-v2.css";
 @import "./mobile-responsive-fixes.css";
 
-/* Design System - Typography */
+/* ============================================
+   Typography Utilities (Unified System)
+   ============================================ */
+.h1-unified {
+  font-size: 56px;
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  color: rgb(var(--text-1));
+}
+
+.h2-unified {
+  font-size: 2.25rem; /* 36px */
+  font-weight: 600;
+  color: rgb(var(--text-1));
+}
+
+.body-unified {
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgb(var(--text-2));
+}
+
+/* ============================================
+   Global Theme Tokens (Single Source of Truth)
+   ============================================ */
 
 :root {
-  /* Layout Foundation Tokens */
-  --page-bg: #0B0E10; /* Match hero section background */
-  --panel-bg: rgba(255, 255, 255, 0.03);
-  --border: rgba(255, 255, 255, 0.10);
-  --muted: rgba(255, 255, 255, 0.72);
-  --muted-2: rgba(255, 255, 255, 0.55);
-  --text: rgba(255, 255, 255, 0.92);
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+
+  /* Light Mode (Trust + Clinical) - Default */
+  --bg: #F7F8F8;
+  --surface: #FFFFFF;
+  --surface-2: #F1F3F3;
+  --surface-card: #FFFFFF;
+  --surface-raised: #F1F3F3;
+  --text: #0E1A18;
+  --text-muted: rgba(14, 26, 24, 0.62);
+  --border: rgba(14, 26, 24, 0.10);
+  --border-subtle: rgba(14, 26, 24, 0.08);
+
+  /* Brand accent (muted, not "tech neon") */
+  --accent: #4DAE9E;         /* primary */
+  --accent-primary: #4DAE9E;
+  --accent-strong: #2F7F73;
+  --accent-2: #2F7F73;       /* darker */
+  --accent-soft: rgba(77, 174, 158, 0.14);
+
+  /* Radii */
+  --radius-xl: 24px;
+
+  /* Shadows */
+  --shadow-lg: 0 18px 60px rgba(14, 26, 24, 0.12);
+
+  /* Legacy compatibility (mapped to new tokens) */
+  --text-primary: var(--text);
+  --text-secondary: var(--text-muted);
+  --surface-elevated: var(--surface-2);
+  --accent-hover: var(--accent-2);
+  --accent-alpha-60: rgba(77, 174, 158, 0.60);
+  --accent-alpha-20: rgba(77, 174, 158, 0.20);
+  --border-strong: rgba(14, 26, 24, 0.14);
   
-  /* Arc Jade + Sage Color System */
-  /* Surfaces */
-  --bg: #060B0C;
-  --surface: #0C1416;
-  --surface-elevated: #101B1D;
-  
-  /* Text */
-  --text-primary: #E7F0EE;
-  --text-secondary: #8FA6A3;
-  --text-muted: #6C8582;
-  
-  /* Accents - Arc Jade (Primary) */
-  --accent: #6ED3C2;        /* Arc Jade */
-  --accent-hover: #8FE3D5;
-  --accent-muted: #3C8F86;  /* borders / subtle */
-  --accent-alpha-60: rgba(110, 211, 194, 0.60);
-  --accent-alpha-20: rgba(110, 211, 194, 0.20);
-  --accent-pressed: #5AC7B5; /* ~10% darker than accent */
-  
-  /* Secondary accent (support) - Clinical Sage */
-  --sage: #8FAF9C;
-  --sage-hover: #A7C4B4;
-  --sage-muted: #4F6B5C;
+  /* Signal State Semantics (clinical, non-alarmist) */
+  --signal-neutral: var(--text-muted);
+  --signal-moderate: var(--accent-primary);
+  --signal-attention: var(--accent-strong);
   
   /* Status (medical semantics) */
-  --success: #7BD8C9;       /* aligned w/ jade */
-  --warning: #D7B56D;      /* warm gold (muted) */
-  --danger: #D07A7A;        /* muted red */
-  --info: #7FA7C7;          /* muted blue */
+  --success: #7BD8C9;
+  --warning: #D7B56D;
+  --danger: #D07A7A;
+  --info: #7FA7C7;
+}
+
+/* ============================================
+   Dark Mode (Intelligence + Lab + Power)
+   ============================================ */
+html[data-theme="dark"] {
+  --bg: #071012;
+  --bg-page: #060B0C;
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(255, 255, 255, 0.06);
+  --surface-card: rgba(255, 255, 255, 0.04);
+  --surface-raised: rgba(255, 255, 255, 0.06);
+  --text: rgba(231, 240, 238, 0.95);
+  --text-primary: rgba(231, 240, 238, 0.95);
+  --text-muted: rgba(143, 166, 163, 0.80);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+
+  --accent: #6ED3C2;
+  --accent-primary: #6ED3C2;
+  --accent-strong: #4DAE9E;
+  --accent-2: #4DAE9E;
+  --accent-soft: rgba(110, 211, 194, 0.12);
+
+  /* Radii */
+  --radius-xl: 24px;
+
+  --shadow-lg: 0 30px 120px rgba(0, 0, 0, 0.55);
+
+  /* Legacy compatibility */
+  --text-primary: var(--text);
+  --text-secondary: var(--text-muted);
+  --surface-elevated: var(--surface-2);
+  --accent-hover: var(--accent-2);
+  --accent-alpha-60: rgba(110, 211, 194, 0.60);
+  --accent-alpha-20: rgba(110, 211, 194, 0.20);
+  --border-strong: rgba(255, 255, 255, 0.14);
   
-  /* Borders */
-  --border: rgba(231, 240, 238, 0.08);
-  --border-strong: rgba(231, 240, 238, 0.14);
+  /* Signal State Semantics (clinical, non-alarmist) */
+  --signal-neutral: var(--text-muted);
+  --signal-moderate: var(--accent-primary);
+  --signal-attention: var(--accent-strong);
+  --signal-positive: var(--accent-primary);
   
-  /* Legacy Colors - Black Theme (for backward compatibility) */
-  --background: #000000;
-  --foreground: #FFFFFF;
-  --card-bg: #111111;
+  /* Clinical Signal States (subdued, medical UI) */
+  --signal-clear: #4DAE9E;        /* existing accent family */
+  --signal-monitor: #C7A95B;      /* muted amber, NOT yellow */
+  --signal-attention: #C26F6F;    /* desaturated clinical red */
   
-  /* Legacy Accent Colors (deprecated - use --accent variants instead) */
-  --accent-dark: #3C8F86;   /* mapped to accent-muted */
-  --accent-light: #8FE3D5;  /* mapped to accent-hover */
-  --accent-glow: rgba(110, 211, 194, 0.2); /* mapped to accent-alpha-20 */
-  
+  /* Soft backgrounds for signal states */
+  --signal-clear-soft: rgba(77,174,158,0.12);
+  --signal-monitor-soft: rgba(199,169,91,0.16);
+  --signal-attention-soft: rgba(194,111,111,0.16);
+}
+
+/* ============================================
+   Global Base Application
+   ============================================ */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+/* ============================================
+   Legacy Layout Tokens (for backward compatibility)
+   ============================================ */
+:root {
   /* Layout */
   --max-content-width: 1240px;
   --section-padding-top: 140px;
@@ -655,11 +755,11 @@ details[open] .faq-answer {
 
 /* Premium FAQ Accordion Styles */
 .faq-accordion-item {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 24px 28px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text);
 }
 
 .faq-accordion-header {
@@ -679,14 +779,14 @@ details[open] .faq-answer {
 }
 
 .faq-accordion-header:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface-2);
 }
 
 .faq-accordion-question {
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.01em;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text);
   flex: 1;
   padding-right: 16px;
 }
@@ -694,7 +794,7 @@ details[open] .faq-answer {
 .faq-accordion-icon {
   font-size: 24px;
   font-weight: 300;
-  color: rgba(20, 241, 149, 0.8);
+  color: var(--accent);
   flex-shrink: 0;
   width: 24px;
   height: 24px;
@@ -703,6 +803,7 @@ details[open] .faq-answer {
   justify-content: center;
   transition: transform 200ms ease, color 180ms ease;
   transform: rotate(0deg);
+  opacity: 0.8;
 }
 
 .faq-accordion-icon-open {
@@ -710,7 +811,8 @@ details[open] .faq-answer {
 }
 
 .faq-accordion-header:hover .faq-accordion-icon {
-  color: rgba(20, 241, 149, 1);
+  color: var(--accent);
+  opacity: 1;
 }
 
 .faq-accordion-body {
@@ -732,7 +834,7 @@ details[open] .faq-answer {
   line-height: 1.55;
   opacity: 0.75;
   max-width: 620px;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-muted);
   padding-top: 8px;
 }
 
@@ -2314,52 +2416,7 @@ header nav a:hover::after {
   overflow: hidden;
 }
 
-/* Top gradient highlight bar */
-.pricing-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(135deg, #14F195, #7CFFB2);
-  z-index: 1;
-}
-
-.pricing-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.45), 0 0 40px rgba(20, 241, 149, 0.15);
-}
-
-.pricing-card.featured::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(135deg, #14F195, #7CFFB2);
-  z-index: 2;
-}
-
-.pricing-card.featured {
-  position: relative;
-}
-
-.pricing-card.featured::after {
-  content: "";
-  position: absolute;
-  inset: -15px;
-  border-radius: inherit;
-  z-index: -1;
-  background: radial-gradient(
-    circle at 50% 30%,
-    rgba(20, 241, 149, 0.25),
-    rgba(20, 241, 149, 0.05) 55%,
-    transparent 80%
-  );
-  filter: blur(50px);
-}
+/* Old green top lines removed - using halo effect instead */
 
 .pricing-card ul {
   list-style: none;
@@ -3744,18 +3801,34 @@ body {
 
 /* ARC Dashboard Global Styles */
 .dashboard-container {
-  background: linear-gradient(135deg, #0B0E10 0%, #0B0E10 25%, #0B0E10 50%, #0B0E10 100%); /* Match hero section background */
+  background: var(--bg-0);
   min-height: 100vh;
   position: relative;
 }
 
-.dashboard-container::before {
+/* Dark mode only: subtle glow overlay */
+[data-theme="dark"] .dashboard-container::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(0, 255, 200, 0.04) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(110, 211, 194, 0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
+}
+
+/* Light mode: no glow */
+[data-theme="light"] .dashboard-container::before {
+  display: none;
+}
+
+/* Blueprint demo page - no glow in light mode */
+[data-theme="light"] .blueprint-demo-page::before {
+  display: none !important;
+}
+
+/* Investigation demo page - no glow in light mode */
+[data-theme="light"] .investigation-demo-page::before {
+  display: none !important;
 }
 
 /* Glow Card Base */
@@ -4451,7 +4524,7 @@ select:focus option:checked {
   font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.01em;
-  color: rgba(255, 255, 255, 0.90);
+  color: var(--text);
   margin: 0 0 10px 0;
 }
 
@@ -4463,7 +4536,7 @@ select:focus option:checked {
 .arc-capability-explanation p {
   font-size: 15px;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--text-muted);
   margin: 0 0 8px 0;
 }
 
@@ -4475,7 +4548,7 @@ select:focus option:checked {
 .arc-capability-you-get-wrapper {
   margin-top: 16px;
   padding-top: 14px;
-  border-top: 1px solid rgba(236, 218, 200, 0.10);
+  border-top: 1px solid var(--border);
   flex: 1; /* Push to bottom if card is taller */
   display: flex;
   align-items: flex-end;
@@ -4485,19 +4558,19 @@ select:focus option:checked {
 .arc-capability-you-get {
   font-size: 14px;
   line-height: 1.6;
-  color: rgba(236, 218, 200, 0.62);
+  color: var(--text-muted);
   margin: 0;
 }
 
 /* "You get:" Label */
 .arc-capability-you-get-label {
   font-weight: 600;
-  color: rgba(236, 218, 200, 0.72);
+  color: var(--text-muted);
 }
 
 /* Rest of "You get" sentence */
 .arc-capability-you-get-text {
-  color: rgba(236, 218, 200, 0.62);
+  color: var(--text-muted);
 }
 
 /* ============================================
@@ -4508,7 +4581,7 @@ select:focus option:checked {
 .arc-tiers-section {
   padding-top: 84px;
   padding-bottom: 92px;
-  background: #0B0E10; /* Pure near-black base */
+  background: var(--bg);
   position: relative;
 }
 
@@ -4566,7 +4639,7 @@ select:focus option:checked {
   font-size: clamp(36px, 3.4vw, 54px);
   line-height: 1.08;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
   font-weight: 600;
   margin: 0 0 16px 0;
 }
@@ -4670,7 +4743,7 @@ select:focus option:checked {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.24em;
-  color: rgba(236, 218, 200, 0.55);
+  color: var(--text-muted);
   text-transform: uppercase;
   margin: 0 0 10px 0;
   position: relative;
@@ -4682,7 +4755,7 @@ select:focus option:checked {
   font-size: 26px;
   font-weight: 600; /* 650 not available, using 600 (semibold) */
   letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.90);
+  color: var(--text);
   margin: 0 0 10px 0;
   position: relative;
   z-index: 1;
@@ -4698,7 +4771,7 @@ select:focus option:checked {
 .arc-tier-best-for-label {
   font-size: 14px;
   font-weight: 600;
-  color: rgba(236, 218, 200, 0.70);
+  color: var(--text-muted);
   display: block;
   margin-bottom: 4px;
 }
@@ -4706,7 +4779,7 @@ select:focus option:checked {
 .arc-tier-best-for-text {
   font-size: 15px;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--text-muted);
   display: block;
 }
 
@@ -4720,7 +4793,7 @@ select:focus option:checked {
 .arc-tier-features-label {
   font-size: 14px;
   font-weight: 600;
-  color: rgba(236, 218, 200, 0.70);
+  color: var(--text-muted);
   margin: 0 0 12px 0;
   display: block;
 }
@@ -4763,7 +4836,7 @@ select:focus option:checked {
 .arc-tier-feature-text {
   font-size: 15px;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.64);
+  color: var(--text-muted);
   flex: 1;
   padding-top: 0; /* Align with icon top */
 }
@@ -4772,7 +4845,7 @@ select:focus option:checked {
 .arc-tier-cta-wrapper {
   margin-top: 22px;
   padding-top: 18px;
-  border-top: 1px solid rgba(236, 218, 200, 0.10);
+  border-top: 1px solid var(--border);
   position: relative;
   z-index: 1;
 }
@@ -4782,9 +4855,9 @@ select:focus option:checked {
   width: 100%;
   height: 44px;
   border-radius: 14px;
-  background: rgba(236, 218, 200, 0.06);
-  border: 1px solid rgba(236, 218, 200, 0.18);
-  color: rgba(236, 218, 200, 0.82);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
   font-weight: 600;
   font-size: 15px;
   transition: border-color 150ms ease-out, background-color 150ms ease-out;
@@ -4796,14 +4869,14 @@ select:focus option:checked {
 
 @media (min-width: 768px) {
   .arc-tier-cta-button:hover {
-    border-color: rgba(236, 218, 200, 0.26);
-    background: rgba(236, 218, 200, 0.09);
+    border-color: var(--accent);
+    background: var(--surface-2);
   }
 }
 
 .arc-tier-cta-button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(236, 218, 200, 0.4), 0 0 0 4px #0B0E10;
+  box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 4px var(--bg);
 }
 
 /* ============================================
@@ -4814,7 +4887,7 @@ select:focus option:checked {
 .arc-how-it-works-section {
   padding-top: 84px;
   padding-bottom: 92px;
-  background: #0B0E10; /* Pure near-black base */
+  background: var(--bg);
   position: relative;
 }
 
@@ -4867,7 +4940,7 @@ select:focus option:checked {
   font-size: clamp(36px, 3.2vw, 52px);
   line-height: 1.08;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
   font-weight: 600;
   margin: 0 0 16px 0;
 }
@@ -5001,11 +5074,11 @@ select:focus option:checked {
 }
 
 .arc-how-it-works-step-title-active {
-  color: rgba(255, 255, 255, 0.90);
+  color: var(--text);
 }
 
 .arc-how-it-works-step-title-inactive {
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--text-muted);
 }
 
 /* Step Description */
@@ -5017,11 +5090,12 @@ select:focus option:checked {
 }
 
 .arc-how-it-works-step-description-active {
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--text-muted);
 }
 
 .arc-how-it-works-step-description-inactive {
-  color: rgba(255, 255, 255, 0.48);
+  color: var(--text-muted);
+  opacity: 0.7;
 }
 
 /* Right Column - Preview Panel (Clinical Dossier) */
@@ -5093,13 +5167,13 @@ select:focus option:checked {
 .arc-how-it-works-preview-title {
   font-size: 22px;
   font-weight: 600; /* 650 not available */
-  color: rgba(255, 255, 255, 0.90);
+  color: var(--text);
   margin: 0;
 }
 
 .arc-how-it-works-preview-subhead {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -5128,13 +5202,13 @@ select:focus option:checked {
 .arc-how-it-works-preview-section-title {
   font-size: 14px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.90);
+  color: var(--text);
   margin: 0;
 }
 
 .arc-how-it-works-preview-section-meta {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--text-muted);
   margin: 4px 0 0 0;
 }
 
@@ -5173,7 +5247,7 @@ select:focus option:checked {
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.64);
+  color: var(--text-muted);
 }
 
 /* Bullet Dots (Muted) */
@@ -5188,7 +5262,7 @@ select:focus option:checked {
 /* Section Text */
 .arc-how-it-works-preview-section-text {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.64);
+  color: var(--text-muted);
   margin: 8px 0 0 0;
   line-height: 1.6;
 }
@@ -5231,7 +5305,7 @@ select:focus option:checked {
 
 .arc-how-it-works-footer-text {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.50);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -5241,9 +5315,9 @@ select:focus option:checked {
   max-width: 300px;
   height: 44px;
   border-radius: 14px;
-  background: rgba(236, 218, 200, 0.06);
-  border: 1px solid rgba(236, 218, 200, 0.18);
-  color: rgba(236, 218, 200, 0.82);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
   font-weight: 600;
   font-size: 15px;
   transition: border-color 150ms ease-out, background-color 150ms ease-out;
@@ -5262,14 +5336,14 @@ select:focus option:checked {
   }
   
   .arc-how-it-works-cta-button:hover {
-    border-color: rgba(236, 218, 200, 0.26);
-    background: rgba(236, 218, 200, 0.09);
+    border-color: var(--accent);
+    background: var(--surface-2);
   }
 }
 
 .arc-how-it-works-cta-button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(236, 218, 200, 0.4), 0 0 0 4px #0B0E10;
+  box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 4px var(--bg);
 }
 
 /* ============================================
@@ -5280,7 +5354,7 @@ select:focus option:checked {
 .arc-marketplace-section {
   padding-top: 84px;
   padding-bottom: 92px;
-  background: #0B0E10; /* Pure near-black base */
+  background: var(--bg);
   position: relative;
 }
 
@@ -5334,7 +5408,7 @@ select:focus option:checked {
   font-size: clamp(36px, 3.2vw, 52px);
   line-height: 1.08;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
   font-weight: 600;
   margin: 0;
 }
@@ -5372,7 +5446,7 @@ select:focus option:checked {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.24em;
-  color: rgba(236, 218, 200, 0.55);
+  color: var(--text-muted);
   text-transform: uppercase;
   margin: 0 0 10px 0;
 }
@@ -5381,7 +5455,7 @@ select:focus option:checked {
 .arc-marketplace-subheadline {
   font-size: 26px;
   font-weight: 600; /* 650 not available */
-  color: rgba(255, 255, 255, 0.90);
+  color: var(--text);
   line-height: 1.2;
   margin: 0 0 12px 0;
 }
@@ -5397,14 +5471,14 @@ select:focus option:checked {
 .arc-marketplace-body p {
   font-size: 15px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--text-muted);
   margin: 0;
 }
 
 /* Principle Statement */
 .arc-marketplace-principle {
   font-size: 14px;
-  color: rgba(236, 218, 200, 0.62);
+  color: var(--text-muted);
   margin-top: 10px !important;
 }
 
@@ -5422,9 +5496,9 @@ select:focus option:checked {
   max-width: 300px;
   height: 44px;
   border-radius: 14px;
-  background: rgba(236, 218, 200, 0.06);
-  border: 1px solid rgba(236, 218, 200, 0.18);
-  color: rgba(236, 218, 200, 0.82);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
   font-weight: 600;
   font-size: 15px;
   transition: border-color 150ms ease-out, background-color 150ms ease-out;
@@ -5443,14 +5517,14 @@ select:focus option:checked {
   }
   
   .arc-marketplace-cta-button:hover {
-    border-color: rgba(236, 218, 200, 0.26);
-    background: rgba(236, 218, 200, 0.09);
+    border-color: var(--accent);
+    background: var(--surface-2);
   }
 }
 
 .arc-marketplace-cta-button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px var(--accent-alpha-20), 0 0 0 4px #0B0E10;
+  box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 4px var(--bg);
 }
 
 /* Secondary Link */
@@ -5489,7 +5563,7 @@ select:focus option:checked {
   left: 0;
   right: 0;
   height: 1px;
-  background-color: rgba(236, 218, 200, 0.10);
+  background-color: var(--border);
 }
 
 /* Tab Button */
@@ -5513,12 +5587,12 @@ select:focus option:checked {
 
 /* Active Tab */
 .arc-marketplace-tab-active {
-  color: rgba(236, 218, 200, 0.86);
+  color: var(--text);
 }
 
 /* Inactive Tab */
 .arc-marketplace-tab-inactive {
-  color: rgba(255, 255, 255, 0.52);
+  color: var(--text-muted);
 }
 
 /* Active Tab Indicator */
@@ -5615,18 +5689,18 @@ select:focus option:checked {
 }
 
 .arc-marketplace-category-title-active {
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--text);
 }
 
 .arc-marketplace-category-title-inactive {
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--text-muted);
 }
 
 /* Category Description */
 .arc-marketplace-category-description {
   font-size: 14px;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.58);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -5642,17 +5716,18 @@ select:focus option:checked {
 .arc-marketplace-category-examples {
   font-size: 12px;
   font-weight: 600;
-  color: rgba(236, 218, 200, 0.58);
+  color: var(--text-muted);
   text-align: right;
   white-space: nowrap;
 }
 
 /* Chevron */
 .arc-marketplace-category-chevron {
-  color: rgba(236, 218, 200, 0.38);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0.6;
 }
 
 /* Expanded Content */
@@ -5674,7 +5749,7 @@ select:focus option:checked {
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: rgba(236, 218, 200, 0.55);
+  color: var(--text-muted);
   text-transform: uppercase;
   margin: 0;
 }
@@ -5694,7 +5769,7 @@ select:focus option:checked {
   align-items: flex-start;
   gap: 10px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--text-muted);
 }
 
 /* Bullet Dot */
@@ -5713,7 +5788,7 @@ select:focus option:checked {
 }
 
 .arc-marketplace-category-view-link-text {
-  color: rgba(159, 216, 198, 0.78);
+  color: var(--accent);
   text-decoration: none;
   font-size: 14px;
   display: inline-flex;
@@ -6215,7 +6290,7 @@ select:focus option:checked {
 .arc-faq-section {
   padding-top: 84px;
   padding-bottom: 92px;
-  background: #0B0E10; /* Pure near-black base */
+  background: var(--bg);
   position: relative;
 }
 
@@ -6273,7 +6348,7 @@ select:focus option:checked {
   font-size: clamp(34px, 3vw, 48px);
   line-height: 1.1;
   letter-spacing: -0.015em;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
   font-weight: 600;
   margin: 0 0 16px 0;
 }
@@ -6366,7 +6441,7 @@ select:focus option:checked {
 .arc-faq-accordion-question {
   font-size: 18px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.86);
+  color: var(--text);
   line-height: 1.35;
   flex: 1;
 }
@@ -6376,7 +6451,7 @@ select:focus option:checked {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: rgba(236, 218, 200, 0.52);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6385,7 +6460,7 @@ select:focus option:checked {
 
 .arc-faq-accordion-icon-open {
   transform: rotate(45deg);
-  color: rgba(236, 218, 200, 0.52);
+  color: var(--text-muted);
 }
 
 /* Accordion Body */
@@ -6411,7 +6486,7 @@ select:focus option:checked {
 .arc-faq-accordion-answer {
   font-size: 15px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--text-muted);
   margin: 0;
   padding-top: 0;
 }
@@ -6447,7 +6522,7 @@ select:focus option:checked {
 .arc-final-cta-section {
   padding-top: 88px;
   padding-bottom: 72px;
-  background: #0B0E10; /* Pure near-black base */
+  background: var(--bg);
   position: relative;
 }
 
@@ -6508,7 +6583,7 @@ select:focus option:checked {
   font-size: clamp(40px, 4vw, 64px);
   line-height: 1.02;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
   font-weight: 600;
   margin: 22px 0 34px 0;
   max-width: 22ch;
@@ -6534,9 +6609,9 @@ select:focus option:checked {
   height: 48px;
   padding: 0 22px;
   border-radius: 16px;
-  background: rgba(236, 218, 200, 0.10);
-  border: 1px solid rgba(236, 218, 200, 0.22);
-  color: rgba(255, 255, 255, 0.88); /* Not mint */
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
   font-weight: 600;
   font-size: 15px;
   transition: border-color 150ms ease-out, background-color 150ms ease-out;
@@ -6549,14 +6624,14 @@ select:focus option:checked {
 
 @media (min-width: 768px) {
   .arc-final-cta-button-primary:hover {
-    background: rgba(236, 218, 200, 0.14);
-    border-color: rgba(236, 218, 200, 0.28);
+    background: var(--surface-2);
+    border-color: var(--accent);
   }
 }
 
 .arc-final-cta-button-primary:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(236, 218, 200, 0.4), 0 0 0 4px #0B0E10;
+  box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 4px var(--bg);
 }
 
 /* Secondary Button */
@@ -6565,8 +6640,8 @@ select:focus option:checked {
   padding: 0 22px;
   border-radius: 16px;
   background: transparent;
-  border: 1px solid rgba(236, 218, 200, 0.16);
-  color: rgba(236, 218, 200, 0.82);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
   font-weight: 600;
   font-size: 15px;
   transition: border-color 150ms ease-out, background-color 150ms ease-out;
@@ -6579,20 +6654,20 @@ select:focus option:checked {
 
 @media (min-width: 768px) {
   .arc-final-cta-button-secondary:hover {
-    border-color: rgba(236, 218, 200, 0.22);
-    background: rgba(236, 218, 200, 0.06);
+    border-color: var(--accent);
+    background: var(--surface-2);
   }
 }
 
 .arc-final-cta-button-secondary:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(236, 218, 200, 0.4), 0 0 0 4px #0B0E10;
+  box-shadow: 0 0 0 2px var(--accent-soft), 0 0 0 4px var(--bg);
 }
 
 /* Setup Line */
 .arc-final-cta-setup {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.50);
+  color: var(--text-muted);
   margin: 20px 0 0 0;
   text-align: center;
 }
@@ -6608,6 +6683,7 @@ select:focus option:checked {
   flex-shrink: 0;
   position: relative;
   z-index: 1;
+  background-color: var(--bg);
 }
 
 .arc-footer-container {
@@ -6831,7 +6907,7 @@ select:focus option:checked {
    ============================================ */
 
 .hero-section-v2-wrapper {
-  background: #060B0C;
+  background: var(--bg);
   width: 100%;
   padding-top: 88px;
   padding-bottom: 96px;
@@ -7045,6 +7121,71 @@ select:focus option:checked {
   align-items: center;
 }
 
+/* Hero Floating UI Wrapper */
+.hero-floating-ui-wrapper {
+  position: relative;
+  width: 600px;
+  height: 480px;
+}
+
+/* Desktop ≥ 1280px → fixed size */
+@media (min-width: 1280px) {
+  .hero-floating-ui-wrapper {
+    width: 600px;
+    height: 480px;
+    transform: scale(1);
+  }
+}
+
+/* Below 1280px → scale: 0.9 */
+@media (max-width: 1279px) {
+  .hero-floating-ui-wrapper {
+    transform: scale(0.9);
+  }
+}
+
+/* Below 1024px → scale: 0.85 */
+@media (max-width: 1023px) {
+  .hero-floating-ui-wrapper {
+    transform: scale(0.85);
+  }
+}
+
+/* Subtle float animation - uses translateY only, scale handled by wrapper */
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.hero-floating-card-primary {
+  animation: float-subtle 12s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.hero-floating-card-secondary {
+  animation: float-subtle 12s ease-in-out infinite;
+  animation-delay: 2s;
+  transform-origin: center;
+}
+
+.hero-floating-card-tertiary {
+  animation: float-subtle 12s ease-in-out infinite;
+  animation-delay: 4s;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-floating-card-primary,
+  .hero-floating-card-secondary,
+  .hero-floating-card-tertiary {
+    animation: none;
+  }
+}
+
 /* Preview Continuity Mini */
 .preview-continuity-mini-container {
   width: 100%;
@@ -7104,9 +7245,10 @@ select:focus option:checked {
 
   .hero-section-v2-visual-column {
     grid-column: 1;
-    max-width: 80%;
+    max-width: 100%;
     margin: 0 auto;
     justify-content: center;
+    margin-top: 48px;
   }
 
   .hero-continuity-card-mini {
@@ -7146,6 +7288,323 @@ select:focus option:checked {
   .hero-section-v2-cta-row {
     flex-direction: column;
   }
+}
+
+/* ============================================
+   Advanced Modes Section Styles
+   ============================================ */
+
+/* Section base styles */
+.advanced-section {
+  background: var(--bg-page, #060B0C);
+  color: var(--text-primary);
+}
+
+/* Advanced Modes Section - Quiet Lab Styling */
+.advanced-section {
+  background: #071012;
+  color: rgba(231,240,238,0.95);
+}
+
+.advanced-row:hover .advanced-card:not(:hover) {
+  opacity: 0.70;
+  transition: opacity 180ms ease-out;
+}
+
+.advanced-card {
+  transition: transform 180ms ease-out, box-shadow 180ms ease-out, opacity 180ms ease-out;
+}
+
+.advanced-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 40px 160px rgba(0,0,0,0.65);
+}
+
+/* Card band styling */
+.card-band {
+  background: rgba(255,255,255,0.03);
+  border-radius: 16px;
+  padding: 12px 14px;
+  border: 0;
+}
+
+.band-row {
+  padding: 10px 6px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.band-row:first-child {
+  border-top: 0;
+}
+
+/* Outcome hairline markers */
+.outcome::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.10);
+}
+
+/* Dark mode CTA buttons */
+.btn-primary-dark {
+  transition: background-color 150ms ease-out;
+}
+
+.btn-primary-dark:hover {
+  background: rgba(110,211,194,0.22) !important;
+}
+
+.btn-link-dark {
+  transition: color 150ms ease-out, text-decoration 150ms ease-out;
+}
+
+.btn-link-dark:hover {
+  color: rgba(231,240,238,0.95) !important;
+  text-decoration: underline;
+}
+
+/* ============================================
+   Device Cards Section Styles
+   ============================================ */
+
+/* Feature item hover effects */
+.device-card:hover .feature-indicator {
+  background: rgba(77,174,158,0.35) !important;
+  transition: background 180ms ease-out;
+}
+
+/* Device grid hover interactions */
+.device-grid:hover .device-card:not(:hover) {
+  opacity: 0.7;
+  transition: opacity 180ms ease-out;
+}
+
+.device-card {
+  transition: transform 180ms ease-out, box-shadow 180ms ease-out, border-color 180ms ease-out, opacity 180ms ease-out;
+}
+
+.device-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(77,174,158,0.22);
+  box-shadow: 0 24px 80px rgba(14,26,24,0.10);
+}
+
+/* Trust footnote - dark mode support */
+html[data-theme="dark"] .trust-footnote {
+  background: rgba(110,211,194,0.08);
+}
+
+/* ============================================
+   Pricing Section Styles
+   ============================================ */
+
+/* Pricing card base styles */
+.pricing-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 18px 60px rgba(14,26,24,0.08);
+  transition: all 180ms ease-out;
+}
+
+/* Featured card halo effect */
+.pricing-card[data-featured="true"] {
+  box-shadow:
+    0 18px 60px rgba(14,26,24,0.10),
+    0 0 0 8px var(--accent-soft);
+}
+
+/* Pricing grid hover interactions */
+.pricing-grid:hover .pricing-card:not(:hover) {
+  opacity: 0.75;
+  transition: opacity 180ms ease-out;
+}
+
+.pricing-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 80px rgba(14,26,24,0.12);
+  border-color: rgba(14,26,24,0.14);
+}
+
+.pricing-card[data-featured="true"]:hover {
+  box-shadow:
+    0 24px 80px rgba(14,26,24,0.12),
+    0 0 0 8px var(--accent-soft);
+}
+
+/* Feature list hover effects - checkmarks stay subdued */
+.feature-icon {
+  color: var(--text-muted);
+  transition: color 180ms ease-out;
+}
+
+.pricing-card:hover .feature-icon {
+  color: rgba(77,174,158,0.75);
+}
+
+/* CTA button styles */
+.pricing-cta {
+  transition: background-color 160ms ease-out;
+}
+
+.pricing-cta:hover {
+  background-color: var(--accent-strong) !important;
+}
+
+/* Pricing accordion styles */
+.pricing-accordion-row {
+  padding: 14px 0;
+  border-top: 1px solid rgba(14,26,24,0.08);
+  color: var(--text-primary);
+}
+
+.pricing-accordion-row:first-child {
+  border-top: 0;
+}
+
+.accordion-title {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Dark mode adjustments */
+html[data-theme="dark"] .pricing-card {
+  box-shadow: 0 18px 60px rgba(0,0,0,0.25);
+}
+
+html[data-theme="dark"] .pricing-card[data-featured="true"] {
+  box-shadow:
+    0 18px 60px rgba(0,0,0,0.30),
+    0 0 0 8px rgba(110,211,194,0.12);
+}
+
+html[data-theme="dark"] .pricing-card[data-featured="true"]:hover {
+  box-shadow:
+    0 24px 80px rgba(0,0,0,0.35),
+    0 0 0 8px rgba(110,211,194,0.12);
+}
+
+html[data-theme="dark"] .pricing-card:hover {
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* ============================================
+   Clinical Summary Panel Styles
+   ============================================ */
+
+.clinical-summary {
+  transition: all 160ms ease-out;
+}
+
+.clinical-summary .pattern-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--border-subtle);
+}
+
+.clinical-summary .pattern-item {
+  position: relative;
+  padding-left: 14px;
+}
+
+.clinical-summary .expand-control:hover {
+  color: var(--text-primary);
+}
+
+.clinical-summary .expand-control:focus {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Dark mode adjustments */
+html[data-theme="dark"] .clinical-summary {
+  background: var(--surface-raised);
+}
+
+html[data-theme="dark"] .clinical-summary .practice-note {
+  background: rgba(255,255,255,0.03);
+}
+
+/* ============================================
+   Arc Dark Theme Tokens for Previews
+   ============================================ */
+:root,
+html,
+html[data-theme="light"],
+html[data-theme="dark"] {
+  --dark-bg: #071012;
+  --dark-surface: rgba(255,255,255,0.04);
+  --dark-surface-2: rgba(255,255,255,0.06);
+  --dark-border: rgba(255,255,255,0.08);
+  --dark-text: rgba(231,240,238,0.95);
+  --dark-muted: rgba(143,166,163,0.80);
+  
+  /* Status tokens */
+  --status-monitor-bg: rgba(240,195,120,0.12);
+  --status-monitor-text: rgba(240,195,120,0.78);
+  --status-monitor-border: rgba(240,195,120,0.16);
+  
+  --status-critical-bg: rgba(235,120,120,0.10);
+  --status-critical-text: rgba(235,120,120,0.78);
+  --status-critical-border: rgba(235,120,120,0.16);
+}
+
+/* ============================================
+   Preview Component Styles
+   ============================================ */
+
+/* UI Chip/Tab styling */
+.ui-chip {
+  background: var(--dark-surface) !important;
+  border: 1px solid var(--dark-border) !important;
+  color: var(--dark-muted) !important;
+}
+
+.ui-chip[data-active="true"] {
+  background: var(--accent-soft) !important;
+  border-color: rgba(110,211,194,0.22) !important;
+  color: var(--accent) !important;
+}
+
+/* Status badge styling */
+.badge-monitor {
+  background: var(--status-monitor-bg) !important;
+  border: 1px solid var(--status-monitor-border) !important;
+  color: var(--status-monitor-text) !important;
+}
+
+/* State bar for mobile preview */
+.state-bar-monitor {
+  background: var(--status-monitor-text) !important;
+}
+
+.badge-critical {
+  background: var(--status-critical-bg);
+  border: 1px solid var(--status-critical-border);
+  color: var(--status-critical-text);
+}
+
+/* Quiet CTA button */
+.btn-quiet {
+  background: var(--accent-soft) !important;
+  border: 1px solid rgba(110,211,194,0.22) !important;
+  color: var(--accent) !important;
+  border-radius: 9999px !important;
+  transition: background-color 180ms ease-out;
+}
+
+.btn-quiet:hover {
+  background: rgba(110,211,194,0.16) !important;
 }
 
 

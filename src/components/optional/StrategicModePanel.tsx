@@ -45,167 +45,204 @@ export default function StrategicModePanel({
 
   return (
     <div
-      className="rounded-[16px] border p-8 md:p-10"
+      className="advanced-card rounded-[24px] border transition-all duration-[180ms] ease-out"
       style={{
-        background: "linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))",
-        borderColor: "rgba(255,255,255,0.06)",
+        background: "rgba(255,255,255,0.04)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        borderRadius: "24px",
+        boxShadow: "0 30px 120px rgba(0,0,0,0.55)",
       }}
     >
-      {/* Header Row */}
-      <div className="flex items-start justify-between mb-4">
-        <div>
+      {/* Card Content */}
+      <div className="p-8 md:p-10">
+        {/* Mode Header */}
+        <div className="flex items-start justify-between mb-6">
           <h3
-            className="text-lg font-semibold mb-1"
+            className="mode-title"
             style={{
+              fontSize: "26px",
+              fontWeight: 600,
+              letterSpacing: "-0.01em",
               color: "rgba(231,240,238,0.95)",
-              fontWeight: 550,
             }}
           >
             {title}
           </h3>
+          <span
+            className="mode-badge"
+            style={{
+              fontSize: "11px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              padding: "6px 10px",
+              borderRadius: "999px",
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              color: "rgba(143,166,163,0.90)",
+            }}
+          >
+            {status}
+          </span>
         </div>
-        <span
-          className="px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.5px] rounded"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.05)",
-            color: "rgba(143,166,163,0.78)",
-          }}
-        >
-          {status}
-        </span>
-      </div>
-
-      {/* Description */}
-      <p
-        className="text-sm mb-6 leading-relaxed"
-        style={{
-          color: "rgba(143,166,163,0.78)",
-          lineHeight: 1.5,
-        }}
-      >
-        {description}
-      </p>
-
-      {/* Data Inputs Block (Table style) */}
-      <div className="mb-6">
+        {/* Description */}
         <p
-          className="text-[10px] font-semibold uppercase tracking-[0.8px] mb-2.5"
+          className="text-sm mb-6 leading-relaxed"
           style={{
-            color: "rgba(143,166,163,0.65)",
+            color: "rgba(143,166,163,0.80)",
+            lineHeight: 1.6,
+            fontSize: "15px",
           }}
         >
-          Uses:
+          {description}
         </p>
-        <div
-          className="rounded border divide-y"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.02)",
-            borderColor: "rgba(255,255,255,0.06)",
-          }}
-        >
-          {dataInputs.map((input, idx) => (
-            <div
-              key={idx}
-              className="text-xs py-2 px-3"
-              style={{
-                color: "rgba(231,240,238,0.85)",
-              }}
-            >
-              {input}
-            </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Process Block (Horizontal step line) */}
-      <div className="mb-6 pb-6 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-        <div className="flex items-center gap-2 flex-wrap">
-          {processSteps.map((step, idx) => (
-            <React.Fragment key={idx}>
+        {/* Data Inputs Block (Card band style) */}
+        <div className="mb-6">
+          <p
+            className="text-[10px] font-semibold uppercase tracking-[0.8px] mb-2.5"
+            style={{
+              color: "rgba(143,166,163,0.75)",
+            }}
+          >
+            Uses:
+          </p>
+          <div
+            className="card-band"
+            style={{
+              background: "rgba(255,255,255,0.03)",
+              borderRadius: "16px",
+              padding: "12px 14px",
+              border: 0,
+            }}
+          >
+            {dataInputs.map((input, idx) => (
               <div
-                className="text-xs px-2.5 py-1 rounded"
+                key={idx}
+                className="band-row"
                 style={{
-                  backgroundColor: "rgba(110,211,194,0.08)",
-                  color: "rgba(110,211,194,0.95)",
+                  padding: "10px 6px",
+                  borderTop: idx === 0 ? "none" : "1px solid rgba(255,255,255,0.06)",
+                  color: "rgba(231,240,238,0.90)",
+                  fontSize: "14px",
+                }}
+              >
+                {input}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Process Block (Quiet chips) */}
+        <div className="mb-6 pb-6 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+          <div className="flex items-center gap-2 flex-wrap">
+            {processSteps.map((step, idx) => (
+              <div
+                key={idx}
+                className="chip text-xs px-3 rounded-full transition-all duration-[150ms] ease-out"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.05)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  color: "rgba(143,166,163,0.80)",
+                  height: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  fontSize: "13px",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(110,211,194,0.12)";
+                  e.currentTarget.style.borderColor = "rgba(110,211,194,0.18)";
+                  e.currentTarget.style.color = "rgba(231,240,238,0.90)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.color = "rgba(143,166,163,0.80)";
                 }}
               >
                 {step}
               </div>
-              {idx < processSteps.length - 1 && (
-                <div
-                  className="w-px h-4"
-                  style={{
-                    backgroundColor: "rgba(255,255,255,0.06)",
-                  }}
-                />
-              )}
-            </React.Fragment>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Outcomes Block */}
-      <div className="mb-6">
-        <p
-          className="text-[10px] font-semibold uppercase tracking-[0.8px] mb-2.5"
-          style={{
-            color: "rgba(143,166,163,0.65)",
-          }}
-        >
-          Outcomes:
-        </p>
-        <div className="space-y-1.5">
-          {outcomes.map((outcome, idx) => (
-            <div key={idx} className="flex items-start gap-2">
-              <span
-                className="text-xs mt-0.5"
+        {/* Outcomes Block */}
+        <div className="mb-6">
+          <p
+            className="text-[10px] font-semibold uppercase tracking-[0.8px] mb-2.5"
+            style={{
+              color: "rgba(143,166,163,0.75)",
+            }}
+          >
+            Outcomes:
+          </p>
+          <div className="space-y-2">
+            {outcomes.map((outcome, idx) => (
+              <div
+                key={idx}
+                className="outcome"
                 style={{
-                  color: "rgba(110,211,194,0.95)",
-                }}
-              >
-                •
-              </span>
-              <p
-                className="text-xs leading-relaxed"
-                style={{
-                  color: "rgba(231,240,238,0.85)",
+                  position: "relative",
+                  paddingLeft: "14px",
+                  margin: "10px 0",
+                  color: "rgba(231,240,238,0.90)",
+                  fontSize: "14px",
+                  lineHeight: 1.6,
                 }}
               >
                 {outcome}
-              </p>
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Action Row */}
-      <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-        <Link
-          href={primaryCTALink}
-          className="px-4 py-2.5 text-xs font-semibold rounded-[10px] transition-colors"
-          style={{
-            backgroundColor: "rgba(110,211,194,0.15)",
-            color: "rgba(110,211,194,0.95)",
-            height: "40px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          {primaryCTA}
-        </Link>
-        <button
-          onClick={handleSecondaryClick}
-          className="text-xs font-medium transition-colors"
-          style={{
-            color: "rgba(143,166,163,0.78)",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 0,
-          }}
-        >
-          {secondaryCTA}
-        </button>
+        {/* Action Row */}
+        <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+          <Link
+            href={primaryCTALink}
+            className="btn-primary-dark px-4 rounded-full transition-all duration-[150ms] ease-out"
+            style={{
+              height: "44px",
+              padding: "0 16px",
+              borderRadius: "9999px",
+              background: "rgba(110,211,194,0.16)",
+              border: "1px solid rgba(110,211,194,0.26)",
+              color: "rgba(231,240,238,0.95)",
+              fontWeight: 500,
+              fontSize: "14px",
+              display: "flex",
+              alignItems: "center",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(110,211,194,0.22)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(110,211,194,0.16)";
+            }}
+          >
+            {primaryCTA}
+          </Link>
+          <button
+            onClick={handleSecondaryClick}
+            className="btn-link-dark text-sm font-medium transition-all duration-[150ms] ease-out"
+            style={{
+              color: "rgba(143,166,163,0.90)",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "rgba(231,240,238,0.95)";
+              e.currentTarget.style.textDecoration = "underline";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "rgba(143,166,163,0.90)";
+              e.currentTarget.style.textDecoration = "none";
+            }}
+          >
+            {secondaryCTA}
+          </button>
+        </div>
       </div>
     </div>
   );

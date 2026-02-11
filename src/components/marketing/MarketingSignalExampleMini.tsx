@@ -21,55 +21,44 @@ export default function MarketingSignalExampleMini({
   onClick,
 }: MarketingSignalExampleMiniProps) {
   return (
-    <div
-      className="mt-4 pt-4 border-t"
-      style={{
-        borderColor: "rgba(231,240,238,0.06)",
-      }}
-    >
+    <div className="example-band" style={{ marginTop: "14px" }}>
       <p
-        className="text-[10px] font-medium uppercase mb-2"
+        className="font-medium uppercase mb-3"
         style={{
-          color: "var(--text-muted)",
+          fontSize: "10px",
           letterSpacing: "0.8px",
+          color: "var(--text-muted)",
         }}
       >
-        Example from your timeline:
+        EXAMPLE FROM YOUR TIMELINE
       </p>
       <div
-        className={`rounded-[12px] p-3 ${onClick ? "cursor-pointer transition-all hover:border-opacity-100" : ""}`}
+        className={`${onClick ? "cursor-pointer transition-all" : ""}`}
         style={{
-          backgroundColor: "rgba(231,240,238,0.03)",
-          border: "1px solid rgba(231,240,238,0.06)",
+          background: `rgba(14,26,24,0.03)`,
+          borderRadius: "16px",
+          padding: "12px 14px",
+          border: "0",
         }}
         onClick={onClick}
-        onMouseEnter={(e) => {
-          if (onClick && typeof window !== "undefined" && e.currentTarget) {
-            e.currentTarget.style.borderColor = "rgba(110,211,194,0.15)";
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (onClick && typeof window !== "undefined" && e.currentTarget) {
-            e.currentTarget.style.borderColor = "rgba(231,240,238,0.06)";
-          }
-        }}
       >
-        <div className="space-y-2">
+        <div className="space-y-2.5">
           {signals.map((signal, idx) => (
             <div key={idx} className="flex items-center gap-2">
               <span
-                className="text-xs font-medium"
+                className="font-medium"
                 style={{
-                  color: "rgba(231,240,238,0.95)",
+                  fontSize: "14px",
+                  color: `rgb(var(--text-1))`,
                 }}
               >
                 {signal.label}
               </span>
               {signal.trend === "up" && (
                 <span
-                  className="text-[10px]"
+                  className="text-xs"
                   style={{
-                    color: "var(--accent)",
+                    color: `var(--signal-attention)`,
                   }}
                 >
                   ↑
@@ -77,26 +66,43 @@ export default function MarketingSignalExampleMini({
               )}
               {signal.trend === "down" && (
                 <span
-                  className="text-[10px]"
+                  className="text-xs"
                   style={{
-                    color: "var(--text-muted)",
+                    color: `var(--signal-neutral)`,
                   }}
                 >
                   ↓
                 </span>
               )}
+              {signal.trend === "stable" && (
+                <span
+                  className="text-xs"
+                  style={{
+                    color: `var(--signal-neutral)`,
+                  }}
+                >
+                  →
+                </span>
+              )}
             </div>
           ))}
           <div
-            className="pt-2 border-t"
+            className="example-action"
             style={{
-              borderColor: "rgba(231,240,238,0.06)",
+              marginTop: "10px",
+              paddingTop: "10px",
+              borderTop: "1px solid var(--border-subtle)",
+              color: `var(--accent-strong)`,
+              fontWeight: 500,
             }}
           >
             <p
-              className="text-xs"
+              className="text-sm"
               style={{
-                color: "var(--text-secondary)",
+                color: `var(--accent-strong)`,
+                fontSize: "15px",
+                fontWeight: 500,
+                margin: 0,
               }}
             >
               → {suggestedAction}

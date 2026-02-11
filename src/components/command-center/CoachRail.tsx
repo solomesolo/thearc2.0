@@ -49,8 +49,8 @@ export default function CoachRail({ todayFocus, notifications = [] }: CoachRailP
           style={{
             width: "100%",
             padding: "8px 16px",
-            backgroundColor: "var(--primary)",
-            color: "white",
+            backgroundColor: "var(--accent)",
+            color: "var(--bg)",
             border: "none",
             borderRadius: "6px",
             cursor: "pointer",

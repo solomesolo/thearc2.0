@@ -25,24 +25,23 @@ export function ArcButton({
     justify-center
     px-8 py-3.5
     rounded-full
-    bg-[var(--accent)]
-    text-[#071012]
-    border
-    border-transparent
     text-base
     font-medium
     tracking-tight
     transition-all
     duration-200
     ease-out
-    hover:bg-[var(--accent-hover)]
     focus:outline-none
     focus:ring-2
-    focus:ring-[var(--accent-alpha-20)]
     focus:ring-offset-2
-    focus:ring-offset-[var(--page-bg)]
-    active:bg-[var(--accent-pressed)]
   `;
+
+  const buttonStyle: React.CSSProperties = {
+    backgroundColor: `var(--accent-primary)`,
+    color: `rgb(var(--btn-primary-text))`,
+    border: "none",
+    boxShadow: `var(--shadow-soft)`,
+  };
 
   if (href) {
     return (
@@ -50,6 +49,28 @@ export function ArcButton({
         href={href}
         className={`${baseClasses} ${className}`}
         onClick={onClick}
+        style={buttonStyle}
+        onMouseEnter={(e) => {
+          if (typeof window !== "undefined" && e.currentTarget) {
+            e.currentTarget.style.backgroundColor = `var(--accent-strong)`;
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (typeof window !== "undefined" && e.currentTarget) {
+            e.currentTarget.style.backgroundColor = `var(--accent-primary)`;
+          }
+        }}
+        onFocus={(e) => {
+          if (typeof window !== "undefined" && e.currentTarget) {
+            e.currentTarget.style.outline = "2px solid var(--accent-soft)";
+            e.currentTarget.style.outlineOffset = "2px";
+          }
+        }}
+        onBlur={(e) => {
+          if (typeof window !== "undefined" && e.currentTarget) {
+            e.currentTarget.style.outline = "none";
+          }
+        }}
       >
         {children}
       </Link>
@@ -61,6 +82,28 @@ export function ArcButton({
       type={type}
       onClick={onClick}
       className={`${baseClasses} ${className}`}
+      style={buttonStyle}
+      onMouseEnter={(e) => {
+        if (typeof window !== "undefined" && e.currentTarget) {
+          e.currentTarget.style.backgroundColor = `var(--accent-strong)`;
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (typeof window !== "undefined" && e.currentTarget) {
+          e.currentTarget.style.backgroundColor = `var(--accent-primary)`;
+        }
+      }}
+      onFocus={(e) => {
+        if (typeof window !== "undefined" && e.currentTarget) {
+          e.currentTarget.style.outline = "2px solid var(--accent-soft)";
+          e.currentTarget.style.outlineOffset = "2px";
+        }
+      }}
+      onBlur={(e) => {
+        if (typeof window !== "undefined" && e.currentTarget) {
+          e.currentTarget.style.outline = "none";
+        }
+      }}
       {...props}
     >
       {children}

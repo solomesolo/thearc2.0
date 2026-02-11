@@ -50,7 +50,7 @@ export default function RiskRadar({ domains }: RiskRadarProps) {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
+        boxShadow: "var(--shadow-lg)",
       }}
     >
       <h2

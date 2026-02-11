@@ -106,11 +106,11 @@ export default function ReactiveByDesignSection() {
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <div className="grid grid-cols-3 gap-6 md:gap-8 relative">
-                <div className="absolute top-6 left-0 right-0 h-0.5 bg-white/20" />
+                <div className="absolute top-6 left-0 right-0 h-0.5" style={{ backgroundColor: "var(--border)" }} />
                 {bridgeLabels.map((label, index) => (
                   <div key={index} className="relative flex flex-col items-center z-10">
-                    <div className="w-3 h-3 rounded-full bg-white/30 border-2 border-white/50 mb-2" />
-                    <p className="text-xs text-gray-400 text-center mt-2">{label}</p>
+                    <div className="w-3 h-3 rounded-full border-2 mb-2" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }} />
+                    <p className="text-xs text-center mt-2" style={{ color: "var(--text-muted)" }}>{label}</p>
                   </div>
                 ))}
               </div>
@@ -125,11 +125,11 @@ export default function ReactiveByDesignSection() {
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <div className="flex items-center justify-between w-full relative">
-                <div className="absolute top-4 left-0 right-0 h-0.5 bg-white/20" />
+                <div className="absolute top-4 left-0 right-0 h-0.5" style={{ backgroundColor: "var(--border)" }} />
                 {bridgeLabels.map((label, index) => (
                   <div key={index} className="relative flex flex-col items-center z-10 flex-1">
-                    <div className="w-2.5 h-2.5 rounded-full bg-white/30 border-2 border-white/50 mb-1.5" />
-                    <p className="text-[10px] text-gray-400 text-center mt-1 leading-tight">{label}</p>
+                    <div className="w-2.5 h-2.5 rounded-full border-2 mb-1.5" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }} />
+                    <p className="text-[10px] text-center mt-1 leading-tight" style={{ color: "var(--text-muted)" }}>{label}</p>
                   </div>
                 ))}
               </div>

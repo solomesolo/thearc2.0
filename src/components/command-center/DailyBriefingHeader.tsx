@@ -63,7 +63,7 @@ export default function DailyBriefingHeader({ insight, primaryCTA }: DailyBriefi
           style={{
             padding: "12px 24px",
             backgroundColor: "var(--primary)",
-            color: "white",
+            color: "var(--bg)",
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",

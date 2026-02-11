@@ -106,7 +106,7 @@ export default function PricingSection({
     <section
       className="py-20 md:py-24"
       style={{
-        backgroundColor: "#060B0C",
+        backgroundColor: "var(--bg)",
       }}
     >
       <div className="max-w-[1320px] mx-auto px-5 md:px-7 lg:px-10 xl:px-12">
@@ -123,7 +123,7 @@ export default function PricingSection({
           <h2
             className="text-3xl md:text-4xl font-semibold mb-4"
             style={{
-              color: "rgba(231,240,238,0.95)",
+              color: "var(--text)",
               fontWeight: 500,
               letterSpacing: "-0.2px",
             }}
@@ -133,7 +133,7 @@ export default function PricingSection({
           <p
             className="text-lg leading-relaxed"
             style={{
-              color: "var(--text-secondary)",
+              color: "var(--text-muted)",
               lineHeight: 1.6,
             }}
           >
@@ -144,7 +144,7 @@ export default function PricingSection({
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12">
+        <div className="pricing-grid grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12">
           {/* Tier 1 */}
           <PricingCard
             tierName="Arc Health Intelligence"

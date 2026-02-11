@@ -33,16 +33,21 @@ export default function StageSceneSwitcher({ activeStep }: StageSceneSwitcherPro
 
   return (
     <div
-      className="relative w-full overflow-hidden rounded-[24px] border shadow-[0_30px_80px_rgba(0,0,0,0.55)]"
+      className="relative w-full overflow-hidden rounded-[24px] border shadow-lgsoft"
       style={{
         height: "520px",
         maxHeight: "520px",
-        backgroundColor: "rgba(255,255,255,0.03)",
-        borderColor: "rgba(255,255,255,0.06)",
+        backgroundColor: "var(--surface)",
+        borderColor: "var(--border)",
       }}
     >
       {/* Background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_40%,rgba(110,211,194,0.06),transparent_60%)]" />
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(circle at 60% 40%, var(--accent-soft), transparent 60%)",
+        }}
+      />
 
       {/* Scene layer with crossfade */}
       <AnimatePresence mode="wait">

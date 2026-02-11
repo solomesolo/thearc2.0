@@ -187,9 +187,9 @@ export default function RegionUnavailableModal({
               transition={{ duration: 0.2 }}
               className="w-full max-w-[520px] rounded-[24px] border p-6 pointer-events-auto"
               style={{
-                backgroundColor: "rgba(12, 20, 22, 0.92)",
-                borderColor: "rgba(255,255,255,0.08)",
-                boxShadow: "0 40px 120px rgba(0,0,0,0.65)",
+                backgroundColor: "var(--surface)",
+                borderColor: "var(--border)",
+                boxShadow: "var(--shadow-lg)",
               }}
               role="dialog"
               aria-modal="true"
@@ -201,7 +201,7 @@ export default function RegionUnavailableModal({
                 disabled={status === "submitting"}
                 className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-lg transition-colors"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.05)",
+                  backgroundColor: "var(--surface-2)",
                 }}
                 aria-label="Close modal"
               >
@@ -210,7 +210,7 @@ export default function RegionUnavailableModal({
                   height="16"
                   viewBox="0 0 16 16"
                   fill="none"
-                  style={{ color: "rgba(231,240,238,0.75)" }}
+                  style={{ color: "var(--text-muted)" }}
                 >
                   <path
                     d="M12 4L4 12M4 4l8 8"
@@ -227,13 +227,13 @@ export default function RegionUnavailableModal({
                   <h2
                     id="modal-title"
                     className="text-xl font-semibold"
-                    style={{ color: "rgba(231,240,238,0.95)" }}
+                    style={{ color: "var(--text)" }}
                   >
                     You're on the list.
                   </h2>
                   <p
                     className="text-sm leading-relaxed"
-                    style={{ color: "rgba(143,166,163,0.78)" }}
+                    style={{ color: "var(--text-muted)" }}
                   >
                     We'll email you when Arc launches in your region. If you're among the first 100, you'll get free access.
                   </p>
@@ -241,8 +241,8 @@ export default function RegionUnavailableModal({
                     onClick={onClose}
                     className="w-full py-3 px-6 rounded-full font-semibold text-sm transition-colors"
                     style={{
-                      backgroundColor: "rgba(110,211,194,0.95)",
-                      color: "#071012",
+                      backgroundColor: "var(--accent)",
+                      color: "var(--bg)",
                     }}
                   >
                     Done
@@ -255,9 +255,9 @@ export default function RegionUnavailableModal({
                   <div
                     className="inline-flex items-center px-2.5 py-1 rounded border text-[11px] font-semibold uppercase tracking-[0.5px]"
                     style={{
-                      backgroundColor: "rgba(255,255,255,0.04)",
-                      borderColor: "rgba(255,255,255,0.06)",
-                      color: "rgba(231,240,238,0.75)",
+                      backgroundColor: "var(--surface-2)",
+                      borderColor: "var(--border)",
+                      color: "var(--text-muted)",
                     }}
                   >
                     REGION LOCK
@@ -268,11 +268,11 @@ export default function RegionUnavailableModal({
                     <h2
                       id="modal-title"
                       className="text-xl font-semibold mb-2"
-                      style={{ color: "rgba(231,240,238,0.95)" }}
+                      style={{ color: "var(--text)" }}
                     >
                       Not available in your region (yet)
                     </h2>
-                    <div className="space-y-3 text-sm leading-relaxed" style={{ color: "rgba(143,166,163,0.78)" }}>
+                    <div className="space-y-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
                       <p>
                         Arc isn't available where you are right now.
                         <br />
@@ -305,32 +305,32 @@ export default function RegionUnavailableModal({
                         className="w-full px-4 rounded-[12px] border transition-all focus:outline-none"
                         style={{
                           height: "44px",
-                          backgroundColor: "rgba(255,255,255,0.03)",
+                          backgroundColor: "var(--surface-2)",
                           borderColor:
                             status === "error_invalid"
-                              ? "rgba(255,120,120,0.35)"
-                              : "rgba(255,255,255,0.06)",
-                          color: "rgba(231,240,238,0.95)",
+                              ? "var(--danger)"
+                              : "var(--border)",
+                          color: "var(--text)",
                         }}
                         onFocus={(e) => {
-                          e.target.style.borderColor = "rgba(110,211,194,0.22)";
-                          e.target.style.boxShadow = "0 0 0 3px rgba(110,211,194,0.22)";
+                          e.target.style.borderColor = "var(--accent)";
+                          e.target.style.boxShadow = "0 0 0 3px var(--accent-soft)";
                         }}
                         onBlur={(e) => {
                           e.target.style.borderColor =
                             status === "error_invalid"
-                              ? "rgba(255,120,120,0.35)"
-                              : "rgba(255,255,255,0.06)";
+                              ? "var(--danger)"
+                              : "var(--border)";
                           e.target.style.boxShadow = "none";
                         }}
                       />
                       {status === "error_invalid" && (
-                        <p className="mt-1.5 text-xs" style={{ color: "rgba(255,120,120,0.95)" }}>
+                        <p className="mt-1.5 text-xs" style={{ color: "var(--danger)" }}>
                           {errorMessage}
                         </p>
                       )}
                       {status === "error_network" && (
-                        <p className="mt-1.5 text-xs" style={{ color: "rgba(255,120,120,0.95)" }}>
+                        <p className="mt-1.5 text-xs" style={{ color: "var(--danger)" }}>
                           {errorMessage}
                         </p>
                       )}
@@ -339,7 +339,7 @@ export default function RegionUnavailableModal({
                     {/* Consent microcopy */}
                     <p
                       className="text-[10px] leading-relaxed"
-                      style={{ color: "rgba(143,166,163,0.65)" }}
+                      style={{ color: "var(--text-muted)" }}
                     >
                       By joining the waitlist, you agree to receive launch updates from Arc. Unsubscribe anytime.
                     </p>
@@ -351,8 +351,8 @@ export default function RegionUnavailableModal({
                         disabled={status === "submitting"}
                         className="flex-1 py-3 px-6 rounded-full font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{
-                          backgroundColor: "rgba(110,211,194,0.95)",
-                          color: "#071012",
+                          backgroundColor: "var(--accent)",
+                          color: "var(--bg)",
                           height: "44px",
                         }}
                       >
@@ -365,8 +365,8 @@ export default function RegionUnavailableModal({
                         className="flex-1 py-3 px-6 rounded-full font-semibold text-sm transition-colors border disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{
                           backgroundColor: "transparent",
-                          borderColor: "rgba(255,255,255,0.06)",
-                          color: "rgba(231,240,238,0.75)",
+                          borderColor: "var(--border)",
+                          color: "var(--text-muted)",
                           height: "44px",
                         }}
                       >

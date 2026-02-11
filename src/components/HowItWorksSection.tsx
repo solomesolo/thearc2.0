@@ -95,54 +95,54 @@ const steps: Step[] = [
         </div>
         
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-            <h4 className="text-sm font-semibold text-white mb-3">Priority Focus Areas</h4>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <h4 className="text-sm font-semibold mb-3" style={{ color: "var(--text)" }}>Priority Focus Areas</h4>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-[#A3B3AA]">Metabolic health</span>
-                <span className="text-xs text-[#6FFFC3] font-medium">High priority</span>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Metabolic health</span>
+                <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>High priority</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-[#A3B3AA]">Sleep optimization</span>
-                <span className="text-xs text-[#6FFFC3] font-medium">Moderate</span>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Sleep optimization</span>
+                <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>Moderate</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-[#A3B3AA]">Inflammation markers</span>
-                <span className="text-xs text-[#6FFFC3] font-medium">Monitor</span>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Inflammation markers</span>
+                <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>Monitor</span>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-            <h4 className="text-sm font-semibold text-white mb-3">Risk Indicators</h4>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <h4 className="text-sm font-semibold mb-3" style={{ color: "var(--text)" }}>Risk Indicators</h4>
             <div className="space-y-2">
               <div>
                 <div className="flex justify-between mb-1">
-                  <span className="text-xs text-[#A3B3AA]">Cardiovascular risk</span>
-                  <span className="text-xs text-white font-medium">Low</span>
+                  <span className="text-xs" style={{ color: "var(--text-muted)" }}>Cardiovascular risk</span>
+                  <span className="text-xs font-medium" style={{ color: "var(--text)" }}>Low</span>
                 </div>
-                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#6FFFC3] rounded-full" style={{ width: "25%" }}></div>
+                <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "var(--surface-2)" }}>
+                  <div className="h-full rounded-full" style={{ width: "25%", backgroundColor: "var(--accent)" }}></div>
                 </div>
               </div>
               <div>
                 <div className="flex justify-between mb-1">
-                  <span className="text-xs text-[#A3B3AA]">Metabolic risk</span>
-                  <span className="text-xs text-white font-medium">Moderate</span>
+                  <span className="text-xs" style={{ color: "var(--text-muted)" }}>Metabolic risk</span>
+                  <span className="text-xs font-medium" style={{ color: "var(--text)" }}>Moderate</span>
                 </div>
-                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#6FFFC3] rounded-full" style={{ width: "55%" }}></div>
+                <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "var(--surface-2)" }}>
+                  <div className="h-full rounded-full" style={{ width: "55%", backgroundColor: "var(--accent)" }}></div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-            <h4 className="text-sm font-semibold text-white mb-2">Suggested Interventions</h4>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <h4 className="text-sm font-semibold mb-2" style={{ color: "var(--text)" }}>Suggested Interventions</h4>
             <div className="flex flex-wrap gap-2 mt-2">
-              <span className="px-3 py-1 rounded-full bg-[#0f0f0f] border border-white/10 text-xs text-[#A3B3AA]">Nutrition</span>
-              <span className="px-3 py-1 rounded-full bg-[#0f0f0f] border border-white/10 text-xs text-[#A3B3AA]">Movement</span>
-              <span className="px-3 py-1 rounded-full bg-[#0f0f0f] border border-white/10 text-xs text-[#A3B3AA]">Recovery</span>
+              <span className="px-3 py-1 rounded-full border text-xs" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)", color: "var(--text-muted)" }}>Nutrition</span>
+              <span className="px-3 py-1 rounded-full border text-xs" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)", color: "var(--text-muted)" }}>Movement</span>
+              <span className="px-3 py-1 rounded-full border text-xs" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)", color: "var(--text-muted)" }}>Recovery</span>
             </div>
           </div>
         </div>
@@ -163,62 +163,62 @@ const steps: Step[] = [
         </div>
         
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-sm font-semibold text-white">Active Blueprint</h4>
-              <span className="text-xs text-[#6FFFC3] font-medium">Week 3 of 12</span>
+              <h4 className="text-sm font-semibold" style={{ color: "var(--text)" }}>Active Blueprint</h4>
+              <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>Week 3 of 12</span>
             </div>
-            <p className="text-sm text-[#A3B3AA] mb-3">
+            <p className="text-sm mb-3" style={{ color: "var(--text-muted)" }}>
               Metabolic optimization protocol
             </p>
-            <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-              <div className="h-full bg-[#6FFFC3] rounded-full" style={{ width: "25%" }}></div>
+            <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: "var(--surface-2)" }}>
+              <div className="h-full rounded-full" style={{ width: "25%", backgroundColor: "var(--accent)" }}></div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-            <h4 className="text-sm font-semibold text-white mb-3">Early Signal Trends</h4>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <h4 className="text-sm font-semibold mb-3" style={{ color: "var(--text)" }}>Early Signal Trends</h4>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-[#A3B3AA]">Energy levels</span>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Energy levels</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-[#6FFFC3]">↑ 12%</span>
-                  <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#6FFFC3] rounded-full" style={{ width: "60%" }}></div>
+                  <span className="text-xs" style={{ color: "var(--accent)" }}>↑ 12%</span>
+                  <div className="w-16 h-1 rounded-full overflow-hidden" style={{ backgroundColor: "var(--surface-2)" }}>
+                    <div className="h-full rounded-full" style={{ width: "60%", backgroundColor: "var(--accent)" }}></div>
                   </div>
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-[#A3B3AA]">Sleep quality</span>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Sleep quality</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-[#6FFFC3]">↑ 8%</span>
-                  <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#6FFFC3] rounded-full" style={{ width: "55%" }}></div>
+                  <span className="text-xs" style={{ color: "var(--accent)" }}>↑ 8%</span>
+                  <div className="w-16 h-1 rounded-full overflow-hidden" style={{ backgroundColor: "var(--surface-2)" }}>
+                    <div className="h-full rounded-full" style={{ width: "55%", backgroundColor: "var(--accent)" }}></div>
                   </div>
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-[#A3B3AA]">Recovery rate</span>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Recovery rate</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-[#6FFFC3]">↑ 5%</span>
-                  <div className="w-16 h-1 bg-white/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#6FFFC3] rounded-full" style={{ width: "50%" }}></div>
+                  <span className="text-xs" style={{ color: "var(--accent)" }}>↑ 5%</span>
+                  <div className="w-16 h-1 rounded-full overflow-hidden" style={{ backgroundColor: "var(--surface-2)" }}>
+                    <div className="h-full rounded-full" style={{ width: "50%", backgroundColor: "var(--accent)" }}></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-            <h4 className="text-sm font-semibold text-white mb-2">Outcome Indicators</h4>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <h4 className="text-sm font-semibold mb-2" style={{ color: "var(--text)" }}>Outcome Indicators</h4>
             <div className="grid grid-cols-2 gap-3 mt-3">
               <div>
-                <p className="text-xs text-[#A3B3AA] mb-1">Baseline</p>
-                <p className="text-lg font-semibold text-white">72</p>
+                <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Baseline</p>
+                <p className="text-lg font-semibold" style={{ color: "var(--text)" }}>72</p>
               </div>
               <div>
-                <p className="text-xs text-[#A3B3AA] mb-1">Current</p>
-                <p className="text-lg font-semibold text-[#6FFFC3]">81</p>
+                <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Current</p>
+                <p className="text-lg font-semibold" style={{ color: "var(--accent)" }}>81</p>
               </div>
             </div>
           </div>
@@ -240,53 +240,53 @@ const steps: Step[] = [
         </div>
         
         <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-            <h4 className="text-sm font-semibold text-white mb-3">Available Specialties</h4>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <h4 className="text-sm font-semibold mb-3" style={{ color: "var(--text)" }}>Available Specialties</h4>
             <div className="space-y-2">
-              <div className="flex items-center justify-between py-2 border-b border-white/5">
-                <span className="text-sm text-[#A3B3AA]">Longevity medicine</span>
-                <span className="text-xs text-[#6FFFC3] font-medium">12 providers</span>
+              <div className="flex items-center justify-between py-2 border-b" style={{ borderColor: "var(--border)" }}>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Longevity medicine</span>
+                <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>12 providers</span>
               </div>
-              <div className="flex items-center justify-between py-2 border-b border-white/5">
-                <span className="text-sm text-[#A3B3AA]">Metabolic health</span>
-                <span className="text-xs text-[#6FFFC3] font-medium">8 providers</span>
+              <div className="flex items-center justify-between py-2 border-b" style={{ borderColor: "var(--border)" }}>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Metabolic health</span>
+                <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>8 providers</span>
               </div>
               <div className="flex items-center justify-between py-2">
-                <span className="text-sm text-[#A3B3AA]">Preventive cardiology</span>
-                <span className="text-xs text-[#6FFFC3] font-medium">6 providers</span>
+                <span className="text-sm" style={{ color: "var(--text-muted)" }}>Preventive cardiology</span>
+                <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>6 providers</span>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-white/5">
-            <h4 className="text-sm font-semibold text-white mb-3">Diagnostic Services</h4>
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <h4 className="text-sm font-semibold mb-3" style={{ color: "var(--text)" }}>Diagnostic Services</h4>
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-[#A3B3AA]">
-                <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "var(--accent)" }}></div>
                 <span>Advanced biomarker panels</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-[#A3B3AA]">
-                <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "var(--accent)" }}></div>
                 <span>Imaging services</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-[#A3B3AA]">
-                <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "var(--accent)" }}></div>
                 <span>Functional testing</span>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#0f0f0f]/60 border border-[#6FFFC3]/20">
+          <div className="p-4 rounded-xl border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--accent)" }}>
             <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#6FFFC3]/20 flex items-center justify-center">
-                <div className="w-3 h-3 rounded-full bg-[#6FFFC3]"></div>
+              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: "var(--accent-soft)" }}>
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: "var(--accent)" }}></div>
               </div>
               <div className="flex-1">
-                <h4 className="text-sm font-semibold text-white mb-1">Next Recommended Consultation</h4>
-                <p className="text-xs text-[#A3B3AA] mb-2">
+                <h4 className="text-sm font-semibold mb-1" style={{ color: "var(--text)" }}>Next Recommended Consultation</h4>
+                <p className="text-xs mb-2" style={{ color: "var(--text-muted)" }}>
                   Based on your current plan and risk profile
                 </p>
-                <p className="text-sm text-[#6FFFC3] font-medium">
+                <p className="text-sm font-medium" style={{ color: "var(--accent)" }}>
                   Metabolic health specialist → 30 days
                 </p>
               </div>

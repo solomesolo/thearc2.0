@@ -12,9 +12,10 @@ export default function OptionalDeepDiveSection({
 }: OptionalDeepDiveSectionProps) {
   return (
     <section
-      className="py-16 md:py-20"
+      className="advanced-section py-16 md:py-20"
       style={{
-        backgroundColor: "#060B0C",
+        backgroundColor: "#071012",
+        color: "rgba(231,240,238,0.95)",
       }}
     >
       <div className="max-w-[1320px] mx-auto px-5 md:px-7 lg:px-10 xl:px-12">
@@ -23,7 +24,7 @@ export default function OptionalDeepDiveSection({
           <p
             className="text-xs font-semibold uppercase tracking-[0.18em] mb-3"
             style={{
-              color: "rgba(143,166,163,0.65)",
+              color: "rgba(143,166,163,0.85)",
             }}
           >
             OPTIONAL — ADVANCED MODES
@@ -41,7 +42,7 @@ export default function OptionalDeepDiveSection({
           <p
             className="text-base leading-relaxed"
             style={{
-              color: "rgba(143,166,163,0.78)",
+              color: "rgba(143,166,163,0.80)",
               lineHeight: 1.5,
             }}
           >
@@ -52,7 +53,7 @@ export default function OptionalDeepDiveSection({
         </div>
 
         {/* Two-module grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10">
+        <div className="advanced-row grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10">
           {/* Module 1: Longevity Blueprint System */}
           <StrategicModePanel
             title="Blueprint System"
@@ -113,7 +114,7 @@ export default function OptionalDeepDiveSection({
           <p
             className="text-sm leading-relaxed max-w-[720px] mx-auto"
             style={{
-              color: "rgba(143,166,163,0.65)",
+              color: "rgba(143,166,163,0.80)",
             }}
           >
             You can stay in visibility mode forever.

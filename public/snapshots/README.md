@@ -23,3 +23,4 @@ The following images should be placed here at 2x resolution:
 
 If images are not found, the component will show an error state. For production, ensure all images are present and optimized.
 
+

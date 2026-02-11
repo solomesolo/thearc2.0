@@ -2,7 +2,7 @@
 
 import React from "react";
 import { HeroContinuityCardMini } from "./HeroContinuityCardMini";
-import { PreviewContinuityMini } from "./PreviewContinuityMini";
+import { HeroFloatingUI } from "./HeroFloatingUI";
 
 interface HeroSectionV2Props {
   onPrimaryCTAClick?: () => void;
@@ -108,7 +108,7 @@ export function HeroSectionV2({ onPrimaryCTAClick, onSecondaryCTAClick }: HeroSe
 
           {/* Right Column: Visual (spans 7-12, 6 cols) */}
           <div className="hero-section-v2-visual-column">
-            <PreviewContinuityMini prefersReducedMotion={prefersReducedMotion} />
+            <HeroFloatingUI prefersReducedMotion={prefersReducedMotion} />
           </div>
         </div>
       </div>

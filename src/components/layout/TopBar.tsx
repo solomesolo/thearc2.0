@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Bell } from "lucide-react";
 import AddDataMenu from "@/components/controls/AddDataMenu";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 
 interface TopBarProps {
   lastUpdated?: string; // ISO string
@@ -86,6 +87,7 @@ export default function TopBar({
 
       {/* Right: Add Data + Last refresh + Notifications + Profile */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <ThemeToggle variant="icon" showLabel={false} />
         <AddDataMenu />
         {/* Last refresh */}
         <div style={{ 

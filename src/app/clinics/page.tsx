@@ -236,7 +236,7 @@ export default function ClinicsPage() {
   // Remove auto-activation - default state has no expanded card
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen" style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}>
       {/* Section 1: Hero */}
       <section className="relative py-20 md:py-28">
         <Container>
@@ -250,13 +250,13 @@ export default function ClinicsPage() {
                 transition={{ duration: 0.6 }}
                 className="space-y-6"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em]" style={{ color: "var(--text-muted)" }}>
                   For clinics
                 </p>
-                <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
+                <h1 className="text-4xl md:text-5xl font-semibold tracking-tight" style={{ color: "var(--text)" }}>
                   A clinical operating system for preventive care
                 </h1>
-                <p className="text-lg text-gray-300 leading-relaxed">
+                <p className="text-lg leading-relaxed" style={{ color: "var(--text-muted)" }}>
                   Arc gives clinics a unified patient timeline, risk triage, and intervention workflows designed for longitudinal medicine.
                 </p>
                 <div className="space-y-3">
@@ -264,13 +264,16 @@ export default function ClinicsPage() {
                   <div>
                     <Link
                       href="#workflows"
-                      className="text-sm text-gray-300 hover:text-white transition-colors inline-flex items-center gap-2"
+                      className="text-sm transition-colors inline-flex items-center gap-2"
+                      style={{ color: "var(--text-muted)" }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = "var(--text)"}
+                      onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-muted)"}
                     >
                       See clinical workflows
                     </Link>
                   </div>
                 </div>
-                <p className="text-xs text-gray-400 pt-2">
+                <p className="text-xs pt-2" style={{ color: "var(--text-muted)" }}>
                   Not a replacement for clinical judgment. Built to support longitudinal care.
                 </p>
             </motion.div>
@@ -283,12 +286,12 @@ export default function ClinicsPage() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="order-first lg:order-last"
               >
-                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-5 shadow-[0_0_20px_var(--accent-alpha-20),0.1)]">
+                <div className="rounded-[20px] border p-5" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)", boxShadow: "var(--shadow-lg)" }}>
                   {/* Three Column Horizontal Layout */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Column 1: Patient and Signal Overview */}
                     <div className="space-y-2">
-                      <h4 className="text-xs font-semibold text-white uppercase tracking-wide mb-2">
+                      <h4 className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--text)" }}>
                         Patients
                       </h4>
                       <div className="space-y-1.5">
@@ -298,13 +301,12 @@ export default function ClinicsPage() {
                           { name: "Emma Wilson", risk: "Low" },
                           { name: "David Lee", risk: "Moderate" },
                         ].map((patient, idx) => (
-                          <div key={idx} className="p-2 rounded bg-[#050607] border border-white/5 flex items-center justify-between">
-                            <span className="text-xs text-white">{patient.name}</span>
-                            <span className={`text-xs px-1.5 py-0.5 rounded ${
-                              patient.risk === "High" ? "text-red-400 bg-red-500/10" :
-                              patient.risk === "Moderate" ? "text-yellow-400 bg-yellow-500/10" :
-                              "text-gray-400 bg-white/5"
-                            }`}>
+                          <div key={idx} className="p-2 rounded border flex items-center justify-between" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+                            <span className="text-xs" style={{ color: "var(--text)" }}>{patient.name}</span>
+                            <span className="text-xs px-1.5 py-0.5 rounded" style={{
+                              color: patient.risk === "High" ? "var(--danger)" : patient.risk === "Moderate" ? "var(--warning)" : "var(--text-muted)",
+                              backgroundColor: patient.risk === "High" ? "var(--danger)" + "20" : patient.risk === "Moderate" ? "var(--warning)" + "20" : "var(--surface-2)"
+                            }}>
                               {patient.risk}
                             </span>
                           </div>
@@ -313,8 +315,8 @@ export default function ClinicsPage() {
                     </div>
 
                     {/* Column 2: Signal to Action Mapping (Primary) */}
-                    <div className="space-y-2 md:border-l md:border-r border-white/5 md:px-4">
-                      <h4 className="text-xs font-semibold text-white uppercase tracking-wide mb-2">
+                    <div className="space-y-2 md:border-l md:border-r md:px-4" style={{ borderColor: "var(--border)" }}>
+                      <h4 className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--text)" }}>
                         Signal to action
                       </h4>
                       <div className="space-y-1.5">
@@ -324,14 +326,15 @@ export default function ClinicsPage() {
                           { signal: "hs CRP elevated", action: "Order follow up labs" },
                           { signal: "Adherence slipping", action: "Schedule follow up" },
                         ].map((item, idx) => (
-                          <div key={idx} className="p-2 rounded bg-[#050607] border border-white/5">
+                          <div key={idx} className="p-2 rounded border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
                             <div className="flex items-start gap-2 mb-1">
                               <svg
                                 width="12"
                                 height="12"
                                 viewBox="0 0 12 12"
                                 fill="none"
-                                className="text-[var(--accent)] flex-shrink-0 mt-0.5"
+                                style={{ color: "var(--accent)" }}
+                                className="flex-shrink-0 mt-0.5"
                               >
                                 <path
                                   d="M4 9l4-4-4-4"
@@ -342,8 +345,8 @@ export default function ClinicsPage() {
                                 />
                               </svg>
                               <div className="flex-1 min-w-0">
-                                <p className="text-xs text-gray-300 mb-0.5">{item.signal}</p>
-                                <p className="text-xs text-[var(--accent)] font-medium">{item.action}</p>
+                                <p className="text-xs mb-0.5" style={{ color: "var(--text-muted)" }}>{item.signal}</p>
+                                <p className="text-xs font-medium" style={{ color: "var(--accent)" }}>{item.action}</p>
                               </div>
                             </div>
                           </div>
@@ -353,7 +356,7 @@ export default function ClinicsPage() {
 
                     {/* Column 3: Upcoming Interventions */}
                     <div className="space-y-2">
-                      <h4 className="text-xs font-semibold text-white uppercase tracking-wide mb-2">
+                      <h4 className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--text)" }}>
                         Upcoming
                       </h4>
                       <div className="space-y-1.5">
@@ -363,9 +366,9 @@ export default function ClinicsPage() {
                           { intervention: "Outcome review", due: "30 days" },
                           { intervention: "Adherence check", due: "21 days" },
                         ].map((item, idx) => (
-                          <div key={idx} className="p-2 rounded bg-[#050607] border border-white/5">
-                            <p className="text-xs text-white mb-0.5">{item.intervention}</p>
-                            <p className="text-xs text-gray-400">{item.due}</p>
+                          <div key={idx} className="p-2 rounded border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+                            <p className="text-xs mb-0.5" style={{ color: "var(--text)" }}>{item.intervention}</p>
+                            <p className="text-xs" style={{ color: "var(--text-muted)" }}>{item.due}</p>
                           </div>
                         ))}
                       </div>
@@ -382,13 +385,13 @@ export default function ClinicsPage() {
         <Container>
           {/* Section Header - Centered */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "var(--text)" }}>
               Built for medical judgment, not automated decisions
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed mb-6 text-center">
+            <p className="text-lg leading-relaxed mb-6 text-center" style={{ color: "var(--text-muted)" }}>
               Arc is not an AI driven diagnostic engine and it does not attempt to replace clinical reasoning. Arc is built on a medical knowledge base and an evidence based methodology that helps clinicians see longitudinal patterns, prioritize interventions, and document decisions with clarity.
             </p>
-            <p className="text-base text-[var(--accent)] font-medium text-center">
+            <p className="text-base font-medium text-center" style={{ color: "var(--accent)" }}>
               You stay in control. Arc supports your decisions and reduces noise.
             </p>
           </div>
@@ -432,17 +435,20 @@ export default function ClinicsPage() {
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={prefersReducedMotion ? {} : { y: -2 }}
-                  className="group relative p-6 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/10 transition-all duration-200 focus-within:ring-2 focus-within:ring-[var(--accent-alpha-20)]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
+                  className="group relative p-6 rounded-[20px] border transition-all duration-200 motion-reduce:hover:translate-y-0"
+                  style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--accent)"}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border)"}
                   tabIndex={0}
                 >
-                  <h3 className="text-lg font-semibold text-white mb-3">{card.title}</h3>
+                  <h3 className="text-lg font-semibold mb-3" style={{ color: "var(--text)" }}>{card.title}</h3>
                   {card.body.map((paragraph, idx) => (
-                    <p key={idx} className="text-sm text-gray-300 leading-relaxed mb-3">
+                    <p key={idx} className="text-sm leading-relaxed mb-3" style={{ color: "var(--text-muted)" }}>
                       {paragraph}
                     </p>
                   ))}
-                  <div className="pt-3 border-t border-white/5">
-                    <p className="text-xs text-gray-400 italic">
+                  <div className="pt-3 border-t" style={{ borderColor: "var(--border)" }}>
+                    <p className="text-xs italic" style={{ color: "var(--text-muted)" }}>
                       In practice: {card.inPractice}
                     </p>
                   </div>
@@ -451,11 +457,11 @@ export default function ClinicsPage() {
           </div>
 
           {/* Patient Communication Callout */}
-          <div className="p-6 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6">
-            <h3 className="text-lg font-semibold text-white mb-2">
+          <div className="p-6 rounded-[20px] border" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}>
+            <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--text)" }}>
               Direct clinician patient communication
             </h3>
-            <p className="text-sm text-gray-300 leading-relaxed">
+            <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
               Arc supports structured messaging and follow ups so clinicians can communicate next steps, clarify adherence, and keep care continuous between visits.
             </p>
           </div>
@@ -467,10 +473,10 @@ export default function ClinicsPage() {
         <Container maxWidth="wide">
           {/* Section Header - Centered */}
           <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "var(--text)" }}>
               Preventive care breaks inside episodic systems
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed text-center">
+            <p className="text-lg leading-relaxed text-center" style={{ color: "var(--text-muted)" }}>
               Traditional clinical software is built around visits. Preventive care requires continuity across months and years. When data is fragmented, risk signals are missed and interventions arrive too late.
             </p>
           </div>
@@ -498,13 +504,12 @@ export default function ClinicsPage() {
                           handleProblemClick(chip.id);
                         }
                       }}
-                      className={`px-3 py-1.5 rounded-full border text-xs transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-alpha-20)] focus-visible:ring-offset-2 focus-visible:ring-offset-black cursor-pointer ${
-                        isActive
-                          ? "bg-white/10 border-[var(--accent)]/40 text-white"
-                          : isHovered
-                          ? "bg-white/8 border-white/20 text-gray-300"
-                          : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/8 hover:border-white/15 hover:text-gray-300"
-                      }`}
+                      className="px-3 py-1.5 rounded-full border text-xs transition-all duration-200 focus:outline-none cursor-pointer"
+                      style={{
+                        backgroundColor: isActive ? "var(--accent-soft)" : isHovered ? "var(--surface-2)" : "var(--surface-2)",
+                        borderColor: isActive ? "var(--accent)" : "var(--border)",
+                        color: isActive ? "var(--text)" : "var(--text-muted)",
+                      }}
                       aria-expanded={isActive}
                       aria-controls={`problem.${chip.id}`}
                       aria-label={`${isActive ? "Collapse" : "Expand"} ${chip.label} problem details`}
@@ -515,7 +520,7 @@ export default function ClinicsPage() {
                   );
                 })}
               </div>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>
                 Select a topic to see the clinical context and how Arc helps
               </p>
           </div>
@@ -600,28 +605,27 @@ export default function ClinicsPage() {
                     animate={{
                       opacity: isDeemphasized ? 0.6 : 1,
                     }}
-                    className={`group relative rounded-[20px] bg-gradient-to-b transition-all duration-200 focus-within:ring-2 focus-within:ring-[var(--accent-alpha-20)]/50 focus-within:ring-offset-2 focus-within:ring-offset-black ${
-                      isExpanded
-                        ? "from-[#0d0d0d] to-[#131313] border-[var(--accent)]/50 shadow-[0_0_20px_var(--accent-alpha-20),0.12)] p-6 md:p-7"
-                        : "from-[#0b0b0b] to-[#111111] border-white/6 hover:border-white/15 p-6 md:p-7"
-                    } ${isDeemphasized ? "border-white/4" : "border"}`}
+                    className="group relative rounded-[20px] transition-all duration-200 p-6 md:p-7 border"
+                    style={{
+                      backgroundColor: isExpanded ? "var(--surface-2)" : "var(--surface)",
+                      borderColor: isExpanded ? "var(--accent)" : "var(--border)",
+                      opacity: isDeemphasized ? 0.6 : 1,
+                    }}
                     tabIndex={0}
                   >
                     {/* Top border accent */}
-                    <div className={`absolute top-0 left-0 right-0 h-0.5 rounded-t-[20px] transition-all duration-200 ${
-                      isExpanded ? "bg-[var(--accent)]/50" : "bg-[var(--accent)]/20"
-                    }`}></div>
+                    <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-[20px] transition-all duration-200" style={{ backgroundColor: isExpanded ? "var(--accent)" : "var(--accent-soft)" }}></div>
                     
                     {/* Icon and Title Row */}
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="text-[var(--accent)] flex-shrink-0 mt-0.5">
+                      <div className="flex-shrink-0 mt-0.5" style={{ color: "var(--accent)" }}>
                         {card.icon}
                       </div>
-                      <h3 id={`problem-label-${card.id}`} className="text-lg font-semibold text-white">{card.title}</h3>
+                      <h3 id={`problem-label-${card.id}`} className="text-lg font-semibold" style={{ color: "var(--text)" }}>{card.title}</h3>
                     </div>
                     
                     {/* Body */}
-                    <p className="text-sm text-gray-300 leading-relaxed mb-4">
+                    <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--text-muted)" }}>
                       {card.body} {card.impact}
                     </p>
                     
@@ -635,27 +639,28 @@ export default function ClinicsPage() {
                           transition={{ duration: 0.22, ease: "easeInOut" }}
                           className="overflow-hidden"
                         >
-                          <div className="pt-4 space-y-5 border-t border-white/10">
+                          <div className="pt-4 space-y-5 border-t" style={{ borderColor: "var(--border)" }}>
                             {/* Clinical Context */}
                             <div>
-                              <h4 className="text-sm font-semibold text-white mb-2">Clinical context</h4>
-                              <p className="text-sm text-gray-300 leading-relaxed">
+                              <h4 className="text-sm font-semibold mb-2" style={{ color: "var(--text)" }}>Clinical context</h4>
+                              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
                                 {card.clinicalContext}
                               </p>
                             </div>
                             
                             {/* How Arc Helps */}
                             <div>
-                              <h4 className="text-sm font-semibold text-white mb-2">How Arc helps</h4>
+                              <h4 className="text-sm font-semibold mb-2" style={{ color: "var(--text)" }}>How Arc helps</h4>
                               <ul className="space-y-2">
                                 {card.howArcHelps.map((item, idx) => (
-                                  <li key={idx} className="flex items-start gap-2 text-sm text-gray-300">
+                                  <li key={idx} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
                                     <svg
                                       width="16"
                                       height="16"
                                       viewBox="0 0 16 16"
                                       fill="none"
-                                      className="text-[var(--accent)] flex-shrink-0 mt-0.5"
+                                      className="flex-shrink-0 mt-0.5"
+                                      style={{ color: "var(--accent)" }}
                                     >
                                       <path
                                         d="M13 4L6 11L3 8"
@@ -672,8 +677,8 @@ export default function ClinicsPage() {
                             </div>
                             
                             {/* Outcome */}
-                            <div className="pt-2 border-t border-white/5">
-                              <p className="text-xs text-gray-400 font-medium">
+                            <div className="pt-2 border-t" style={{ borderColor: "var(--border)" }}>
+                              <p className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>
                                 Outcome: {card.outcome}
                               </p>
                             </div>
@@ -693,10 +698,10 @@ export default function ClinicsPage() {
         <Container>
           {/* Section Header - Centered */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "var(--text)" }}>
               One system for longitudinal care
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed text-center">
+            <p className="text-lg leading-relaxed text-center" style={{ color: "var(--text-muted)" }}>
               Five modules built for continuity, triage, and intervention workflows.
             </p>
           </div>
@@ -775,22 +780,25 @@ export default function ClinicsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative p-4 md:p-5 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/20 transition-all duration-200 hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[var(--accent-alpha-20)]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
+                  className="group relative p-4 md:p-5 rounded-[20px] border transition-all duration-200 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0"
+                  style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--accent)"}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border)"}
                   tabIndex={0}
                 >
                     {/* Subtle top accent */}
-                    <div className="absolute top-0 left-0 right-0 h-0.5 bg-[var(--accent)]/20 rounded-t-[20px]"></div>
+                    <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-[20px]" style={{ backgroundColor: "var(--accent-soft)" }}></div>
                     
                     {/* Icon and Name Row */}
                     <div className="flex items-center gap-2.5 mb-2.5">
-                      <div className="text-[var(--accent)] flex-shrink-0">
+                      <div className="flex-shrink-0" style={{ color: "var(--accent)" }}>
                         {module.icon}
                       </div>
-                      <h3 className="text-base font-semibold text-white">{module.name}</h3>
+                      <h3 className="text-base font-semibold" style={{ color: "var(--text)" }}>{module.name}</h3>
                     </div>
                     
                     {/* Outcome Line */}
-                    <p className="text-sm text-gray-300 leading-relaxed mb-3">
+                    <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--text-muted)" }}>
                       {module.outcome}
                     </p>
                     
@@ -799,7 +807,8 @@ export default function ClinicsPage() {
                       {module.capabilities.map((cap, idx) => (
                         <span
                           key={idx}
-                          className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-300"
+                          className="px-2.5 py-1 rounded-full border text-xs"
+                          style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)", color: "var(--text-muted)" }}
                         >
                           {cap}
                         </span>
@@ -808,7 +817,7 @@ export default function ClinicsPage() {
                     
                     {/* Used For Line - Visible on mobile, hidden on desktop until hover */}
                     <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100 transition-opacity duration-200">
-                      <p className="text-xs text-gray-400 font-medium">
+                      <p className="text-xs font-medium" style={{ color: "var(--text-muted)" }}>
                         Used for: {module.usedFor}
                       </p>
                     </div>
@@ -818,15 +827,18 @@ export default function ClinicsPage() {
 
             {/* Navigation Link */}
             <div className="flex justify-center md:justify-end mt-6">
-              <Link
-                href="#workflows"
-                className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors inline-flex items-center gap-2"
-              >
-                See clinical workflows
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 12l4-4-4-4" />
-                </svg>
-              </Link>
+                <Link
+                  href="#workflows"
+                  className="text-sm transition-colors inline-flex items-center gap-2"
+                  style={{ color: "var(--accent)" }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
+                >
+                  See clinical workflows
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 12l4-4-4-4" />
+                  </svg>
+                </Link>
             </div>
         </Container>
       </section>
@@ -836,10 +848,10 @@ export default function ClinicsPage() {
         <Container>
           {/* Section Header - Centered */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-semibold text-white mb-3">
+              <h2 className="text-3xl md:text-4xl font-semibold mb-3" style={{ color: "var(--text)" }}>
                 How Arc supports real clinical decision making over time
               </h2>
-              <p className="text-lg text-gray-300 leading-relaxed text-center">
+              <p className="text-lg leading-relaxed text-center" style={{ color: "var(--text-muted)" }}>
                 Arc fits into existing workflows while adding the longitudinal context traditional systems miss.
               </p>
             </div>
@@ -859,14 +871,13 @@ export default function ClinicsPage() {
                     <div key={step.id} className="relative flex items-start gap-4">
                       {/* Step dot indicator */}
                       <div className="hidden lg:block relative z-10 flex-shrink-0 mt-2">
-                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                          isActive
-                            ? "bg-[var(--accent)]/20 border-[var(--accent)]"
-                            : "bg-[#0b0b0b] border-white/20"
-                        }`}>
-                          <div className={`w-2 h-2 rounded-full transition-all ${
-                            isActive ? "bg-[var(--accent)]" : "bg-white/30"
-                          }`}></div>
+                        <div className="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all" style={{
+                          backgroundColor: isActive ? "var(--accent-soft)" : "var(--surface-2)",
+                          borderColor: isActive ? "var(--accent)" : "var(--border)",
+                        }}>
+                          <div className="w-2 h-2 rounded-full transition-all" style={{
+                            backgroundColor: isActive ? "var(--accent)" : "var(--text-muted)",
+                          }}></div>
                         </div>
                       </div>
                       
@@ -879,21 +890,21 @@ export default function ClinicsPage() {
                             handleStepClick(step.id);
                           }
                         }}
-                        className={`w-full text-left p-4 rounded-[20px] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-alpha-20)] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
-                          isActive
-                            ? "border-[var(--accent)]/50 bg-gradient-to-b from-[#0d0d0d] to-[#131313] shadow-[0_0_20px_var(--accent-alpha-20),0.12)]"
-                            : "border-white/10 bg-[#050607] hover:border-white/25"
-                        } ${isLast && isActive ? "border-[var(--accent)]/60" : ""}`}
+                        className="w-full text-left p-4 rounded-[20px] border transition-all focus:outline-none"
+                        style={{
+                          borderColor: isActive ? "var(--accent)" : "var(--border)",
+                          backgroundColor: isActive ? "var(--surface-2)" : "var(--surface)",
+                        }}
                         aria-selected={isActive}
                         aria-label={`${step.title}: ${step.description}`}
                         tabIndex={0}
                       >
-                        <h3 className="text-base font-semibold text-white mb-1">{step.title}</h3>
-                        <p className="text-sm text-gray-300 mb-2">{step.description}</p>
-                        <p className="text-sm text-gray-300 leading-relaxed mb-3">{step.body}</p>
-                        <div className="pt-2 border-t border-white/5">
-                          <p className="text-xs text-gray-400 font-medium mb-1">What this solves</p>
-                          <p className="text-xs text-gray-300">{step.whatThisSolves}</p>
+                        <h3 className="text-base font-semibold mb-1" style={{ color: "var(--text)" }}>{step.title}</h3>
+                        <p className="text-sm mb-2" style={{ color: "var(--text-muted)" }}>{step.description}</p>
+                        <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--text-muted)" }}>{step.body}</p>
+                        <div className="pt-2 border-t" style={{ borderColor: "var(--border)" }}>
+                          <p className="text-xs font-medium mb-1" style={{ color: "var(--text-muted)" }}>What this solves</p>
+                          <p className="text-xs" style={{ color: "var(--text-muted)" }}>{step.whatThisSolves}</p>
                         </div>
                       </button>
                     </div>
@@ -903,7 +914,7 @@ export default function ClinicsPage() {
 
               {/* Right: Preview Panel */}
               <div className="order-1 lg:order-2">
-                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-6 shadow-[0_0_15px_var(--accent-alpha-20),0.05)] min-h-[400px]">
+                <div className="rounded-[20px] border p-6 min-h-[400px]" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)", boxShadow: "var(--shadow-lg)" }}>
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeStep}
@@ -919,29 +930,30 @@ export default function ClinicsPage() {
                     >
                       <div className="space-y-5">
                         {/* Panel Header */}
-                        <div className="pb-4 border-b border-white/5">
-                          <h4 className="text-sm font-semibold text-white mb-1">
+                        <div className="pb-4 border-b" style={{ borderColor: "var(--border)" }}>
+                          <h4 className="text-sm font-semibold mb-1" style={{ color: "var(--text)" }}>
                             {activeStepData.preview.header}
                           </h4>
-                          <p className="text-xs text-gray-400">
+                          <p className="text-xs" style={{ color: "var(--text-muted)" }}>
                             {activeStepData.preview.sublabel}
                           </p>
                         </div>
 
                         {/* What Arc Surfaces */}
                         <div>
-                          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                          <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--text-muted)" }}>
                             What Arc surfaces
                           </p>
                           <div className="space-y-1.5">
                             {activeStepData.preview.whatArcSurfaces.map((item, idx) => (
-                              <div key={idx} className="flex items-start gap-2 text-sm text-gray-300">
+                              <div key={idx} className="flex items-start gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
                                 <svg
                                   width="16"
                                   height="16"
                                   viewBox="0 0 16 16"
                                   fill="none"
-                                  className="text-[var(--accent)] flex-shrink-0 mt-0.5"
+                                  className="flex-shrink-0 mt-0.5"
+                                  style={{ color: "var(--accent)" }}
                                 >
                                   <path
                                     d="M13 4L6 11L3 8"
@@ -958,13 +970,13 @@ export default function ClinicsPage() {
                         </div>
 
                         {/* Why This Matters */}
-                        <div className="pt-3 border-t border-white/5">
-                          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                        <div className="pt-3 border-t" style={{ borderColor: "var(--border)" }}>
+                          <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--text-muted)" }}>
                             Why this matters
                           </p>
                           <div className="space-y-1.5">
                             {activeStepData.preview.whyThisMatters.map((item, idx) => (
-                              <p key={idx} className="text-sm text-gray-300">
+                              <p key={idx} className="text-sm" style={{ color: "var(--text-muted)" }}>
                                 {item}
                               </p>
                             ))}
@@ -972,14 +984,14 @@ export default function ClinicsPage() {
                         </div>
 
                         {/* Example */}
-                        <div className="pt-3 border-t border-white/5">
-                          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                        <div className="pt-3 border-t" style={{ borderColor: "var(--border)" }}>
+                          <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--text-muted)" }}>
                             Example
                           </p>
                           <div className="space-y-1.5">
                             {activeStepData.preview.example.map((item, idx) => (
-                              <div key={idx} className="flex items-center gap-2 text-sm text-gray-300">
-                                <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]"></div>
+                              <div key={idx} className="flex items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
+                                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--accent)" }}></div>
                                 <span>{item}</span>
                               </div>
                             ))}
@@ -994,14 +1006,17 @@ export default function ClinicsPage() {
 
             {/* CTA Section */}
             <div className="mt-12 text-center">
-              <p className="text-sm text-gray-400 mb-4">
+              <p className="text-sm mb-4" style={{ color: "var(--text-muted)" }}>
                 See how this looks inside the clinical dashboard
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <ArcButton href="/contact">Request a demo</ArcButton>
                 <Link
                   href="/clinics#workflows"
-                  className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors inline-flex items-center gap-2"
+                  className="text-sm transition-colors inline-flex items-center gap-2"
+                  style={{ color: "var(--accent)" }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
                 >
                   Explore Clinics features
                 </Link>
@@ -1015,10 +1030,10 @@ export default function ClinicsPage() {
         <Container>
           {/* Section Header - Centered */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "var(--text)" }}>
               Diagnostics and services that close the loop
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed text-center">
+            <p className="text-lg leading-relaxed text-center" style={{ color: "var(--text-muted)" }}>
               Arc turns patient signals and protocol milestones into structured orders. Each order carries clinical context, tracks status from request to result, and updates the patient timeline when results arrive.
             </p>
           </div>
@@ -1035,13 +1050,14 @@ export default function ClinicsPage() {
                     "Status tracking from request to result",
                     "Results update the patient view and next step",
                   ].map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-gray-300">
+                    <div key={idx} className="flex items-start gap-2" style={{ color: "var(--text-muted)" }}>
                       <svg
                         width="16"
                         height="16"
                         viewBox="0 0 16 16"
                         fill="none"
-                        className="text-[var(--accent)] flex-shrink-0 mt-0.5"
+                        className="flex-shrink-0 mt-0.5"
+                        style={{ color: "var(--accent)" }}
                       >
                         <path
                           d="M13 4L6 11L3 8"
@@ -1057,8 +1073,8 @@ export default function ClinicsPage() {
                 </div>
 
                 {/* What the order includes */}
-                <div className="p-4 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6">
-                  <h4 className="text-sm font-semibold text-white mb-3">What the order includes</h4>
+                <div className="p-4 rounded-[20px] border" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}>
+                  <h4 className="text-sm font-semibold mb-3" style={{ color: "var(--text)" }}>What the order includes</h4>
                   <div className="space-y-2">
                     {[
                       { icon: "signal", text: "Reason for order linked to a patient signal" },
@@ -1066,9 +1082,9 @@ export default function ClinicsPage() {
                       { icon: "chart", text: "Previous related results and trend context" },
                       { icon: "user", text: "Assigned reviewer and follow up timing" },
                     ].map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 pt-2 border-t border-white/5 first:border-t-0 first:pt-0">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] mt-1.5 flex-shrink-0"></div>
-                        <span className="text-sm text-gray-300">{item.text}</span>
+                      <div key={idx} className="flex items-start gap-2 pt-2 border-t first:border-t-0 first:pt-0" style={{ borderColor: "var(--border)" }}>
+                        <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: "var(--accent)" }}></div>
+                        <span className="text-sm" style={{ color: "var(--text-muted)" }}>{item.text}</span>
                       </div>
                     ))}
                   </div>
@@ -1078,7 +1094,10 @@ export default function ClinicsPage() {
                 <div>
                   <Link
                     href="#workflows"
-                    className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors inline-flex items-center gap-2"
+                    className="text-sm transition-colors inline-flex items-center gap-2"
+                    style={{ color: "var(--accent)" }}
+                    onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"}
+                    onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
                   >
                     Explore ordering workflow
                   </Link>
@@ -1087,27 +1106,27 @@ export default function ClinicsPage() {
 
             {/* Right Column: Interactive Ordering Panel */}
             <div className="order-1 lg:order-2">
-                <div className="rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 p-6 shadow-[0_0_15px_var(--accent-alpha-20),0.05)]">
+                <div className="rounded-[20px] border p-6" style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)", boxShadow: "var(--shadow-lg)" }}>
                   {/* Panel Header */}
-                  <div className="pb-4 border-b border-white/5 mb-4">
-                    <h4 className="text-sm font-semibold text-white mb-1">Ordering panel</h4>
-                    <p className="text-xs text-gray-400">Built from patient signals and protocol timing</p>
+                  <div className="pb-4 border-b mb-4" style={{ borderColor: "var(--border)" }}>
+                    <h4 className="text-sm font-semibold mb-1" style={{ color: "var(--text)" }}>Ordering panel</h4>
+                    <p className="text-xs" style={{ color: "var(--text-muted)" }}>Built from patient signals and protocol timing</p>
                   </div>
 
                   {/* Patient Context Strip */}
-                  <div className="p-3 rounded bg-[#050607] border border-white/5 mb-4">
+                  <div className="p-3 rounded border mb-4" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-400">Patient name</span>
-                        <span className="text-xs font-medium text-white">Sarah Chen</span>
+                        <span className="text-xs" style={{ color: "var(--text-muted)" }}>Patient name</span>
+                        <span className="text-xs font-medium" style={{ color: "var(--text)" }}>Sarah Chen</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-400">Current focus</span>
-                        <span className="text-xs text-white">Lipids and cardiometabolic risk</span>
+                        <span className="text-xs" style={{ color: "var(--text-muted)" }}>Current focus</span>
+                        <span className="text-xs" style={{ color: "var(--text)" }}>Lipids and cardiometabolic risk</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-400">Review due</span>
-                        <span className="text-xs text-white">14 days</span>
+                        <span className="text-xs" style={{ color: "var(--text-muted)" }}>Review due</span>
+                        <span className="text-xs" style={{ color: "var(--text)" }}>14 days</span>
                       </div>
                     </div>
                   </div>
@@ -1142,24 +1161,27 @@ export default function ClinicsPage() {
                                 handleOrderClick(item.id);
                               }
                             }}
-                            className={`w-full text-left p-3 rounded bg-[#050607] border transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-alpha-20)] focus-visible:ring-offset-2 focus-visible:ring-offset-black ${
-                              isExpanded ? "border-[var(--accent)]/30" : "border-white/5 hover:border-white/10"
-                            }`}
+                            className="w-full text-left p-3 rounded border transition-all focus:outline-none"
+                            style={{
+                              backgroundColor: "var(--surface-2)",
+                              borderColor: isExpanded ? "var(--accent)" : "var(--border)",
+                            }}
+                            onMouseEnter={(e) => !isExpanded && (e.currentTarget.style.borderColor = "var(--border)")}
+                            onMouseLeave={(e) => !isExpanded && (e.currentTarget.style.borderColor = "var(--border)")}
                             aria-expanded={isExpanded}
                             aria-controls={`order-details-${item.id}`}
                             tabIndex={0}
                           >
                             <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs font-medium text-white">{item.name}</span>
-                              <span className={`text-xs px-2 py-0.5 rounded ${
-                                item.status === "Ready" || item.status === "Sent"
-                                  ? "text-[var(--accent)] bg-[var(--accent)]/10"
-                                  : "text-gray-400 bg-white/5"
-                              }`}>
+                              <span className="text-xs font-medium" style={{ color: "var(--text)" }}>{item.name}</span>
+                              <span className="text-xs px-2 py-0.5 rounded" style={{
+                                color: (item.status === "Ready" || item.status === "Sent") ? "var(--accent)" : "var(--text-muted)",
+                                backgroundColor: (item.status === "Ready" || item.status === "Sent") ? "var(--accent-soft)" : "var(--surface-2)",
+                              }}>
                                 {item.status}
                               </span>
                             </div>
-                            <p className="text-xs text-gray-400">Context: {item.context}</p>
+                            <p className="text-xs" style={{ color: "var(--text-muted)" }}>Context: {item.context}</p>
                           </button>
 
                           {/* Expanded Details */}
@@ -1173,14 +1195,14 @@ export default function ClinicsPage() {
                                 transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                                 className="overflow-hidden"
                               >
-                                <div className="p-3 pt-2 space-y-2 border-t border-white/5 mt-2 bg-[#050607] rounded-b">
+                                <div className="p-3 pt-2 space-y-2 border-t mt-2 rounded-b" style={{ borderColor: "var(--border)", backgroundColor: "var(--surface-2)" }}>
                                   <div>
-                                    <p className="text-xs text-gray-400 mb-0.5">Reason</p>
-                                    <p className="text-xs text-gray-300">{orderDetails[item.id]?.reason}</p>
+                                    <p className="text-xs mb-0.5" style={{ color: "var(--text-muted)" }}>Reason</p>
+                                    <p className="text-xs" style={{ color: "var(--text-muted)" }}>{orderDetails[item.id]?.reason}</p>
                                   </div>
                                   <div>
-                                    <p className="text-xs text-gray-400 mb-0.5">Next step</p>
-                                    <p className="text-xs text-gray-300">{orderDetails[item.id]?.nextStep}</p>
+                                    <p className="text-xs mb-0.5" style={{ color: "var(--text-muted)" }}>Next step</p>
+                                    <p className="text-xs" style={{ color: "var(--text-muted)" }}>{orderDetails[item.id]?.nextStep}</p>
                                   </div>
                                 </div>
                               </motion.div>
@@ -1192,13 +1214,21 @@ export default function ClinicsPage() {
                   </div>
 
                   {/* Bottom Area */}
-                  <div className="pt-4 border-t border-white/5">
-                    <p className="text-xs text-gray-400 mb-3">Total 3 items</p>
+                  <div className="pt-4 border-t" style={{ borderColor: "var(--border)" }}>
+                    <p className="text-xs mb-3" style={{ color: "var(--text-muted)" }}>Total 3 items</p>
                     <button
                       type="button"
                       onClick={handleSendOrder}
                       disabled={orderStatus === "sending" || orderStatus === "sent"}
-                      className="w-full px-4 py-2 rounded-lg bg-[var(--accent)]/10 border border-[var(--accent)]/30 text-[var(--accent)] text-xs font-medium hover:bg-[var(--accent)]/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-alpha-20)] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                      className="w-full px-4 py-2 rounded-lg text-xs font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
+                      style={{
+                        backgroundColor: "var(--accent-soft)",
+                        borderColor: "var(--accent)",
+                        color: "var(--accent)",
+                        border: "1px solid",
+                      }}
+                      onMouseEnter={(e) => !e.currentTarget.disabled && (e.currentTarget.style.backgroundColor = "var(--accent-soft)")}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "var(--accent-soft)"}
                       aria-label="Send order"
                     >
                       {orderStatus === "sending" ? "Sending..." : orderStatus === "sent" ? "Order sent" : "Send order"}
@@ -1212,9 +1242,10 @@ export default function ClinicsPage() {
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
-                          className="mt-3 pt-3 border-t border-white/5"
+                          className="mt-3 pt-3 border-t"
+                          style={{ borderColor: "var(--border)" }}
                         >
-                          <p className="text-xs text-[var(--accent)]">
+                          <p className="text-xs" style={{ color: "var(--accent)" }}>
                             Orders sent. Timeline will update when results arrive.
                           </p>
                         </motion.div>
@@ -1232,10 +1263,10 @@ export default function ClinicsPage() {
         <Container>
           {/* Section Header - Centered */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "var(--text)" }}>
               Built for longitudinal clinical care
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed text-center">
+            <p className="text-lg leading-relaxed text-center" style={{ color: "var(--text-muted)" }}>
               Arc is designed around how health actually changes over time, not around episodic encounters.
             </p>
           </div>
@@ -1269,34 +1300,34 @@ export default function ClinicsPage() {
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   whileHover={prefersReducedMotion ? {} : { y: -2 }}
-                  className="group relative p-6 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/10 transition-all duration-200 focus-within:ring-2 focus-within:ring-[var(--accent-alpha-20)]/50 focus-within:ring-offset-2 focus-within:ring-offset-black motion-reduce:hover:translate-y-0"
+                  className="group relative p-6 rounded-[20px] border transition-all duration-200 motion-reduce:hover:translate-y-0"
+                  style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--accent)"}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border)"}
                   tabIndex={0}
                 >
-                  {/* Subtle inner glow on hover */}
-                  <div className="absolute inset-0 rounded-[20px] bg-gradient-to-b from-[#4DEECD]/0 to-[#4DEECD]/0 group-hover:from-[#4DEECD]/5 group-hover:to-transparent transition-all duration-200 pointer-events-none"></div>
-                  
                   <div className="relative">
                     {/* Principle Title */}
-                    <h3 className="text-lg font-semibold text-white mb-3">{card.title}</h3>
+                    <h3 className="text-lg font-semibold mb-3" style={{ color: "var(--text)" }}>{card.title}</h3>
                     
                     {/* Explanation */}
-                    <p className="text-sm text-gray-300 leading-relaxed mb-4">
+                    <p className="text-sm leading-relaxed mb-4" style={{ color: "var(--text-muted)" }}>
                       {card.explanation}
                     </p>
                     
                     {/* What this changes in practice */}
-                    <div className="pt-4 border-t border-white/5 mb-3">
-                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
+                    <div className="pt-4 border-t mb-3" style={{ borderColor: "var(--border)" }}>
+                      <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: "var(--text-muted)" }}>
                         What this changes in practice
                       </p>
-                      <p className="text-sm text-gray-300 leading-relaxed">
+                      <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
                         {card.whatThisChanges}
                       </p>
                     </div>
                     
                     {/* Example */}
-                    <div className="pt-2 border-t border-white/5">
-                      <p className="text-xs text-gray-400 italic">
+                    <div className="pt-2 border-t" style={{ borderColor: "var(--border)" }}>
+                      <p className="text-xs italic" style={{ color: "var(--text-muted)" }}>
                         {card.example}
                       </p>
                     </div>
@@ -1312,20 +1343,20 @@ export default function ClinicsPage() {
         <Container>
           {/* Section Header - Centered */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "var(--text)" }}>
               Bring clinical data in and share it cleanly
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed mb-4 text-center">
+            <p className="text-lg leading-relaxed mb-4 text-center" style={{ color: "var(--text-muted)" }}>
               Arc ingests existing records and turns fragmented inputs into clear longitudinal summaries that support shared care.
             </p>
-            <p className="text-base text-gray-300 leading-relaxed text-center">
+            <p className="text-base leading-relaxed text-center" style={{ color: "var(--text-muted)" }}>
               Clinical data arrives in many formats and from many sources. Arc is designed to accept this reality and organize incoming information into a coherent patient timeline that can be reviewed and shared with confidence.
             </p>
           </div>
 
           {/* Capability Cards */}
           <div className="max-w-2xl mx-auto">
-            <p className="text-sm font-medium text-gray-400 mb-6 text-center">
+            <p className="text-sm font-medium mb-6 text-center" style={{ color: "var(--text-muted)" }}>
               Core capabilities include
             </p>
             <div className="space-y-4">
@@ -1352,15 +1383,18 @@ export default function ClinicsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="p-5 rounded-[20px] bg-gradient-to-b from-[#0b0b0b] to-[#111111] border border-white/6 hover:border-white/10 transition-all duration-200"
+                  className="p-5 rounded-[20px] border transition-all duration-200"
+                  style={{ backgroundColor: "var(--surface)", borderColor: "var(--border)" }}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--accent)"}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border)"}
                 >
-                  <h3 className="text-base font-semibold text-white mb-2">
+                  <h3 className="text-base font-semibold mb-2" style={{ color: "var(--text)" }}>
                     {card.title}
                   </h3>
-                  <p className="text-sm text-gray-300 leading-relaxed mb-2">
+                  <p className="text-sm leading-relaxed mb-2" style={{ color: "var(--text-muted)" }}>
                     {card.explanation}
                   </p>
-                  <p className="text-xs text-gray-400 italic">
+                  <p className="text-xs italic" style={{ color: "var(--text-muted)" }}>
                     {card.supporting}
                   </p>
                 </motion.div>
@@ -1375,7 +1409,7 @@ export default function ClinicsPage() {
         <Container maxWidth="narrow">
           {/* Section Header - Centered */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "var(--text)" }}>
               Frequently asked questions
             </h2>
           </div>
@@ -1392,7 +1426,10 @@ export default function ClinicsPage() {
           <div className="text-center mt-8">
             <Link
               href="/contact"
-              className="text-sm text-[var(--accent)] hover:text-[var(--accent)]/80 transition-colors inline-flex items-center gap-2"
+              className="text-sm transition-colors inline-flex items-center gap-2"
+              style={{ color: "var(--accent)" }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
             >
               Contact the team if you have more questions
             </Link>
@@ -1405,10 +1442,10 @@ export default function ClinicsPage() {
         <Container maxWidth="narrow">
           {/* Section Header - Centered */}
           <div className="text-center mb-12 max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold mb-4" style={{ color: "var(--text)" }}>
               See Arc in your workflow
             </h2>
-            <p className="text-lg text-gray-300 leading-relaxed text-center">
+            <p className="text-lg leading-relaxed text-center" style={{ color: "var(--text-muted)" }}>
               Request a demo to explore the clinical timeline, triage, and intervention workflows.
             </p>
           </div>
@@ -1418,7 +1455,10 @@ export default function ClinicsPage() {
               <ArcButton href="/contact">Request a demo</ArcButton>
               <Link
                 href="/contact"
-                className="px-6 py-3 rounded-full border border-white/20 text-white text-sm font-medium hover:border-white/40 transition-colors inline-flex items-center justify-center"
+                className="px-6 py-3 rounded-full border text-sm font-medium transition-colors inline-flex items-center justify-center"
+                style={{ borderColor: "var(--border)", color: "var(--text)" }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = "var(--accent)"}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = "var(--border)"}
               >
                 Contact the team
               </Link>

@@ -23,10 +23,11 @@ export default function SectionTitle({ children, subtitle, className = "" }: Sec
   return (
     <div className={className} style={containerStyle}>
       <h2 
-        className="font-bold text-white mb-0"
+        className="font-bold mb-0"
         style={{
           fontSize: 'clamp(32px, 4vw, 42px)',
           lineHeight: '1.2',
+          color: 'var(--text)',
           ...textStyle
         }}
       >
@@ -34,11 +35,11 @@ export default function SectionTitle({ children, subtitle, className = "" }: Sec
       </h2>
       {subtitle && (
         <p 
-          className="text-[#CCCCCC]"
           style={{
             fontSize: '18px',
             lineHeight: '1.6',
             marginTop: '12px',
+            color: 'var(--text-muted)',
             ...textStyle
           }}
         >

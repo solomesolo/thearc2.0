@@ -60,32 +60,31 @@ export default function PricingCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
-      className="rounded-[16px] border p-8 md:p-10 relative transition-all"
+      className="pricing-card rounded-[24px] border p-8 md:p-10 relative transition-all"
+      data-featured={isHighlighted ? "true" : undefined}
       style={{
-        backgroundColor: isHighlighted
-          ? "linear-gradient(180deg, rgba(110,211,194,0.06), rgba(255,255,255,0.02))"
-          : "rgba(255,255,255,0.02)",
-        background: isHighlighted
-          ? "linear-gradient(180deg, rgba(110,211,194,0.06), rgba(255,255,255,0.02))"
-          : "rgba(255,255,255,0.02)",
-        borderRadius: "16px",
-        borderColor: isHovered
-          ? "rgba(110,211,194,0.18)"
-          : "rgba(255,255,255,0.06)",
-        transition: "all 200ms ease",
+        backgroundColor: "var(--surface)",
+        borderRadius: "24px",
+        border: "1px solid var(--border)",
+        transition: "all 180ms ease-out",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Badge (subtle capsule) */}
+      {/* Badge (plan badge) */}
       {badge && (
-        <div style={{ marginBottom: "20px" }}>
+        <div style={{ marginBottom: "18px" }}>
           <span
-            className="inline-block px-3 py-1.5 rounded-full text-xs font-medium"
+            className="plan-badge inline-block rounded-full"
             style={{
-              backgroundColor: "rgba(110,211,194,0.08)",
-              border: "1px solid rgba(110,211,194,0.18)",
-              color: "rgba(110,211,194,0.95)",
+              fontSize: "11px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              padding: "6px 10px",
+              borderRadius: "9999px",
+              background: "var(--accent-soft)",
+              color: "var(--accent-2)",
+              border: "1px solid rgba(77,174,158,0.18)",
             }}
           >
             {badge}
@@ -96,23 +95,23 @@ export default function PricingCard({
       {/* Tier Name */}
       <h3
         style={{
-          fontSize: "28px",
+          fontSize: "26px",
           fontWeight: 600,
           letterSpacing: "-0.01em",
-          color: "rgba(231,240,238,0.95)",
-          marginBottom: "12px",
+          color: "var(--text-primary)",
+          marginBottom: "14px",
         }}
       >
         {tierName}
       </h3>
 
       {/* Price */}
-      <div style={{ marginBottom: "20px" }}>
+      <div style={{ marginBottom: "18px" }}>
         <span
           style={{
-            fontSize: "42px",
-            fontWeight: 600,
-            color: "rgba(231,240,238,0.95)",
+            fontSize: "38px",
+            fontWeight: 500,
+            color: "var(--text-primary)",
           }}
         >
           {price}
@@ -120,20 +119,21 @@ export default function PricingCard({
         <span
           style={{
             fontSize: "16px",
-            color: "rgba(143,166,163,0.78)",
+            color: "var(--text-muted)",
             marginLeft: "4px",
+            fontWeight: 400,
           }}
         >
-          / month
+          /month
         </span>
       </div>
 
       {/* Description */}
       <p
         style={{
-          fontSize: "15px",
+          fontSize: "16px",
           lineHeight: 1.6,
-          color: "rgba(143,166,163,0.78)",
+          color: "var(--text-muted)",
           marginBottom: "24px",
         }}
       >
@@ -141,13 +141,14 @@ export default function PricingCard({
       </p>
 
       {/* Primary Value Bullets (max 3) */}
-      <div style={{ marginBottom: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div className="feature-list" style={{ marginBottom: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
         {primaryBullets.map((bullet, idx) => (
-          <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+          <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: "10px", lineHeight: 1.6 }}>
             <span
+              className="feature-icon"
               style={{
                 fontSize: "14px",
-                color: "rgba(110,211,194,0.95)",
+                color: "var(--text-muted)",
                 marginTop: "2px",
                 flexShrink: 0,
               }}
@@ -156,9 +157,9 @@ export default function PricingCard({
             </span>
             <p
               style={{
-                fontSize: "14px",
-                lineHeight: 1.5,
-                color: "rgba(231,240,238,0.95)",
+                fontSize: "15px",
+                lineHeight: 1.6,
+                color: "var(--text-primary)",
               }}
             >
               {bullet}
@@ -172,19 +173,24 @@ export default function PricingCard({
         <Link
           href={ctaLink}
           onClick={handleCTAClick}
-          className="block w-full text-center py-3.5 px-6 rounded-full font-semibold text-sm transition-all"
+          className="pricing-cta block w-full text-center rounded-full font-medium text-sm transition-all"
           style={{
-            backgroundColor: "rgba(110,211,194,0.95)",
-            color: "#071012",
+            backgroundColor: "var(--accent-primary)",
+            color: "#ffffff",
+            height: "48px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 12px 30px rgba(14,26,24,0.12)",
           }}
           onMouseEnter={(e) => {
             if (typeof window !== "undefined" && e.currentTarget) {
-              e.currentTarget.style.backgroundColor = "rgba(110,211,194,1)";
+              e.currentTarget.style.backgroundColor = "var(--accent-strong)";
             }
           }}
           onMouseLeave={(e) => {
             if (typeof window !== "undefined" && e.currentTarget) {
-              e.currentTarget.style.backgroundColor = "rgba(110,211,194,0.95)";
+              e.currentTarget.style.backgroundColor = "var(--accent-primary)";
             }
           }}
         >
@@ -192,34 +198,27 @@ export default function PricingCard({
         </Link>
       </div>
 
-      {/* Divider */}
-      <div
-        style={{
-          height: "1px",
-          backgroundColor: "rgba(255,255,255,0.06)",
-          marginBottom: "24px",
-        }}
-      />
-
       {/* Expandable Modules List */}
-      <div>
+      <div className="accordion" style={{ marginTop: "18px" }}>
         <p
+          className="accordion-title"
           style={{
-            fontSize: "13px",
+            fontSize: "14px",
             fontWeight: 500,
-            color: "rgba(143,166,163,0.65)",
+            color: "var(--text-muted)",
             marginBottom: "12px",
           }}
         >
           What's inside
         </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {featureGroups.map((group, idx) => (
             <PricingModuleAccordion
               key={idx}
               title={group.title}
               items={group.features}
               prefersReducedMotion={prefersReducedMotion}
+              isFirst={idx === 0}
             />
           ))}
         </div>

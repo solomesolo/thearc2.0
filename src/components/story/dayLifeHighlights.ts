@@ -40,3 +40,4 @@ export const HIGHLIGHTS: Record<DayLifeStep, HighlightRect> = {
   },
 };
 
+

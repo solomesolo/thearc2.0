@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./mobile-responsive.css";
+import "../styles/theme.css";
 import Footer from "../components/Footer";
 import MainLayoutClient from "../components/MainLayoutClient";
 import Header from "../components/Header";
@@ -11,6 +12,7 @@ import Script from "next/script";
 import CookieConsent from "../components/CookieConsent";
 import MixPanelProvider from "../components/MixPanelProvider";
 import ConditionalHeaderFooter from "../components/ConditionalHeaderFooter";
+import { ThemeProvider } from "../theme/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,8 +53,26 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
+        {/* Prevent FOUC - Set theme before paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (theme === 'light' || theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', theme);
+                  } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+        
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
@@ -79,8 +99,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
         
+        <meta name="theme-color" content="#FFFFFF" />
       </head>
-      <body className={`${montserrat.variable} font-montserrat antialiased text-white min-h-screen flex flex-col`} style={{ backgroundColor: '#0B0E10' }}>
+      <body className={`${montserrat.variable} font-montserrat antialiased min-h-screen flex flex-col`} style={{ backgroundColor: 'var(--bg)', color: 'var(--text)' }}>
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe 
@@ -92,18 +113,20 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </noscript>
         {/* End Google Tag Manager (noscript) */}
         
-        <MixPanelProvider />
-        <ConditionalHeaderFooter>
-          <Header />
-        </ConditionalHeaderFooter>
-        <MainLayoutClient>
-          {children}
-        </MainLayoutClient>
-        <ConditionalHeaderFooter>
-          <Footer />
-        </ConditionalHeaderFooter>
-        <CookieConsent />
-        <Analytics />
+        <ThemeProvider defaultTheme="light">
+          <MixPanelProvider />
+          <ConditionalHeaderFooter>
+            <Header />
+          </ConditionalHeaderFooter>
+          <MainLayoutClient>
+            {children}
+          </MainLayoutClient>
+          <ConditionalHeaderFooter>
+            <Footer />
+          </ConditionalHeaderFooter>
+          <CookieConsent />
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   );

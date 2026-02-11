@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,12 +9,15 @@ interface FooterProps {
 
 export default function Footer({ accentColor = '#6ED3C2' }: FooterProps) {
   const pathname = usePathname();
-  const isOverlay = ["/contact", "/privacy-policy", "/terms"].includes(pathname);
+  const [isOverlay, setIsOverlay] = useState(false);
+
+  useEffect(() => {
+    setIsOverlay(["/contact", "/privacy-policy", "/terms"].includes(pathname));
+  }, [pathname]);
 
   return (
     <footer 
       className={`arc-footer ${isOverlay ? 'hidden md:block' : 'block'} mt-auto flex-shrink-0`}
-      style={{ backgroundColor: 'var(--page-bg)' }}
     >
       <div className="arc-footer-container">
         {/* Footer Links */}

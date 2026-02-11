@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { GlowCard } from "@/components/ui/GlowCard";
 import RegionUnavailableModal from "@/components/modals/RegionUnavailableModal";
+import { arcTokens } from "@/lib/ui/arcTokens";
 
 // Blueprint data - will swap based on selection
 const blueprints = {
@@ -50,10 +50,10 @@ const blueprints = {
     missedCutoff: 1,
     flaggedNotes: 2,
     trends: [
-      { metric: "Sleep latency", change: "↓ 18%", color: "green" },
-      { metric: "Night awakenings", change: "↓ 1.2/night", color: "green" },
-      { metric: "HRV (7-day avg)", change: "↑ 9%", color: "green" },
-      { metric: "Afternoon crash severity", change: "↓", color: "green" }
+      { metric: "Sleep latency", change: "↓ 18%", color: "success" },
+      { metric: "Night awakenings", change: "↓ 1.2/night", color: "success" },
+      { metric: "HRV (7-day avg)", change: "↑ 9%", color: "success" },
+      { metric: "Afternoon crash severity", change: "↓", color: "success" }
     ],
     investigatorNote: "Sleep improved by day 4. Mild morning grogginess initially. No increase in anxiety."
   }
@@ -97,6 +97,24 @@ const blueprintGroups = [
   }
 ];
 
+// Dashboard card component (matches command center cards)
+function DashboardCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div
+      style={{
+        backgroundColor: arcTokens.surface.card,
+        border: `1px solid ${arcTokens.border.default}`,
+        borderRadius: "16px",
+        padding: "24px",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
+      }}
+      className={className}
+    >
+      {children}
+    </div>
+  );
+}
+
 export default function BlueprintDemoPage() {
   const [selectedBlueprint, setSelectedBlueprint] = useState("caffeine-timing");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -137,7 +155,7 @@ export default function BlueprintDemoPage() {
   return (
     <>
       <DashboardLayout>
-        <div className="dashboard-container relative z-10" style={{ background: "linear-gradient(180deg, #081214 0%, #071618 100%)" }}>
+        <div className="dashboard-container blueprint-demo-page relative z-10" style={{ position: "relative" }}>
           {/* Demo Banner */}
           <div
             style={{
@@ -146,8 +164,8 @@ export default function BlueprintDemoPage() {
               right: "32px",
               padding: "8px 12px",
               borderRadius: "8px",
-              backgroundColor: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.06)",
+              backgroundColor: arcTokens.surface.card,
+              border: `1px solid ${arcTokens.border.default}`,
               zIndex: 10,
             }}
           >
@@ -155,7 +173,7 @@ export default function BlueprintDemoPage() {
               style={{
                 fontSize: "11px",
                 fontWeight: 500,
-                color: "rgba(143,166,163,0.78)",
+                color: arcTokens.text.tertiary,
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
               }}
@@ -180,7 +198,25 @@ export default function BlueprintDemoPage() {
                     <div className="relative" ref={dropdownRef}>
                       <button
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 bg-[#0f0f0f]/60 text-sm text-white hover:border-[#6FFFC3]/20 transition-all"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          padding: "8px 16px",
+                          borderRadius: "8px",
+                          border: `1px solid ${arcTokens.border.default}`,
+                          backgroundColor: arcTokens.surface.card,
+                          color: arcTokens.text.primary,
+                          fontSize: "14px",
+                          cursor: "pointer",
+                          transition: "all 0.2s",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = arcTokens.border.strong;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = arcTokens.border.default;
+                        }}
                       >
                         {getBlueprintName(selectedBlueprint)}{" "}
                         <svg
@@ -188,7 +224,10 @@ export default function BlueprintDemoPage() {
                           height="16"
                           viewBox="0 0 16 16"
                           fill="none"
-                          className={`transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
+                          style={{
+                            transition: "transform 0.2s",
+                            transform: isDropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
+                          }}
                         >
                           <path
                             d="M4 6L8 10L12 6"
@@ -201,10 +240,35 @@ export default function BlueprintDemoPage() {
                       </button>
 
                       {isDropdownOpen && (
-                        <div className="absolute top-full left-0 mt-2 w-80 rounded-lg border border-white/10 bg-[#0f0f0f] shadow-xl z-50 max-h-96 overflow-y-auto">
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "100%",
+                            left: 0,
+                            marginTop: "8px",
+                            width: "320px",
+                            borderRadius: "8px",
+                            border: `1px solid ${arcTokens.border.default}`,
+                            backgroundColor: arcTokens.surface.card,
+                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                            zIndex: 50,
+                            maxHeight: "384px",
+                            overflowY: "auto",
+                          }}
+                        >
                           {blueprintGroups.map((group, groupIdx) => (
-                            <div key={groupIdx} className="border-b border-white/5 last:border-b-0">
-                              <div className="px-4 py-2 text-xs font-semibold text-[#A3B3AA] uppercase tracking-wider bg-[#0a0a0a]">
+                            <div key={groupIdx} style={{ borderBottom: `1px solid ${arcTokens.border.default}`, borderBottomWidth: groupIdx === blueprintGroups.length - 1 ? "0" : "1px" }}>
+                              <div
+                                style={{
+                                  padding: "8px 16px",
+                                  fontSize: "11px",
+                                  fontWeight: 600,
+                                  color: arcTokens.text.secondary,
+                                  textTransform: "uppercase",
+                                  letterSpacing: "0.05em",
+                                  backgroundColor: arcTokens.bg.panel,
+                                }}
+                              >
                                 {group.category}
                               </div>
                               {group.items.map((item) => (
@@ -214,7 +278,23 @@ export default function BlueprintDemoPage() {
                                     setSelectedBlueprint(item.id);
                                     setIsDropdownOpen(false);
                                   }}
-                                  className="w-full text-left px-4 py-2 text-sm text-white hover:bg-white/5 transition-colors"
+                                  style={{
+                                    width: "100%",
+                                    textAlign: "left",
+                                    padding: "8px 16px",
+                                    fontSize: "14px",
+                                    color: arcTokens.text.primary,
+                                    backgroundColor: "transparent",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    transition: "background-color 0.2s",
+                                  }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.backgroundColor = "transparent";
+                                  }}
                                 >
                                   {item.name}
                                 </button>
@@ -232,17 +312,17 @@ export default function BlueprintDemoPage() {
 
                 {/* Right-side meta */}
                 <div className="flex flex-col gap-2 text-sm">
-                  <div className="text-[#A3B3AA]">
-                    <span className="text-[#8A938E]">Blueprint:</span> {currentBlueprint.name}
+                  <div style={{ color: arcTokens.text.secondary }}>
+                    <span style={{ color: arcTokens.text.tertiary }}>Blueprint:</span> {currentBlueprint.name}
                   </div>
-                  <div className="text-[#A3B3AA]">
-                    <span className="text-[#8A938E]">Phase:</span> {currentBlueprint.phase} (Day {currentBlueprint.day} of {currentBlueprint.totalDays})
+                  <div style={{ color: arcTokens.text.secondary }}>
+                    <span style={{ color: arcTokens.text.tertiary }}>Phase:</span> {currentBlueprint.phase} (Day {currentBlueprint.day} of {currentBlueprint.totalDays})
                   </div>
-                  <div className="text-[#A3B3AA]">
-                    <span className="text-[#8A938E]">Data Completeness:</span> {currentBlueprint.dataCompleteness}%
+                  <div style={{ color: arcTokens.text.secondary }}>
+                    <span style={{ color: arcTokens.text.tertiary }}>Data Completeness:</span> {currentBlueprint.dataCompleteness}%
                   </div>
-                  <div className="text-[#A3B3AA]">
-                    <span className="text-[#8A938E]">Evidence Confidence:</span> {currentBlueprint.evidenceConfidence} {currentBlueprint.confidenceTrend}
+                  <div style={{ color: arcTokens.text.secondary }}>
+                    <span style={{ color: arcTokens.text.tertiary }}>Evidence Confidence:</span> {currentBlueprint.evidenceConfidence} {currentBlueprint.confidenceTrend}
                   </div>
                 </div>
               </div>
@@ -255,8 +335,8 @@ export default function BlueprintDemoPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <GlowCard delay={0}>
-                <div className="space-y-6">
+              <DashboardCard>
+                <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
                   <div>
                     <h2 className="dashboard-h2 mb-2">Active Blueprint</h2>
                     <p className="dashboard-description text-sm">
@@ -267,70 +347,80 @@ export default function BlueprintDemoPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {/* Card 1 - Blueprint Overview */}
                     <motion.div
-                      className="p-5 rounded-xl bg-[#0f0f0f]/60 border border-white/5"
+                      style={{
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: arcTokens.bg.panel,
+                        border: `1px solid ${arcTokens.border.default}`,
+                      }}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.15 }}
                     >
-                      <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+                      <h3 style={{ fontSize: "16px", fontWeight: 600, color: arcTokens.text.primary, marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
                         Blueprint Overview
                       </h3>
-                      <div className="space-y-3 text-sm">
+                      <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "14px" }}>
                         <div>
-                          <div className="text-white font-medium mb-1">{currentBlueprint.name}</div>
+                          <div style={{ color: arcTokens.text.primary, fontWeight: 500, marginBottom: "4px" }}>{currentBlueprint.name}</div>
                         </div>
                         <div>
-                          <div className="text-[#A3B3AA] mb-1">
-                            <span className="text-[#8A938E]">Clinical intent:</span>
+                          <div style={{ color: arcTokens.text.secondary, marginBottom: "4px" }}>
+                            <span style={{ color: arcTokens.text.tertiary }}>Clinical intent:</span>
                           </div>
-                          <div className="text-[#A3B3AA]">{currentBlueprint.clinicalIntent}</div>
+                          <div style={{ color: arcTokens.text.secondary }}>{currentBlueprint.clinicalIntent}</div>
                         </div>
                         <div>
-                          <div className="text-[#A3B3AA] mb-1">
-                            <span className="text-[#8A938E]">Duration:</span>
+                          <div style={{ color: arcTokens.text.secondary, marginBottom: "4px" }}>
+                            <span style={{ color: arcTokens.text.tertiary }}>Duration:</span>
                           </div>
-                          <div className="text-[#A3B3AA]">{currentBlueprint.duration}</div>
+                          <div style={{ color: arcTokens.text.secondary }}>{currentBlueprint.duration}</div>
                         </div>
                         <div>
-                          <div className="text-[#A3B3AA] mb-1">
-                            <span className="text-[#8A938E]">Intervention:</span>
+                          <div style={{ color: arcTokens.text.secondary, marginBottom: "4px" }}>
+                            <span style={{ color: arcTokens.text.tertiary }}>Intervention:</span>
                           </div>
-                          <ul className="space-y-1 mt-1">
+                          <ul style={{ marginTop: "4px", paddingLeft: "0", listStyle: "none" }}>
                             {currentBlueprint.intervention.map((item, idx) => (
-                              <li key={idx} className="text-[#A3B3AA] flex items-start gap-2">
-                                <span className="text-[#6FFFC3]">•</span>
+                              <li key={idx} style={{ color: arcTokens.text.secondary, display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "4px" }}>
+                                <span style={{ color: arcTokens.accent.primary }}>•</span>
                                 <span>{item}</span>
                               </li>
                             ))}
                           </ul>
                         </div>
                         <div>
-                          <div className="text-[#A3B3AA] mb-1">
-                            <span className="text-[#8A938E]">Expected adaptation window:</span>
+                          <div style={{ color: arcTokens.text.secondary, marginBottom: "4px" }}>
+                            <span style={{ color: arcTokens.text.tertiary }}>Expected adaptation window:</span>
                           </div>
-                          <div className="text-[#A3B3AA]">{currentBlueprint.expectedAdaptation}</div>
+                          <div style={{ color: arcTokens.text.secondary }}>{currentBlueprint.expectedAdaptation}</div>
                         </div>
                       </div>
                     </motion.div>
 
                     {/* Card 2 - Signals Being Measured */}
                     <motion.div
-                      className="p-5 rounded-xl bg-[#0f0f0f]/60 border border-white/5"
+                      style={{
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: arcTokens.bg.panel,
+                        border: `1px solid ${arcTokens.border.default}`,
+                      }}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.2 }}
                     >
-                      <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+                      <h3 style={{ fontSize: "16px", fontWeight: 600, color: arcTokens.text.primary, marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
                         Signals Being Measured
                       </h3>
-                      <div className="space-y-4">
+                      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                         {currentBlueprint.signals.map((signal, idx) => (
-                          <div key={idx} className="border-b border-white/5 last:border-b-0 pb-3 last:pb-0">
-                            <div className="text-sm font-medium text-white mb-1">{signal.name}</div>
-                            <div className="text-xs text-[#8A938E]">
-                              <span className="text-[#A3B3AA]">Why it matters:</span> {signal.why}
+                          <div key={idx} style={{ borderBottom: idx < currentBlueprint.signals.length - 1 ? `1px solid ${arcTokens.border.default}` : "none", paddingBottom: idx < currentBlueprint.signals.length - 1 ? "12px" : "0" }}>
+                            <div style={{ fontSize: "14px", fontWeight: 500, color: arcTokens.text.primary, marginBottom: "4px" }}>{signal.name}</div>
+                            <div style={{ fontSize: "12px", color: arcTokens.text.tertiary }}>
+                              <span style={{ color: arcTokens.text.secondary }}>Why it matters:</span> {signal.why}
                             </div>
                           </div>
                         ))}
@@ -339,26 +429,31 @@ export default function BlueprintDemoPage() {
 
                     {/* Card 3 - Data Sources */}
                     <motion.div
-                      className="p-5 rounded-xl bg-[#0f0f0f]/60 border border-white/5"
+                      style={{
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: arcTokens.bg.panel,
+                        border: `1px solid ${arcTokens.border.default}`,
+                      }}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.25 }}
                     >
-                      <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+                      <h3 style={{ fontSize: "16px", fontWeight: 600, color: arcTokens.text.primary, marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
                         Data Sources
                       </h3>
-                      <div className="space-y-2">
+                      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                         {currentBlueprint.dataSources.map((source, idx) => (
-                          <div key={idx} className="flex items-center gap-2 text-sm text-[#A3B3AA]">
-                            <span className="text-[#6FFFC3]">•</span>
+                          <div key={idx} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: arcTokens.text.secondary }}>
+                            <span style={{ color: arcTokens.accent.primary }}>•</span>
                             <span>{source}</span>
                           </div>
                         ))}
-                        <div className="mt-3 pt-3 border-t border-white/5">
-                          <div className="text-xs text-[#6FFFC3] flex items-center gap-2">
+                        <div style={{ marginTop: "12px", paddingTop: "12px", borderTop: `1px solid ${arcTokens.border.default}` }}>
+                          <div style={{ fontSize: "12px", color: arcTokens.accent.primary, display: "flex", alignItems: "center", gap: "8px" }}>
                             <span>Status: Connected</span>
-                            <span className="text-green-400">✓</span>
+                            <span style={{ color: arcTokens.semantic.success }}>✓</span>
                           </div>
                         </div>
                       </div>
@@ -366,29 +461,34 @@ export default function BlueprintDemoPage() {
 
                     {/* Card 4 - Compliance & Adherence */}
                     <motion.div
-                      className="p-5 rounded-xl bg-[#0f0f0f]/60 border border-white/5"
+                      style={{
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: arcTokens.bg.panel,
+                        border: `1px solid ${arcTokens.border.default}`,
+                      }}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.3 }}
                     >
-                      <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+                      <h3 style={{ fontSize: "16px", fontWeight: 600, color: arcTokens.text.primary, marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
                         Compliance & Adherence
                       </h3>
-                      <div className="space-y-3 text-sm">
+                      <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "14px" }}>
                         <div>
-                          <div className="text-[#A3B3AA] mb-1">
-                            <span className="text-[#8A938E]">Protocol adherence:</span> {currentBlueprint.compliance}%
+                          <div style={{ color: arcTokens.text.secondary, marginBottom: "4px" }}>
+                            <span style={{ color: arcTokens.text.tertiary }}>Protocol adherence:</span> {currentBlueprint.compliance}%
                           </div>
                         </div>
                         <div>
-                          <div className="text-[#A3B3AA] mb-1">
-                            <span className="text-[#8A938E]">Missed caffeine cutoff:</span> {currentBlueprint.missedCutoff} day
+                          <div style={{ color: arcTokens.text.secondary, marginBottom: "4px" }}>
+                            <span style={{ color: arcTokens.text.tertiary }}>Missed caffeine cutoff:</span> {currentBlueprint.missedCutoff} day
                           </div>
                         </div>
                         <div>
-                          <div className="text-[#A3B3AA]">
-                            <span className="text-[#8A938E]">Notes flagged:</span> {currentBlueprint.flaggedNotes}
+                          <div style={{ color: arcTokens.text.secondary }}>
+                            <span style={{ color: arcTokens.text.tertiary }}>Notes flagged:</span> {currentBlueprint.flaggedNotes}
                           </div>
                         </div>
                       </div>
@@ -396,51 +496,73 @@ export default function BlueprintDemoPage() {
 
                     {/* Card 5 - Early Signal Trends */}
                     <motion.div
-                      className="p-5 rounded-xl bg-[#0f0f0f]/60 border border-white/5"
+                      style={{
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: arcTokens.bg.panel,
+                        border: `1px solid ${arcTokens.border.default}`,
+                      }}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.35 }}
                     >
-                      <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+                      <h3 style={{ fontSize: "16px", fontWeight: 600, color: arcTokens.text.primary, marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
                         Early Signal Trends
                       </h3>
-                      <div className="space-y-3 text-sm">
+                      <div style={{ display: "flex", flexDirection: "column", gap: "12px", fontSize: "14px" }}>
                         {currentBlueprint.trends.map((trend, idx) => (
-                          <div key={idx} className="flex items-center justify-between">
-                            <span className="text-[#A3B3AA]">{trend.metric}:</span>
-                            <span className={`font-medium ${trend.color === "green" ? "text-green-400" : "text-red-400"}`}>
+                          <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                            <span style={{ color: arcTokens.text.secondary }}>{trend.metric}:</span>
+                            <span style={{ fontWeight: 500, color: trend.color === "success" ? arcTokens.semantic.success : arcTokens.semantic.danger }}>
                               {trend.change}
                             </span>
                           </div>
                         ))}
-                        <div className="mt-3 pt-3 border-t border-white/5">
-                          <div className="text-xs text-[#8A938E] italic">Signals emerging — not yet conclusive</div>
+                        <div style={{ marginTop: "12px", paddingTop: "12px", borderTop: `1px solid ${arcTokens.border.default}` }}>
+                          <div style={{ fontSize: "12px", color: arcTokens.text.tertiary, fontStyle: "italic" }}>Signals emerging — not yet conclusive</div>
                         </div>
                       </div>
                     </motion.div>
 
                     {/* Card 6 - Investigator Notes */}
                     <motion.div
-                      className="p-5 rounded-xl bg-[#0f0f0f]/60 border border-white/5"
+                      style={{
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: arcTokens.bg.panel,
+                        border: `1px solid ${arcTokens.border.default}`,
+                      }}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: 0.4 }}
                     >
-                      <h3 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
+                      <h3 style={{ fontSize: "16px", fontWeight: 600, color: arcTokens.text.primary, marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
                         Investigator Notes
                       </h3>
                       <textarea
                         defaultValue={currentBlueprint.investigatorNote}
                         readOnly
-                        className="w-full h-32 px-3 py-2 rounded-lg bg-[#0a0a0a] border border-white/10 text-sm text-white placeholder-[#8A938E] focus:outline-none focus:border-[#6FFFC3]/30 resize-none"
+                        style={{
+                          width: "100%",
+                          height: "128px",
+                          padding: "12px",
+                          borderRadius: "8px",
+                          backgroundColor: arcTokens.bg.page,
+                          border: `1px solid ${arcTokens.border.default}`,
+                          fontSize: "14px",
+                          color: arcTokens.text.primary,
+                          fontFamily: "inherit",
+                          resize: "none",
+                          outline: "none",
+                        }}
                         placeholder="Add your observations here..."
                       />
                     </motion.div>
                   </div>
                 </div>
-              </GlowCard>
+              </DashboardCard>
             </motion.section>
 
             {/* Adjunct Protocols Section */}
@@ -450,66 +572,78 @@ export default function BlueprintDemoPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <GlowCard delay={0.25}>
-                <div className="space-y-6">
-                  <div className="space-y-2">
+              <DashboardCard>
+                <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     <h3 className="dashboard-h2">Adjunct Protocols (Held Constant During Experiment)</h3>
                     <p className="dashboard-description text-sm">
                       These variables are held constant to isolate causal effects.
                     </p>
                   </div>
 
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
+                  <div style={{ overflowX: "auto" }}>
+                    <table style={{ width: "100%" }}>
                       <thead>
-                        <tr className="border-b border-white/10">
-                          <th className="text-left py-3 px-4 dashboard-label text-xs">Supplement</th>
-                          <th className="text-left py-3 px-4 dashboard-label text-xs">Dose</th>
-                          <th className="text-left py-3 px-4 dashboard-label text-xs">Timing</th>
-                          <th className="text-left py-3 px-4 dashboard-label text-xs">Purpose</th>
-                          <th className="text-left py-3 px-4 dashboard-label text-xs">Status</th>
+                        <tr style={{ borderBottom: `1px solid ${arcTokens.border.strong}` }}>
+                          <th style={{ textAlign: "left", padding: "12px 16px", fontSize: "12px", fontWeight: 400, color: arcTokens.text.secondary, textTransform: "uppercase", letterSpacing: "0.05em" }}>Supplement</th>
+                          <th style={{ textAlign: "left", padding: "12px 16px", fontSize: "12px", fontWeight: 400, color: arcTokens.text.secondary, textTransform: "uppercase", letterSpacing: "0.05em" }}>Dose</th>
+                          <th style={{ textAlign: "left", padding: "12px 16px", fontSize: "12px", fontWeight: 400, color: arcTokens.text.secondary, textTransform: "uppercase", letterSpacing: "0.05em" }}>Timing</th>
+                          <th style={{ textAlign: "left", padding: "12px 16px", fontSize: "12px", fontWeight: 400, color: arcTokens.text.secondary, textTransform: "uppercase", letterSpacing: "0.05em" }}>Purpose</th>
+                          <th style={{ textAlign: "left", padding: "12px 16px", fontSize: "12px", fontWeight: 400, color: arcTokens.text.secondary, textTransform: "uppercase", letterSpacing: "0.05em" }}>Status</th>
                         </tr>
                       </thead>
                       <tbody>
                         <motion.tr
-                          className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                          style={{ borderBottom: `1px solid ${arcTokens.border.default}`, transition: "background-color 0.2s" }}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.4, delay: 0.3 }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = "transparent";
+                          }}
                         >
-                          <td className="py-4 px-4">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
-                              <span className="text-sm font-semibold text-white">Magnesium glycinate</span>
+                          <td style={{ padding: "16px" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                              <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
+                              <span style={{ fontSize: "14px", fontWeight: 600, color: arcTokens.text.primary }}>Magnesium glycinate</span>
                             </div>
                           </td>
-                          <td className="py-4 px-4 text-sm text-[#A3B3AA]">400 mg</td>
-                          <td className="py-4 px-4 text-sm text-[#A3B3AA]">Evening</td>
-                          <td className="py-4 px-4 text-sm text-[#A3B3AA]">Sleep support</td>
-                          <td className="py-4 px-4 text-sm text-green-400">Stable</td>
+                          <td style={{ padding: "16px", fontSize: "14px", color: arcTokens.text.secondary }}>400 mg</td>
+                          <td style={{ padding: "16px", fontSize: "14px", color: arcTokens.text.secondary }}>Evening</td>
+                          <td style={{ padding: "16px", fontSize: "14px", color: arcTokens.text.secondary }}>Sleep support</td>
+                          <td style={{ padding: "16px", fontSize: "14px", color: arcTokens.semantic.success }}>Stable</td>
                         </motion.tr>
                         <motion.tr
-                          className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                          style={{ borderBottom: `1px solid ${arcTokens.border.default}`, transition: "background-color 0.2s" }}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.4, delay: 0.35 }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = "transparent";
+                          }}
                         >
-                          <td className="py-4 px-4">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
-                              <span className="text-sm font-semibold text-white">Omega-3</span>
+                          <td style={{ padding: "16px" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                              <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
+                              <span style={{ fontSize: "14px", fontWeight: 600, color: arcTokens.text.primary }}>Omega-3</span>
                             </div>
                           </td>
-                          <td className="py-4 px-4 text-sm text-[#A3B3AA]">2 g</td>
-                          <td className="py-4 px-4 text-sm text-[#A3B3AA]">With meals</td>
-                          <td className="py-4 px-4 text-sm text-[#A3B3AA]">Inflammation control</td>
-                          <td className="py-4 px-4 text-sm text-green-400">Stable</td>
+                          <td style={{ padding: "16px", fontSize: "14px", color: arcTokens.text.secondary }}>2 g</td>
+                          <td style={{ padding: "16px", fontSize: "14px", color: arcTokens.text.secondary }}>With meals</td>
+                          <td style={{ padding: "16px", fontSize: "14px", color: arcTokens.text.secondary }}>Inflammation control</td>
+                          <td style={{ padding: "16px", fontSize: "14px", color: arcTokens.semantic.success }}>Stable</td>
                         </motion.tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
-              </GlowCard>
+              </DashboardCard>
             </motion.section>
 
             {/* Risk-Focused Micro-Plans */}
@@ -519,9 +653,9 @@ export default function BlueprintDemoPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <GlowCard delay={0.35}>
-                <div className="space-y-6">
-                  <div className="space-y-2">
+              <DashboardCard>
+                <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     <h3 className="dashboard-h2">Risk-Focused Micro-Plans</h3>
                     <p className="dashboard-description text-sm">
                       Adaptive intelligence that activates when specific risk thresholds are met.
@@ -530,48 +664,53 @@ export default function BlueprintDemoPage() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <motion.div
-                      className="p-5 rounded-xl bg-[#0f0f0f]/60 border border-[#6FFFC3]/20"
+                      style={{
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: arcTokens.bg.panel,
+                        border: `1px solid ${arcTokens.border.strong}`,
+                      }}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.4 }}
                       whileHover={{ scale: 1.02 }}
                     >
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="w-2 h-2 rounded-full bg-[#6FFFC3]"></div>
-                        <h4 className="text-base font-semibold text-white">Sleep Disruption Risk</h4>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.accent.primary }}></div>
+                        <h4 style={{ fontSize: "16px", fontWeight: 600, color: arcTokens.text.primary }}>Sleep Disruption Risk</h4>
                       </div>
 
-                      <div className="space-y-4">
+                      <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                         <div>
-                          <h5 className="text-xs font-semibold text-[#A3B3AA] mb-2 uppercase tracking-wider">Trigger</h5>
-                          <p className="text-sm text-[#A3B3AA]">Sleep efficiency &lt;85% for 3 consecutive nights</p>
+                          <h5 style={{ fontSize: "11px", fontWeight: 600, color: arcTokens.text.secondary, marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.05em" }}>Trigger</h5>
+                          <p style={{ fontSize: "14px", color: arcTokens.text.secondary }}>Sleep efficiency &lt;85% for 3 consecutive nights</p>
                         </div>
 
-                        <div className="pt-3 border-t border-white/5">
-                          <h5 className="text-xs font-semibold text-[#A3B3AA] mb-2 uppercase tracking-wider">
+                        <div style={{ paddingTop: "12px", borderTop: `1px solid ${arcTokens.border.default}` }}>
+                          <h5 style={{ fontSize: "11px", fontWeight: 600, color: arcTokens.text.secondary, marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                             Auto-Activated Actions
                           </h5>
-                          <ul className="space-y-2">
-                            <li className="flex items-center gap-2 text-sm text-[#A3B3AA]">
-                              <span className="text-[#6FFFC3]">•</span>
+                          <ul style={{ display: "flex", flexDirection: "column", gap: "8px", paddingLeft: "0", listStyle: "none" }}>
+                            <li style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: arcTokens.text.secondary }}>
+                              <span style={{ color: arcTokens.accent.primary }}>•</span>
                               <span>Advance caffeine cutoff by 60 min</span>
                             </li>
-                            <li className="flex items-center gap-2 text-sm text-[#A3B3AA]">
-                              <span className="text-[#6FFFC3]">•</span>
+                            <li style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: arcTokens.text.secondary }}>
+                              <span style={{ color: arcTokens.accent.primary }}>•</span>
                               <span>Add 10 min NSDR post-lunch</span>
                             </li>
-                            <li className="flex items-center gap-2 text-sm text-[#A3B3AA]">
-                              <span className="text-[#6FFFC3]">•</span>
+                            <li style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: arcTokens.text.secondary }}>
+                              <span style={{ color: arcTokens.accent.primary }}>•</span>
                               <span>Evening light dimming protocol</span>
                             </li>
                           </ul>
                         </div>
 
-                        <div className="pt-3 border-t border-white/5">
-                          <h5 className="text-xs font-semibold text-[#A3B3AA] mb-1 uppercase tracking-wider">
+                        <div style={{ paddingTop: "12px", borderTop: `1px solid ${arcTokens.border.default}` }}>
+                          <h5 style={{ fontSize: "11px", fontWeight: 600, color: arcTokens.text.secondary, marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                             Expected Benefit
                           </h5>
-                          <p className="text-sm text-[#A3B3AA]">
+                          <p style={{ fontSize: "14px", color: arcTokens.text.secondary }}>
                             Stabilize sleep architecture and reduce sleep debt accumulation.
                           </p>
                         </div>
@@ -579,7 +718,7 @@ export default function BlueprintDemoPage() {
                     </motion.div>
                   </div>
                 </div>
-              </GlowCard>
+              </DashboardCard>
             </motion.section>
 
             {/* Red Flags & Action Thresholds */}
@@ -589,50 +728,55 @@ export default function BlueprintDemoPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <GlowCard delay={0.5}>
-                <div className="space-y-6">
-                  <div className="space-y-2">
+              <DashboardCard>
+                <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     <h3 className="dashboard-h2">Red Flags & Action Thresholds</h3>
                     <p className="dashboard-description text-sm">
                       Clear guidelines for when to monitor, retest, or seek medical attention based on signal changes.
                     </p>
                   </div>
 
-                  <div className="space-y-6">
+                  <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
                     <motion.div
-                      className="p-5 rounded-xl bg-[#0f0f0f]/60 border border-white/5"
+                      style={{
+                        padding: "20px",
+                        borderRadius: "12px",
+                        backgroundColor: arcTokens.bg.panel,
+                        border: `1px solid ${arcTokens.border.default}`,
+                      }}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.55 }}
                     >
-                      <h4 className="text-base font-semibold text-white mb-4 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-red-500/60"></div>
+                      <h4 style={{ fontSize: "16px", fontWeight: 600, color: arcTokens.text.primary, marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: arcTokens.semantic.danger, opacity: 0.6 }}></div>
                         Autonomic Stress Load
                       </h4>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
-                          <h5 className="text-xs font-semibold text-[#A3B3AA] mb-2 uppercase tracking-wider">
+                          <h5 style={{ fontSize: "11px", fontWeight: 600, color: arcTokens.text.secondary, marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                             When to Monitor
                           </h5>
-                          <ul className="space-y-1.5">
-                            <li className="text-xs text-[#8A938E]">• HRV ↓ &gt;20% from baseline for 5 days</li>
-                            <li className="text-xs text-[#8A938E]">• Resting HR ↑ &gt;10 bpm from baseline</li>
+                          <ul style={{ display: "flex", flexDirection: "column", gap: "6px", paddingLeft: "0", listStyle: "none" }}>
+                            <li style={{ fontSize: "12px", color: arcTokens.text.tertiary }}>• HRV ↓ &gt;20% from baseline for 5 days</li>
+                            <li style={{ fontSize: "12px", color: arcTokens.text.tertiary }}>• Resting HR ↑ &gt;10 bpm from baseline</li>
                           </ul>
                         </div>
 
                         <div>
-                          <h5 className="text-xs font-semibold text-[#A3B3AA] mb-2 uppercase tracking-wider">
+                          <h5 style={{ fontSize: "11px", fontWeight: 600, color: arcTokens.text.secondary, marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                             When to Retest
                           </h5>
-                          <p className="text-xs text-[#8A938E]">After 7–10 days of protocol adjustment</p>
+                          <p style={{ fontSize: "12px", color: arcTokens.text.tertiary }}>After 7–10 days of protocol adjustment</p>
                         </div>
 
                         <div>
-                          <h5 className="text-xs font-semibold text-red-400/80 mb-2 uppercase tracking-wider">
+                          <h5 style={{ fontSize: "11px", fontWeight: 600, color: arcTokens.semantic.danger, marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.05em", opacity: 0.8 }}>
                             When to Seek Review
                           </h5>
-                          <p className="text-xs text-[#8A938E]">
+                          <p style={{ fontSize: "12px", color: arcTokens.text.tertiary }}>
                             Persistent fatigue, palpitations, or sleep fragmentation
                           </p>
                         </div>
@@ -640,7 +784,7 @@ export default function BlueprintDemoPage() {
                     </motion.div>
                   </div>
                 </div>
-              </GlowCard>
+              </DashboardCard>
             </motion.section>
 
             {/* CTA Button */}
@@ -652,17 +796,17 @@ export default function BlueprintDemoPage() {
                   borderRadius: "999px",
                   fontSize: "14px",
                   fontWeight: 600,
-                  backgroundColor: "rgba(110,211,194,0.15)",
-                  color: "rgba(110,211,194,0.95)",
-                  border: "1px solid rgba(110,211,194,0.30)",
+                  backgroundColor: arcTokens.accent.soft,
+                  color: arcTokens.accent.primary,
+                  border: `1px solid ${arcTokens.border.strong}`,
                   cursor: "pointer",
                   transition: "all 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(110,211,194,0.20)";
+                  e.currentTarget.style.backgroundColor = arcTokens.accent.muted;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(110,211,194,0.15)";
+                  e.currentTarget.style.backgroundColor = arcTokens.accent.soft;
                 }}
               >
                 Start building your real blueprint

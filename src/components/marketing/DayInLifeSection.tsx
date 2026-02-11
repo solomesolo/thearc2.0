@@ -96,37 +96,37 @@ export default function DayInLifeSection() {
   // Mobile: inline scenes
   if (isMobile) {
     return (
-      <section id="day-in-life" className="relative w-full py-24" style={{ backgroundColor: "#060B0C" }}>
+      <section id="day-in-life" className="relative w-full py-24" style={{ backgroundColor: "var(--bg)" }}>
         <div className="mx-auto w-full max-w-[1400px] px-6">
           <div className="mb-10 text-center">
-            <div className="text-xs tracking-[0.25em] text-[rgba(231,240,238,0.55)]">IN PRACTICE</div>
-            <h2 className="mt-3 text-4xl font-semibold text-[rgba(231,240,238,0.95)]">A day in the life with Arc</h2>
-            <p className="mt-3 text-base text-[rgba(143,166,163,0.95)]">Five minutes. One timeline. Clear next steps.</p>
+            <div className="text-xs tracking-[0.25em]" style={{ color: "var(--text-muted)" }}>IN PRACTICE</div>
+            <h2 className="mt-3 text-4xl font-semibold" style={{ color: "var(--text)" }}>A day in the life with Arc</h2>
+            <p className="mt-3 text-base" style={{ color: "var(--text-muted)" }}>Five minutes. One timeline. Clear next steps.</p>
           </div>
           <div className="space-y-12">
             {DAYLIFE_STEPS.map((step) => (
               <div key={step.id} className="space-y-6">
                 <div className="min-h-[220px] relative pl-6">
-                  <div className="absolute left-[10px] top-0 h-full w-px bg-[rgba(110,211,194,0.18)]" />
+                  <div className="absolute left-[10px] top-0 h-full w-px" style={{ backgroundColor: "var(--accent-soft)" }} />
                   {activeStep === step.id && (
-                    <div className="absolute left-[6px] top-[6px] w-2 h-2 rounded-full bg-[rgba(110,211,194,0.95)]" />
+                    <div className="absolute left-[6px] top-[6px] w-2 h-2 rounded-full" style={{ backgroundColor: "var(--accent)" }} />
                   )}
-                  <div className={`text-xs font-semibold uppercase mb-2 ${activeStep === step.id ? "text-[rgba(110,211,194,0.95)]" : "text-[rgba(231,240,238,0.65)]"}`}>
+                  <div className="text-xs font-semibold uppercase mb-2" style={{ color: activeStep === step.id ? "var(--accent)" : "var(--text-muted)" }}>
                     {step.label}
                   </div>
-                  <h3 className={`text-lg font-semibold mb-2 ${activeStep === step.id ? "text-[rgba(231,240,238,0.95)]" : "text-[rgba(231,240,238,0.65)]"}`}>
+                  <h3 className="text-lg font-semibold mb-2" style={{ color: activeStep === step.id ? "var(--text)" : "var(--text-muted)" }}>
                     {step.title}
                   </h3>
-                  <p className={`text-sm mb-3 leading-relaxed ${activeStep === step.id ? "text-[rgba(143,166,163,0.95)]" : "text-[rgba(143,166,163,0.65)]"}`}>
+                  <p className="text-sm mb-3 leading-relaxed" style={{ color: activeStep === step.id ? "var(--text-muted)" : "var(--text-muted)" }}>
                     {step.body}
                   </p>
-                  <div className={`mb-4 p-3 rounded-[8px] border ${activeStep === step.id ? "bg-[rgba(110,211,194,0.05)] border-[rgba(110,211,194,0.1)]" : "bg-[rgba(231,240,238,0.02)] border-[rgba(231,240,238,0.06)]"}`}>
-                    <p className="text-[10px] font-medium uppercase mb-1 text-[rgba(143,166,163,0.65)]">What you see:</p>
-                    <p className={`text-xs leading-relaxed ${activeStep === step.id ? "text-[rgba(143,166,163,0.95)]" : "text-[rgba(143,166,163,0.65)]"}`}>
+                  <div className="mb-4 p-3 rounded-[8px] border" style={{ backgroundColor: activeStep === step.id ? "var(--accent-soft)" : "var(--surface-2)", borderColor: activeStep === step.id ? "var(--accent)" : "var(--border)" }}>
+                    <p className="text-[10px] font-medium uppercase mb-1" style={{ color: "var(--text-muted)" }}>What you see:</p>
+                    <p className="text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
                       {step.whatYouSee}
                     </p>
                   </div>
-                  <div className={`text-xs font-medium inline-flex items-center gap-1 ${activeStep === step.id ? "text-[rgba(110,211,194,0.95)]" : "text-[rgba(143,166,163,0.65)]"}`}>
+                  <div className="text-xs font-medium inline-flex items-center gap-1" style={{ color: activeStep === step.id ? "var(--accent)" : "var(--text-muted)" }}>
                     {step.cta.text}
                   </div>
                 </div>
@@ -143,13 +143,13 @@ export default function DayInLifeSection() {
 
   // Desktop: scrollytelling layout - SIMPLIFIED like reference site
   return (
-    <section ref={sectionRef as any} id="day-in-life" className="relative w-full py-16 md:py-20" style={{ backgroundColor: "#060B0C" }}>
+    <section ref={sectionRef as any} id="day-in-life" className="relative w-full py-16 md:py-20" style={{ backgroundColor: "var(--bg)" }}>
       <div className="mx-auto w-full max-w-[1400px] px-6">
         {/* Header */}
         <div className="mb-12 text-center max-w-3xl mx-auto">
-          <div className="text-xs tracking-[0.25em] text-[rgba(231,240,238,0.55)]">IN PRACTICE</div>
-          <h2 className="mt-3 text-3xl md:text-4xl font-semibold text-[rgba(231,240,238,0.95)]">A day in the life with Arc</h2>
-          <p className="mt-3 text-lg text-[rgba(143,166,163,0.95)] leading-relaxed">Five minutes. One timeline. Clear next steps.</p>
+          <div className="text-xs tracking-[0.25em]" style={{ color: "var(--text-muted)" }}>IN PRACTICE</div>
+          <h2 className="mt-3 text-3xl md:text-4xl font-semibold" style={{ color: "var(--text)" }}>A day in the life with Arc</h2>
+          <p className="mt-3 text-lg leading-relaxed" style={{ color: "var(--text-muted)" }}>Five minutes. One timeline. Clear next steps.</p>
         </div>
 
         {/* Scrollytelling boundary (DO NOT remove) */}
@@ -160,7 +160,7 @@ export default function DayInLifeSection() {
             <div className="col-span-5">
               <div className="relative">
                 {/* Vertical line */}
-                <div className="absolute left-[10px] top-0 h-full w-px bg-[rgba(110,211,194,0.18)]" />
+                <div className="absolute left-[10px] top-0 h-full w-px" style={{ backgroundColor: "var(--accent-soft)" }} />
 
                 {/* Steps container - no extra padding, ends exactly after last step */}
                 <div id="daylife-steps" className="space-y-12">
@@ -174,57 +174,46 @@ export default function DayInLifeSection() {
                       >
                         {/* Active dot */}
                         {isActive && (
-                          <div className="absolute left-[6px] top-[6px] w-2 h-2 rounded-full bg-[rgba(110,211,194,0.95)]" />
+                          <div className="absolute left-[6px] top-[6px] w-2 h-2 rounded-full" style={{ backgroundColor: "var(--accent)" }} />
                         )}
 
                         <div
-                          className={`text-xs font-semibold uppercase mb-2 tracking-[1.2px] ${
-                            isActive ? "text-[rgba(110,211,194,0.95)]" : "text-[rgba(231,240,238,0.65)]"
-                          }`}
+                          className="text-xs font-semibold uppercase mb-2 tracking-[1.2px]"
+                          style={{ color: isActive ? "var(--accent)" : "var(--text-muted)" }}
                         >
                           {step.label}
                         </div>
 
                         <h3
-                          className={`text-lg font-semibold mb-2 ${
-                            isActive ? "text-[rgba(231,240,238,0.95)]" : "text-[rgba(231,240,238,0.65)]"
-                          }`}
+                          className="text-lg font-semibold mb-2"
+                          style={{ color: isActive ? "var(--text)" : "var(--text-muted)" }}
                         >
                           {step.title}
                         </h3>
 
                         <p
-                          className={`text-sm mb-3 leading-relaxed ${
-                            isActive ? "text-[rgba(143,166,163,0.95)]" : "text-[rgba(143,166,163,0.65)]"
-                          }`}
+                          className="text-sm mb-3 leading-relaxed"
+                          style={{ color: "var(--text-muted)" }}
                         >
                           {step.body}
                         </p>
 
                         <div
-                          className={`mb-4 p-3 rounded-[8px] border transition-all ${
-                            isActive
-                              ? "bg-[rgba(110,211,194,0.05)] border-[rgba(110,211,194,0.1)]"
-                              : "bg-[rgba(231,240,238,0.02)] border-[rgba(231,240,238,0.06)]"
-                          }`}
+                          className="mb-4 p-3 rounded-[8px] border transition-all"
+                          style={{
+                            backgroundColor: isActive ? "var(--accent-soft)" : "var(--surface-2)",
+                            borderColor: isActive ? "var(--accent)" : "var(--border)",
+                          }}
                         >
-                          <p className="text-[10px] font-medium uppercase mb-1 text-[rgba(143,166,163,0.65)] tracking-[0.8px]">
+                          <p className="text-[10px] font-medium uppercase mb-1 tracking-[0.8px]" style={{ color: "var(--text-muted)" }}>
                             What you see:
                           </p>
-                          <p
-                            className={`text-xs leading-relaxed ${
-                              isActive ? "text-[rgba(143,166,163,0.95)]" : "text-[rgba(143,166,163,0.65)]"
-                            }`}
-                          >
+                          <p className="text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
                             {step.whatYouSee}
                           </p>
                         </div>
 
-                        <div
-                          className={`text-xs font-medium inline-flex items-center gap-1 transition-colors ${
-                            isActive ? "text-[rgba(110,211,194,0.95)]" : "text-[rgba(143,166,163,0.65)]"
-                          }`}
-                        >
+                        <div className="text-xs font-medium inline-flex items-center gap-1 transition-colors" style={{ color: isActive ? "var(--accent)" : "var(--text-muted)" }}>
                           {step.cta.text}
                         </div>
                       </div>

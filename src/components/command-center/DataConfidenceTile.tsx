@@ -42,7 +42,7 @@ export default function DataConfidenceTile({ score, missingCount }: DataConfiden
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = "var(--primary)";
-        e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
+        e.currentTarget.style.boxShadow = "var(--shadow-lg)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = "var(--border)";
@@ -67,7 +67,7 @@ export default function DataConfidenceTile({ score, missingCount }: DataConfiden
             marginTop: "auto",
             padding: "8px 16px",
             backgroundColor: "var(--primary)",
-            color: "white",
+            color: "var(--bg)",
             border: "none",
             borderRadius: "6px",
             cursor: "pointer",

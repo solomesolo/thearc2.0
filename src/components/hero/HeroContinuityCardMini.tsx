@@ -38,12 +38,12 @@ export function HeroContinuityCardMini({
     <motion.div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="w-full max-w-[520px] rounded-[18px] bg-[var(--surface)] border border-[var(--border)] p-4 md:p-[18px] shadow-[0_6px_20px_rgba(0,0,0,0.35)] transition-all duration-200"
+      className="w-full max-w-[520px] rounded-[18px] p-4 md:p-[18px] transition-all duration-200"
       style={{
-        borderColor: isHovered ? "var(--border-strong)" : "var(--border)",
-        boxShadow: isHovered
-          ? "0 8px 24px rgba(0,0,0,0.4)"
-          : "0 6px 20px rgba(0,0,0,0.35)",
+        backgroundColor: "var(--bg-2)",
+        border: `1px solid var(--border-1)`,
+        borderColor: isHovered ? "var(--border-2)" : "var(--border-1)",
+        boxShadow: isHovered ? "var(--shadow-2)" : "var(--shadow-1)",
       }}
     >
       <div className="flex items-center justify-between gap-4">
@@ -72,8 +72,7 @@ export function HeroContinuityCardMini({
           <p
             className="text-sm font-medium leading-relaxed flex-1"
             style={{
-              color: "var(--text-primary)",
-              opacity: 0.92,
+              color: "var(--text-1)",
             }}
           >
             Data continuity improves signal accuracy and recommendations.
@@ -84,13 +83,13 @@ export function HeroContinuityCardMini({
         <div
           className="rounded-full px-[10px] py-2 flex-shrink-0 transition-all duration-200"
           style={{
-            backgroundColor: "rgba(110, 211, 194, 0.10)",
-            border: "1px solid rgba(110, 211, 194, 0.22)",
+            backgroundColor: "var(--bg-inset)",
+            border: `1px solid var(--border-1)`,
           }}
         >
           <span
             className="text-[13px] font-semibold whitespace-nowrap"
-            style={{ color: "var(--accent-hover)" }}
+            style={{ color: "var(--accent)" }}
           >
             Coverage: {animatedCoverage}% {trendIcon}
           </span>

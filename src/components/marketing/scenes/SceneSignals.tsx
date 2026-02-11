@@ -30,18 +30,18 @@ export default function SceneSignals() {
                   style={{
                     backgroundColor:
                       domain.status === "green"
-                        ? "rgba(110,211,194,0.95)"
+                        ? "var(--accent)"
                         : domain.status === "yellow"
-                          ? "rgba(255,165,0,0.95)"
-                          : "rgba(143,166,163,0.5)",
+                          ? "var(--warning)"
+                          : "var(--text-muted)",
                   }}
                 />
-                <p className="text-xs" style={{ color: "rgba(231,240,238,0.95)" }}>
+                <p className="text-xs" style={{ color: "var(--text)" }}>
                   {domain.label}
                 </p>
               </div>
               {domain.missing && (
-                <p className="text-[10px] pl-3.5" style={{ color: "rgba(143,166,163,0.5)" }}>
+                <p className="text-[10px] pl-3.5" style={{ color: "var(--text-muted)" }}>
                   {domain.missing}
                 </p>
               )}
@@ -58,9 +58,9 @@ export default function SceneSignals() {
                 key={chip}
                 className="px-2 py-1 text-[10px] font-medium rounded border transition-colors cursor-default"
                 style={{
-                  backgroundColor: idx === 1 ? "rgba(110,211,194,0.10)" : "rgba(255,255,255,0.02)",
-                  borderColor: idx === 1 ? "rgba(110,211,194,0.18)" : "rgba(255,255,255,0.06)",
-                  color: idx === 1 ? "rgba(110,211,194,0.95)" : "rgba(143,166,163,0.78)",
+                  backgroundColor: idx === 1 ? "var(--accent-soft)" : "var(--surface-2)",
+                  borderColor: idx === 1 ? "var(--accent)" : "var(--border)",
+                  color: idx === 1 ? "var(--accent)" : "var(--text-muted)",
                 }}
               >
                 {chip}
@@ -79,20 +79,20 @@ export default function SceneSignals() {
                 key={signal.label}
                 className="rounded-lg border p-2"
                 style={{
-                  backgroundColor: "rgba(255,255,255,0.02)",
-                  borderColor: "rgba(255,255,255,0.06)",
+                  backgroundColor: "var(--surface-2)",
+                  borderColor: "var(--border)",
                   opacity: signal.missing ? 0.4 : 1,
                 }}
               >
-                <p className="text-[10px] mb-0.5" style={{ color: "rgba(143,166,163,0.65)" }}>
+                <p className="text-[10px] mb-0.5" style={{ color: "var(--text-muted)" }}>
                   {signal.label}
                 </p>
                 <div className="flex items-center gap-1">
-                  <p className="text-xs font-semibold" style={{ color: "rgba(231,240,238,0.95)" }}>
+                  <p className="text-xs font-semibold" style={{ color: "var(--text)" }}>
                     {signal.value}
                   </p>
                   {signal.trend && (
-                    <span className="text-xs" style={{ color: "rgba(110,211,194,0.95)" }}>
+                    <span className="text-xs" style={{ color: "var(--accent)" }}>
                       {signal.trend}
                     </span>
                   )}

@@ -54,7 +54,7 @@ export default function ReadinessTile({ score, status, drivers = [] }: Readiness
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = "var(--primary)";
-        e.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
+        e.currentTarget.style.boxShadow = "var(--shadow-lg)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = "var(--border)";

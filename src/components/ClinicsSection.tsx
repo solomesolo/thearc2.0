@@ -26,44 +26,44 @@ const clinicFeatures: ClinicFeature[] = [
     label: "Unified patient timeline",
     preview: (
       <div className="space-y-3">
-        <div className="flex items-center justify-between pb-2 border-b border-white/5">
+        <div className="flex items-center justify-between pb-2 border-b" style={{ borderColor: "var(--border)" }}>
           <div>
-            <p className="text-sm font-semibold text-white">Sarah Chen</p>
-            <p className="text-xs text-gray-400">Age 42, Low risk</p>
+            <p className="text-sm font-semibold" style={{ color: "var(--text)" }}>Sarah Chen</p>
+            <p className="text-xs" style={{ color: "var(--text-muted)" }}>Age 42, Low risk</p>
           </div>
         </div>
         <div className="space-y-2">
-          <div className="flex items-start gap-3 p-2 rounded bg-[#050607] border border-white/5">
-            <div className="w-16 text-xs text-gray-400">Jan 2024</div>
+          <div className="flex items-start gap-3 p-2 rounded border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <div className="w-16 text-xs" style={{ color: "var(--text-muted)" }}>Jan 2024</div>
             <div className="flex-1">
-              <p className="text-xs font-medium text-white">Baseline panel</p>
-              <p className="text-xs text-gray-400">Metabolic markers established</p>
+              <p className="text-xs font-medium" style={{ color: "var(--text)" }}>Baseline panel</p>
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>Metabolic markers established</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-[var(--accent)] mt-1"></div>
+            <div className="w-2 h-2 rounded-full mt-1" style={{ backgroundColor: "var(--accent)" }}></div>
           </div>
-          <div className="flex items-start gap-3 p-2 rounded bg-[#050607] border border-white/5">
-            <div className="w-16 text-xs text-gray-400">Mar 2024</div>
+          <div className="flex items-start gap-3 p-2 rounded border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <div className="w-16 text-xs" style={{ color: "var(--text-muted)" }}>Mar 2024</div>
             <div className="flex-1">
-              <p className="text-xs font-medium text-white">Protocol started</p>
-              <p className="text-xs text-gray-400">Cardiometabolic blueprint</p>
+              <p className="text-xs font-medium" style={{ color: "var(--text)" }}>Protocol started</p>
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>Cardiometabolic blueprint</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-[var(--accent)] mt-1"></div>
+            <div className="w-2 h-2 rounded-full mt-1" style={{ backgroundColor: "var(--accent)" }}></div>
           </div>
-          <div className="flex items-start gap-3 p-2 rounded bg-[#050607] border border-white/5">
-            <div className="w-16 text-xs text-gray-400">Jun 2024</div>
+          <div className="flex items-start gap-3 p-2 rounded border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <div className="w-16 text-xs" style={{ color: "var(--text-muted)" }}>Jun 2024</div>
             <div className="flex-1">
-              <p className="text-xs font-medium text-white">Follow up labs</p>
-              <p className="text-xs text-gray-400">Markers improved</p>
+              <p className="text-xs font-medium" style={{ color: "var(--text)" }}>Follow up labs</p>
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>Markers improved</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-[var(--accent)] mt-1"></div>
+            <div className="w-2 h-2 rounded-full mt-1" style={{ backgroundColor: "var(--accent)" }}></div>
           </div>
-          <div className="flex items-start gap-3 p-2 rounded bg-[#050607] border border-white/5">
-            <div className="w-16 text-xs text-gray-400">Sep 2024</div>
+          <div className="flex items-start gap-3 p-2 rounded border" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--border)" }}>
+            <div className="w-16 text-xs" style={{ color: "var(--text-muted)" }}>Sep 2024</div>
             <div className="flex-1">
-              <p className="text-xs font-medium text-white">Review and adjustment</p>
-              <p className="text-xs text-gray-400">Protocol updated</p>
+              <p className="text-xs font-medium" style={{ color: "var(--text)" }}>Review and adjustment</p>
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>Protocol updated</p>
             </div>
-            <div className="w-2 h-2 rounded-full bg-[var(--accent)] mt-1"></div>
+            <div className="w-2 h-2 rounded-full mt-1" style={{ backgroundColor: "var(--accent)" }}></div>
           </div>
         </div>
       </div>
@@ -74,30 +74,30 @@ const clinicFeatures: ClinicFeature[] = [
     label: "Risk signal triage",
     preview: (
       <div className="space-y-3">
-        <div className="flex items-center justify-between pb-2 border-b border-white/5">
-          <h4 className="text-sm font-semibold text-white">Critical signals</h4>
-          <span className="text-xs text-[var(--accent)] bg-[var(--accent-alpha-20)] px-2 py-1 rounded">3 active</span>
+        <div className="flex items-center justify-between pb-2 border-b" style={{ borderColor: "var(--border)" }}>
+          <h4 className="text-sm font-semibold" style={{ color: "var(--text)" }}>Critical signals</h4>
+          <span className="text-xs px-2 py-1 rounded" style={{ color: "var(--accent)", backgroundColor: "var(--accent-soft)" }}>3 active</span>
         </div>
         <div className="space-y-2">
-          <div className="p-3 rounded bg-[#050607] border border-red-500/30 flex items-center justify-between">
+          <div className="p-3 rounded border flex items-center justify-between" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--danger)" }}>
             <div className="flex-1">
-              <p className="text-xs font-medium text-white mb-0.5">Elevated LDL trend</p>
-              <p className="text-xs text-gray-400">3 patients</p>
+              <p className="text-xs font-medium mb-0.5" style={{ color: "var(--text)" }}>Elevated LDL trend</p>
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>3 patients</p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-red-400 font-medium">High</span>
-              <button className="text-xs px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-white transition-colors">
+              <span className="text-xs font-medium" style={{ color: "var(--danger)" }}>High</span>
+              <button className="text-xs px-2 py-1 rounded transition-colors" style={{ backgroundColor: "var(--surface-2)", color: "var(--text)" }}>
                 Review
               </button>
             </div>
           </div>
-          <div className="p-3 rounded bg-[#050607] border border-yellow-500/30 flex items-center justify-between">
+          <div className="p-3 rounded border flex items-center justify-between" style={{ backgroundColor: "var(--surface-2)", borderColor: "var(--warning)" }}>
             <div className="flex-1">
-              <p className="text-xs font-medium text-white mb-0.5">Sleep marker shift</p>
-              <p className="text-xs text-gray-400">5 patients</p>
+              <p className="text-xs font-medium mb-0.5" style={{ color: "var(--text)" }}>Sleep marker shift</p>
+              <p className="text-xs" style={{ color: "var(--text-muted)" }}>5 patients</p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-yellow-400 font-medium">Moderate</span>
+              <span className="text-xs font-medium" style={{ color: "var(--warning)" }}>Moderate</span>
               <button className="text-xs px-2 py-1 rounded bg-white/10 hover:bg-white/20 text-white transition-colors">
                 Review
               </button>

@@ -1,0 +1,142 @@
+/**
+ * Dual-Mode Theme System
+ * 
+ * Light = Trust + Clinical + Default
+ * Dark = Intelligence + Lab + Power Mode
+ */
+
+/* ============================================
+   LIGHT MODE (Default - Clinical)
+   ============================================ */
+:root,
+[data-theme="light"] {
+  /* Background Layers */
+  --bg-0: #F8FAFA;              /* Page background - soft off-white */
+  --bg-1: #FFFFFF;              /* Surface - pure white */
+  --bg-2: #F5F8F8;              /* Raised surface - slightly darker */
+  --bg-inset: #E2E8F0;          /* Inset/input background */
+
+  /* Text - High contrast for clinical clarity */
+  --text-1: #0C1212;            /* Primary text - near-black */
+  --text-2: #2D3C3A;            /* Secondary text - readable dark gray */
+  --text-3: #5A6B68;            /* Muted text - still visible */
+
+  /* Borders / Dividers */
+  --border-1: rgba(15, 23, 42, 0.08);   /* Subtle border */
+  --border-2: rgba(15, 23, 42, 0.12);   /* Strong border */
+
+  /* Brand + Accent (Soft clinical teal) */
+  --accent: #4A9B8E;            /* Primary accent - softer, lower saturation */
+  --accent-2: #6ED3C2;          /* Secondary accent */
+  --accent-contrast: #FFFFFF;   /* Text on accent */
+
+  /* Status Colors */
+  --success: #10B981;           /* Green */
+  --warning: #F59E0B;           /* Amber */
+  --danger: #EF4444;            /* Red */
+
+  /* Shadows (minimal in light mode) */
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+  /* Charts */
+  --chart-1: #4A9B8E;          /* Primary chart color */
+  --chart-2: #6ED3C2;          /* Secondary chart color */
+  --chart-3: #8FAF9C;          /* Tertiary chart color */
+}
+
+/* ============================================
+   DARK MODE (Power - Intelligence Lab)
+   ============================================ */
+[data-theme="dark"] {
+  /* Background Layers */
+  --bg-0: #060B0C;              /* Page background - near-black */
+  --bg-1: #0C1416;              /* Surface */
+  --bg-2: #101B1D;              /* Raised surface */
+  --bg-inset: #1A2528;          /* Inset/input background */
+
+  /* Text - High contrast neutrals (not blue-tinted) */
+  --text-1: #E7F0EE;            /* Primary text - near-white, high contrast */
+  --text-2: #A4B9B5;            /* Secondary text - readable light gray */
+  --text-3: #788C88;            /* Muted text - still visible */
+
+  /* Borders / Dividers */
+  --border-1: rgba(231, 240, 238, 0.08);   /* Subtle border */
+  --border-2: rgba(231, 240, 238, 0.14);   /* Strong border */
+
+  /* Brand + Accent (Refined lab teal - muted with subtle glow) */
+  --accent: #6ED3C2;            /* Primary accent - refined lab teal */
+  --accent-2: #8FE3D5;          /* Secondary accent */
+  --accent-contrast: #060B0C;   /* Text on accent */
+
+  /* Status Colors */
+  --success: #7BD8C9;           /* Jade-aligned success */
+  --warning: #D7B56D;           /* Warm gold */
+  --danger: #D07A7A;            /* Muted red */
+
+  /* Shadows (with subtle glow in dark mode) */
+  --shadow-1: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 4px 16px rgba(110, 211, 194, 0.08), 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  /* Charts */
+  --chart-1: #6ED3C2;          /* Primary chart color */
+  --chart-2: #8FE3D5;          /* Secondary chart color */
+  --chart-3: #7BD8C9;          /* Tertiary chart color */
+}
+
+/* ============================================
+   SEMANTIC TOKENS (Component-agnostic)
+   ============================================ */
+:root,
+[data-theme="light"],
+[data-theme="dark"] {
+  /* Card */
+  --card-bg: var(--bg-1);
+  --card-border: var(--border-1);
+  --card-shadow: var(--shadow-1);
+
+  /* Chip */
+  --chip-bg: var(--bg-2);
+  --chip-border: var(--border-1);
+  --chip-text: var(--text-2);
+
+  /* Button Primary */
+  --button-primary-bg: var(--accent);
+  --button-primary-text: var(--accent-contrast);
+  --button-primary-hover: var(--accent-2);
+
+  /* Button Secondary */
+  --button-secondary-bg: transparent;
+  --button-secondary-text: var(--text-1);
+  --button-secondary-border: var(--border-2);
+  --button-secondary-hover-text: var(--accent);
+
+  /* Input */
+  --input-bg: var(--bg-inset);
+  --input-border: var(--border-1);
+  --input-text: var(--text-1);
+  --input-focus-border: var(--accent);
+
+  /* Surface (for dashboard compatibility) */
+  --surface: var(--bg-1);
+  --border: var(--border-1);
+  --text-primary: var(--text-1);
+  --text-secondary: var(--text-2);
+  --text-tertiary: var(--text-3);
+}
+
+/* ============================================
+   DARK MODE EXCLUSIVE ENHANCEMENTS
+   ============================================ */
+[data-theme="dark"] {
+  /* Subtle grid/noise background overlay */
+  --bg-overlay: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.01'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ============================================
+   TRANSITIONS
+   ============================================ */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+

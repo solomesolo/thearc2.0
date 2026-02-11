@@ -104,7 +104,7 @@ export default function ActionPlanCard({ actions }: ActionPlanCardProps) {
                 style={{
                   padding: "4px 8px",
                   backgroundColor: "var(--primary)",
-                  color: "white",
+                  color: "var(--bg)",
                   border: "none",
                   borderRadius: "4px",
                   cursor: "pointer",

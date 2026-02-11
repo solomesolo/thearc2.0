@@ -156,7 +156,7 @@ export default function SignalsBoard({ signals }: SignalsBoardProps) {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = "var(--primary)";
-                e.currentTarget.style.boxShadow = "0 2px 8px rgba(0, 0, 0, 0.08)";
+                e.currentTarget.style.boxShadow = "var(--shadow-lg)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = "var(--border)";

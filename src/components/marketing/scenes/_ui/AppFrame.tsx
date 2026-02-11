@@ -11,15 +11,15 @@ interface AppFrameProps {
 
 export default function AppFrame({ title, subtitle, rightActionText, children }: AppFrameProps) {
   return (
-    <div className="h-full w-full flex flex-col" style={{ backgroundColor: "#0C1416" }}>
+    <div className="h-full w-full flex flex-col" style={{ backgroundColor: "var(--bg)" }}>
       {/* Top bar */}
-      <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: "rgba(255,255,255,0.06)", minHeight: "44px" }}>
+      <div className="flex items-center justify-between px-5 py-3 border-b" style={{ borderColor: "var(--border)", minHeight: "44px" }}>
         <div>
-          <h1 className="text-sm font-semibold" style={{ color: "rgba(231,240,238,0.95)" }}>
+          <h1 className="text-sm font-semibold" style={{ color: "var(--text)" }}>
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xs mt-0.5" style={{ color: "rgba(143,166,163,0.78)" }}>
+            <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
               {subtitle}
             </p>
           )}
@@ -28,9 +28,9 @@ export default function AppFrame({ title, subtitle, rightActionText, children }:
           <button
             className="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-default"
             style={{
-              backgroundColor: "rgba(110,211,194,0.10)",
-              borderColor: "rgba(110,211,194,0.18)",
-              color: "rgba(110,211,194,0.95)",
+              backgroundColor: "var(--accent-soft)",
+              borderColor: "var(--accent)",
+              color: "var(--accent)",
             }}
           >
             {rightActionText}
